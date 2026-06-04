@@ -7,10 +7,23 @@ import Overview from "./pages/Overview";
 import Candidates from "./pages/Candidates";
 import Performance from "./pages/Performance";
 import Placeholder from "./pages/Placeholder";
+import AdminConsole from "./pages/admin/AdminConsole";
+import AdminUsers from "./pages/admin/Users";
+import RolesPermissions from "./pages/admin/RolesPermissions";
+import AuditLog from "./pages/admin/AuditLog";
+import Integrations from "./pages/admin/Integrations";
+import AdminSettings from "./pages/admin/Settings";
 
 function Guard({ page, children }) {
   const { role } = useApp();
   if (!canAccess(role, page)) return <Navigate to="/" replace />;
+  return children;
+}
+
+// Admin-only guard (chỉ role "admin" — không dựa PAGE_ACCESS vì CEO = "ALL").
+function AdminGuard({ children }) {
+  const { role } = useApp();
+  if (role !== "admin") return <Navigate to="/" replace />;
   return children;
 }
 
@@ -46,6 +59,13 @@ export default function App() {
           {Object.keys(PH).map((page) => (
             <Route key={page} path={page} element={<Guard page={page}><PlaceholderRoute page={page} /></Guard>} />
           ))}
+          {/* Cụm Quản trị hệ thống — chỉ Admin */}
+          <Route path="admin" element={<AdminGuard><AdminConsole /></AdminGuard>} />
+          <Route path="admin/users" element={<AdminGuard><AdminUsers /></AdminGuard>} />
+          <Route path="admin/roles" element={<AdminGuard><RolesPermissions /></AdminGuard>} />
+          <Route path="admin/audit" element={<AdminGuard><AuditLog /></AdminGuard>} />
+          <Route path="admin/integrations" element={<AdminGuard><Integrations /></AdminGuard>} />
+          <Route path="admin/settings" element={<AdminGuard><AdminSettings /></AdminGuard>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

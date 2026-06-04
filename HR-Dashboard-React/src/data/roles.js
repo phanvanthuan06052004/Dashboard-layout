@@ -10,8 +10,9 @@ export const ROLES = {
   cgo:    { id: "cgo",    name: "CGO – Tuyết",     short: "CGO",          scope: "Growth + Marketing + Sales",                  dot: "green",  teams: ["growth", "marketing", "sales"] },
   head:   { id: "head",   name: "Trưởng phòng HR", short: "Trưởng phòng", scope: "Chỉ xem data team HR của mình",               dot: "amber",  teams: ["hr"] },
   member: { id: "member", name: "Thành viên HR",   short: "Thành viên",   scope: "Chỉ xem data cá nhân",                        dot: "slate",  teams: ["self"] },
+  admin:  { id: "admin",  name: "Admin – Hệ thống", short: "Admin",       scope: "Toàn quyền hệ thống + quản trị người dùng & phân quyền", dot: "violet", teams: "ALL" },
 };
-export const ROLE_ORDER = ["ceo", "coo", "cgo", "head", "member"];
+export const ROLE_ORDER = ["ceo", "coo", "cgo", "head", "member", "admin"];
 
 // Member's own record (for "self only" demo filtering)
 export const SELF_NAME = "Hồ Thị Thanh Thùy";
@@ -19,6 +20,7 @@ export const SELF_NAME = "Hồ Thị Thanh Thùy";
 /* ---------- Page (sidebar) access ---------- */
 export const PAGE_ACCESS = {
   ceo: "ALL",
+  admin: "ALL",
   coo:    ["overview", "employees", "contracts", "performance", "attendance", "leave", "reports", "tasks", "calendar", "settings"],
   cgo:    ["overview", "employees", "performance", "attendance", "leave", "reports", "tasks", "calendar"],
   head:   ["overview", "candidates", "jobs", "interviews", "offers", "employees", "contracts", "documents", "performance", "attendance", "leave", "payroll", "tasks", "calendar"],
@@ -68,9 +70,9 @@ export const CANDIDATE_FIELDS = [
   { key: "stage", label: "Giai đoạn", icon: "GitBranch", roles: "ALL" },
   { key: "source", label: "Nguồn ứng viên", icon: "Globe", roles: "ALL" },
   { key: "exp", label: "Kinh nghiệm", icon: "Clock", roles: "ALL" },
-  { key: "email", label: "Email", icon: "Mail", roles: ["ceo", "head"] },
-  { key: "phone", label: "Điện thoại", icon: "Phone", roles: ["ceo", "head"] },
-  { key: "expected", label: "Lương mong muốn", icon: "Wallet", roles: ["ceo", "head"], sensitive: true },
+  { key: "email", label: "Email", icon: "Mail", roles: ["ceo", "head", "admin"] },
+  { key: "phone", label: "Điện thoại", icon: "Phone", roles: ["ceo", "head", "admin"] },
+  { key: "expected", label: "Lương mong muốn", icon: "Wallet", roles: ["ceo", "head", "admin"], sensitive: true },
 ];
 
 export const PROJECT_FIELDS = [
@@ -78,6 +80,6 @@ export const PROJECT_FIELDS = [
   { key: "status", label: "Trạng thái", icon: "Activity", roles: "ALL" },
   { key: "timeline", label: "Timeline", icon: "Calendar", roles: "ALL" },
   { key: "kpi", label: "KPI dự án", icon: "Target", roles: "ALL" },
-  { key: "revenueActual", label: "Doanh thu thực tế", icon: "Wallet", roles: ["ceo", "coo"], sensitive: true },
-  { key: "forecast", label: "Forecast", icon: "LineChart", roles: ["ceo", "coo"], sensitive: true },
+  { key: "revenueActual", label: "Doanh thu thực tế", icon: "Wallet", roles: ["ceo", "coo", "admin"], sensitive: true },
+  { key: "forecast", label: "Forecast", icon: "LineChart", roles: ["ceo", "coo", "admin"], sensitive: true },
 ];
