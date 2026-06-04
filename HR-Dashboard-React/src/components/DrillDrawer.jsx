@@ -3,6 +3,7 @@ import Icon from "./Icon";
 import { Tag, ContractTag } from "./ui";
 import { useApp } from "../context/AppContext";
 import { CANDIDATE_FIELDS, PROJECT_FIELDS, splitFields, ROLES } from "../data/roles";
+import { MARCOM_CAMPAIGN_FIELDS, MARCOM_LEAD_FIELDS, MARCOM_CONTENT_FIELDS, CE_DEAL_FIELDS } from "../data/workspaceRoles";
 import { avatar } from "../data/mockData";
 
 function fieldValue(field, data) {
@@ -141,6 +142,52 @@ function InterviewBody({ iv }) {
   );
 }
 
+/* ---- Generic entity drawer (campaign / lead / content / deal) ---- */
+function EntityBody({ chip, title, sub, fields, data, role, teamImgs, teamLabel }) {
+  const { visible, hidden } = splitFields(fields, role);
+  return (
+    <div className="drawer__body">
+      {chip && <span className="chip chip--violet">{chip}</span>}
+      <h3 style={{ fontSize: 18, fontWeight: 800, color: "var(--ink-900)", margin: chip ? "12px 0 4px" : "0 0 4px" }}>{title}</h3>
+      {sub && <p style={{ color: "var(--ink-400)", fontSize: 13, marginBottom: 4 }}>{sub}</p>}
+      <div className="drawer__sectitle">Thông tin chi tiết</div>
+      {visible.map((f) => <Field key={f.key} field={f} data={data} />)}
+      <LockedNote hidden={hidden} role={role} />
+      {teamImgs && teamImgs.length > 0 && (
+        <>
+          <div className="drawer__sectitle">{teamLabel || "Thành viên tham gia"}</div>
+          <div className="avatar-stack">
+            {teamImgs.map((img, i) => <div className="avatar" key={i}><img src={avatar(img)} alt="" /></div>)}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ---- Exec note drawer (change / risk) ---- */
+function NoteBody({ data, kindLabel }) {
+  return (
+    <div className="drawer__body">
+      <span className="chip chip--violet">{kindLabel}</span>
+      <h3 style={{ fontSize: 18, fontWeight: 800, color: "var(--ink-900)", margin: "12px 0 6px" }}>{data.title}</h3>
+      {data.desc && <p style={{ color: "var(--ink-500)", fontSize: 13.5, lineHeight: 1.6, marginBottom: 8 }}>{data.desc}</p>}
+      <div className="drawer__sectitle">Chi tiết</div>
+      {data.team && <div className="field"><span className="field__k"><Icon name="Users" size={16} />Team</span><span className="field__v">{data.team}</span></div>}
+      {data.level && <div className="field"><span className="field__k"><Icon name="AlertTriangle" size={16} />Mức độ</span><span className="field__v"><Tag status={data.level} /></span></div>}
+      {data.metric && <div className="field"><span className="field__k"><Icon name="Activity" size={16} />Chỉ số</span><span className="field__v">{data.metric}</span></div>}
+      {data.delta && <div className="field"><span className="field__k"><Icon name="TrendingUp" size={16} />Thay đổi</span><span className="field__v">{data.delta}</span></div>}
+      {data.owner && <div className="field"><span className="field__k"><Icon name="UserCog" size={16} />Phụ trách</span><span className="field__v">{data.owner}</span></div>}
+      {data.time && <div className="field"><span className="field__k"><Icon name="Clock" size={16} />Thời gian</span><span className="field__v">{data.time}</span></div>}
+      {data.action && (
+        <div className="locked-note" style={{ background: "var(--violet-50)", borderColor: "var(--violet-200)", color: "var(--violet-700)" }}>
+          <Icon name="Lightbulb" size={16} /><div>{data.action}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DrillDrawer() {
   const { drawer, closeDrawer, role } = useApp();
   const type = drawer?.type;
@@ -161,6 +208,24 @@ export default function DrillDrawer() {
   } else if (type === "interview") {
     title = "Chi tiết phỏng vấn"; sub = "Lịch & thông tin vòng";
     body = <InterviewBody iv={data} />;
+  } else if (type === "campaign") {
+    title = "Chi tiết chiến dịch"; sub = "Marketing / Campaign";
+    body = <EntityBody chip="Marcom · Chiến dịch" title={data.name} sub={data.channel} fields={MARCOM_CAMPAIGN_FIELDS} data={data} role={role} teamImgs={data.team} teamLabel="Đội thực thi" />;
+  } else if (type === "lead") {
+    title = "Chi tiết lead"; sub = "Marketing / Lead";
+    body = <EntityBody chip="Marcom · Lead" title={data.name} sub={data.company} fields={MARCOM_LEAD_FIELDS} data={data} role={role} />;
+  } else if (type === "content") {
+    title = "Chi tiết nội dung"; sub = "Marketing / Content";
+    body = <EntityBody chip="Marcom · Nội dung" title={data.title} sub={data.type} fields={MARCOM_CONTENT_FIELDS} data={data} role={role} />;
+  } else if (type === "deal") {
+    title = "Deal Drill-down"; sub = "Lớp 2 — drill-down từ pipeline";
+    body = <EntityBody chip="Lớp 2 · Deal Drill-down" title={data.company} sub={data.package} fields={CE_DEAL_FIELDS} data={data} role={role} teamImgs={data.team} teamLabel="Team tham gia" />;
+  } else if (type === "change") {
+    title = "Thay đổi gần đây"; sub = "Cross-team update";
+    body = <NoteBody data={data} kindLabel="Exec · What changed" />;
+  } else if (type === "risk") {
+    title = "Cảnh báo & rủi ro"; sub = "Cross-team risk";
+    body = <NoteBody data={data} kindLabel="Exec · Rủi ro" />;
   }
 
   return (

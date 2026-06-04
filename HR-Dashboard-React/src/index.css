@@ -311,3 +311,174 @@ img { display:block; max-width:100%; }
   .role-switch__label{ display:none; }
 }
 .scrim { position:fixed; inset:0; background:rgba(15,18,34,.4); z-index:70; }
+
+/* ============================================================
+   APPEND-ONLY — multi-workspace additions (Marcom / CE / Exec / Login).
+   Nothing above is modified; HR (no wrapper class) keeps :root violet.
+   ============================================================ */
+
+/* ---------- Workspace accent remaps (token re-ramp) ---------- */
+/* Marcom = amber/orange */
+.ws--marcom{
+  --violet-50:#fff3e9; --violet-100:#ffe6d2; --violet-200:#fdd0ad;
+  --violet-400:#fdba74; --violet-500:#fb923c; --violet-600:#f97316; --violet-700:#ea580c;
+  --accent:#f97316; --accent-soft:#fff3e9;
+}
+.ws--marcom .nav__item.is-active,
+.ws--marcom .btn--primary{ box-shadow:0 8px 18px rgba(249,115,22,.30); }
+.ws--marcom .brand__logo{ box-shadow:0 6px 16px rgba(249,115,22,.35); }
+.ws--marcom .avatar--me{ box-shadow:0 0 0 2px var(--violet-200); }
+
+/* Client Excellence = blue/teal */
+.ws--ce{
+  --violet-50:#ecfeff; --violet-100:#cffafe; --violet-200:#99f6e4;
+  --violet-400:#2dd4bf; --violet-500:#14b8a6; --violet-600:#0ea5b7; --violet-700:#0e7490;
+  --accent:#0ea5b7; --accent-soft:#ecfeff;
+}
+.ws--ce .nav__item.is-active,
+.ws--ce .btn--primary{ box-shadow:0 8px 18px rgba(14,165,183,.30); }
+.ws--ce .brand__logo{ box-shadow:0 6px 16px rgba(14,165,183,.35); }
+.ws--ce .avatar--me{ box-shadow:0 0 0 2px var(--violet-200); }
+/* 6-column kanban for CE pipeline; responsive falls back via existing breakpoints */
+.ws--ce .kanban{ grid-template-columns:repeat(6,1fr); }
+
+/* Executive = indigo/violet */
+.ws--exec{
+  --violet-50:#eef2ff; --violet-100:#e0e7ff; --violet-200:#c7d2fe;
+  --violet-400:#818cf8; --violet-500:#6366f1; --violet-600:#4f46e5; --violet-700:#4338ca;
+  --accent:#4f46e5; --accent-soft:#eef2ff;
+}
+.ws--exec .nav__item.is-active,
+.ws--exec .btn--primary{ box-shadow:0 8px 18px rgba(79,70,229,.30); }
+.ws--exec .brand__logo{ box-shadow:0 6px 16px rgba(79,70,229,.35); }
+.ws--exec .avatar--me{ box-shadow:0 0 0 2px var(--violet-200); }
+
+/* ---------- Login screen ---------- */
+.login{ min-height:100vh; display:grid; place-items:center; padding:24px; background:var(--bg); }
+.login__split{ display:grid; grid-template-columns:1.1fr 1fr; gap:40px; max-width:1040px; width:100%; align-items:stretch; }
+.login__brand{ background:linear-gradient(160deg,#1e1b4b,#312e81); color:#fff; border-radius:var(--radius-lg); padding:44px; display:flex; flex-direction:column; }
+.login__brand .brand__name{ color:#fff; font-size:22px; }
+.login__headline{ font-size:26px; font-weight:800; margin:26px 0 10px; letter-spacing:-.01em; }
+.login__subline{ color:rgba(255,255,255,.75); font-size:14px; max-width:380px; }
+.login__bullets{ display:flex; flex-direction:column; gap:14px; margin-top:28px; }
+.login__bullet{ display:flex; gap:12px; align-items:flex-start; font-size:13.5px; color:rgba(255,255,255,.88); }
+.login__bullet .lucide{ color:#a5b4fc; margin-top:1px; flex:none; }
+.login__foot{ margin-top:auto; padding-top:28px; font-size:12px; color:rgba(255,255,255,.55); }
+.login__panel{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius-lg); padding:32px; box-shadow:var(--shadow); overflow-y:auto; }
+.login__panel h3{ font-size:22px; font-weight:800; color:var(--ink-900); }
+.login__panel > p{ color:var(--ink-400); font-size:13px; margin:4px 0 20px; }
+.login__field{ margin-bottom:14px; }
+.login__field label{ display:block; font-size:12px; font-weight:700; color:var(--ink-600); margin-bottom:6px; }
+.login__input{ display:flex; align-items:center; gap:10px; border:1px solid var(--line-2); border-radius:12px; padding:10px 13px; background:var(--bg); }
+.login__input .lucide{ color:var(--ink-400); }
+.login__input input{ border:none; outline:none; background:none; flex:1; font-size:14px; color:var(--ink-700); font-family:inherit; }
+.login__row{ display:flex; align-items:center; justify-content:space-between; font-size:12.5px; margin:6px 0 18px; color:var(--ink-500); }
+.login__row label{ display:flex; align-items:center; gap:7px; cursor:pointer; }
+.login__row a{ color:var(--violet-600); font-weight:700; }
+.login__btn{ width:100%; justify-content:center; }
+.login__error{ display:flex; gap:10px; align-items:flex-start; background:var(--red-50); border:1px solid #f6c9c9; color:var(--red-500); border-radius:12px; padding:11px 14px; font-size:12.5px; font-weight:600; margin-bottom:14px; }
+.login__hint{ display:flex; gap:10px; align-items:flex-start; background:var(--violet-50); border:1px solid var(--violet-200); color:var(--violet-700); border-radius:12px; padding:11px 14px; font-size:12.5px; font-weight:600; margin-top:18px; }
+.login__hint .lucide{ color:var(--violet-600); margin-top:1px; flex:none; }
+.login__divider{ display:flex; align-items:center; gap:12px; margin:22px 0 14px; color:var(--ink-400); font-size:12px; font-weight:600; }
+.login__divider::before,.login__divider::after{ content:""; flex:1; height:1px; background:var(--line); }
+.login__demo-grp{ margin-bottom:12px; }
+.login__demo-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+.login__demo-tile{ display:flex; gap:10px; align-items:center; text-align:left; padding:10px 11px; border:1px solid var(--line-2); border-radius:12px; background:var(--card); transition:.15s; width:100%; }
+.login__demo-tile:hover{ border-color:var(--violet-200); box-shadow:var(--shadow-sm); transform:translateY(-1px); }
+.login__demo-tile .avatar{ width:36px; height:36px; flex:none; box-shadow:0 0 0 2px var(--line-2); }
+.login__demo-tile strong{ display:block; font-size:13px; color:var(--ink-900); line-height:1.2; }
+.login__demo-tile small{ font-size:11px; color:var(--ink-400); display:block; }
+@media (max-width:920px){ .login__split{ grid-template-columns:1fr; max-width:460px; } .login__brand{ display:none; } .login__demo-grid{ grid-template-columns:1fr; } }
+
+/* ---------- Generic stat-card lock (sensitive KPI hidden for a role) ---------- */
+.stat--locked{ display:flex; flex-direction:column; align-items:flex-start; gap:6px; justify-content:center; }
+.stat--locked .stat__top{ color:var(--ink-400); }
+.stat--locked .lock-big{ color:var(--ink-300); margin-top:8px; }
+.stat--locked b{ color:var(--ink-600); font-size:13px; font-weight:700; }
+.stat--locked small{ color:var(--ink-400); font-size:11.5px; }
+
+/* ---------- Team panels (exec) ---------- */
+.team-panel{ display:flex; flex-direction:column; }
+.team-panel__head{ display:flex; align-items:center; gap:12px; }
+.team-panel__ico{ width:38px; height:38px; border-radius:11px; display:grid; place-items:center; color:#fff; flex:none; }
+.team-panel__name{ font-weight:800; color:var(--ink-900); font-size:15px; }
+.team-panel__lead{ font-size:11.5px; color:var(--ink-400); display:flex; align-items:center; gap:6px; margin-top:2px; }
+.team-panel__metrics{ display:flex; flex-direction:column; gap:9px; margin:14px 0; }
+.team-panel__metric{ display:flex; align-items:center; justify-content:space-between; }
+.team-panel__metric span{ color:var(--ink-500); font-size:12.5px; font-weight:600; }
+.team-panel__metric b{ color:var(--ink-900); font-size:14px; }
+.team-panel__foot{ margin-top:auto; }
+.team-panel.is-soon{ background:var(--bg); }
+.team-panel.is-soon .team-panel__name{ color:var(--ink-500); }
+.btn--block{ width:100%; justify-content:center; }
+.btn--locked{ background:var(--bg); border:1px solid var(--line-2); color:var(--ink-400); cursor:not-allowed; }
+
+/* ---------- Feed / change-feed / activity timeline ---------- */
+.feed-item{ display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); }
+.feed-item.is-click{ cursor:pointer; }
+.feed-item:last-child{ border-bottom:none; }
+.feed-item.is-click:hover .feed-title{ color:var(--violet-600); }
+.feed-ico{ width:32px; height:32px; border-radius:9px; display:grid; place-items:center; flex:none; }
+.feed-ico--violet{ background:var(--violet-50); color:var(--violet-600); }
+.feed-ico--green{ background:var(--green-50); color:var(--green-500); }
+.feed-ico--amber{ background:var(--amber-50); color:var(--amber-500); }
+.feed-ico--blue{ background:var(--blue-50); color:var(--blue-500); }
+.feed-ico--red{ background:var(--red-50); color:var(--red-500); }
+.feed-ico--slate{ background:#eef1f6; color:var(--slate-500); }
+.feed-body{ flex:1; min-width:0; }
+.feed-title{ font-weight:700; color:var(--ink-900); font-size:13.5px; transition:color .15s; }
+.feed-desc{ font-size:12.5px; color:var(--ink-500); margin-top:2px; }
+.feed-meta{ font-size:11.5px; color:var(--ink-400); margin-top:3px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.feed-group{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-400); font-weight:700; margin:16px 0 4px; }
+.feed-group:first-child{ margin-top:0; }
+
+/* ---------- Health gauges (CE) ---------- */
+.gauge-pair{ display:flex; gap:28px; flex-wrap:wrap; align-items:center; justify-content:center; padding:8px 0; }
+.gauge-card{ text-align:center; }
+.gauge-card .gauge-val{ font-size:30px; font-weight:800; color:var(--ink-900); margin-top:8px; }
+.gauge-card .gauge-lbl{ font-size:12px; color:var(--ink-400); font-weight:600; text-transform:uppercase; letter-spacing:.05em; }
+.gauge-bar{ height:10px; border-radius:99px; background:var(--line); overflow:hidden; margin-top:10px; max-width:220px; }
+.gauge-bar__fill{ height:100%; border-radius:99px; background:linear-gradient(90deg,var(--violet-500),var(--violet-600)); }
+
+/* ---------- Leaderboard (CE csm / exec teams) ---------- */
+.lb-row{ display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--line); }
+.lb-row:last-child{ border-bottom:none; }
+.lb-rank{ width:26px; height:26px; border-radius:8px; display:grid; place-items:center; font-weight:800; font-size:12px; background:var(--violet-50); color:var(--violet-600); flex:none; }
+.lb-rank.is-top{ background:linear-gradient(135deg,#fbbf24,#f59e0b); color:#3a2a05; }
+.lb-row .cell-user{ flex:1; }
+.lb-val{ font-weight:800; font-size:13.5px; color:var(--ink-900); }
+
+/* ---------- Content calendar (marcom) ---------- */
+.cal-legend{ display:flex; gap:14px; flex-wrap:wrap; padding:0 18px 6px; font-size:12px; color:var(--ink-500); }
+.cal-legend i{ width:10px; height:10px; border-radius:3px; display:inline-block; margin-right:6px; vertical-align:middle; }
+.cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; padding:6px 18px 16px; }
+.cal-head{ font-size:11px; font-weight:700; color:var(--ink-400); text-transform:uppercase; text-align:center; padding:4px 0; }
+.cal-cell{ min-height:92px; border:1px solid var(--line); border-radius:10px; padding:7px; background:var(--bg); }
+.cal-cell.is-out{ opacity:.45; }
+.cal-cell__d{ font-size:11px; font-weight:700; color:var(--ink-400); }
+.cal-chip{ display:block; font-size:10.5px; font-weight:700; color:#fff; border-radius:6px; padding:2px 6px; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; }
+
+/* ---------- Funnel bars (marcom & CE) ---------- */
+.funnel-row{ display:flex; align-items:center; gap:12px; padding:8px 0; }
+.funnel-row .funnel-name{ flex:0 0 150px; font-size:13px; font-weight:600; color:var(--ink-700); }
+.funnel-bar{ flex:1; height:28px; border-radius:8px; background:var(--line); overflow:hidden; }
+.funnel-bar__fill{ height:100%; border-radius:8px; display:flex; align-items:center; padding:0 10px; color:#fff; font-weight:700; font-size:12px; min-width:fit-content; }
+.funnel-conv{ width:64px; text-align:right; font-size:12px; font-weight:700; color:var(--ink-500); }
+
+/* ---------- Account menu / workspace switcher extras ---------- */
+.acct-head{ display:flex; gap:12px; padding:6px 10px 12px; border-bottom:1px solid var(--line); margin-bottom:6px; }
+.acct-head .avatar{ width:44px; height:44px; box-shadow:0 0 0 2px var(--violet-100); flex:none; }
+.acct-head strong{ display:block; font-size:14px; color:var(--ink-900); }
+.acct-head small{ display:block; font-size:11.5px; color:var(--ink-400); }
+.acct-chips{ display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
+.role-menu__item.is-danger{ color:var(--red-500); }
+.role-menu__item.is-danger .lucide{ color:var(--red-500); }
+.role-menu__item .lucide{ color:var(--ink-400); }
+.menu-divider{ height:1px; background:var(--line); margin:6px 4px; }
+.ws-soon{ margin-left:auto; font-size:10.5px; font-weight:700; color:var(--ink-400); display:inline-flex; align-items:center; gap:4px; }
+
+/* ---------- Mini stat strip variant ---------- */
+.grid--stats.cols-5{ grid-template-columns:repeat(5,1fr); }
+.grid--stats.cols-7{ grid-template-columns:repeat(4,1fr); }
+@media (max-width:1180px){ .grid--stats.cols-5,.grid--stats.cols-7{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:880px){ .grid--stats.cols-5,.grid--stats.cols-7{ grid-template-columns:1fr; } }

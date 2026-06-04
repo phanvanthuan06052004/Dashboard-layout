@@ -1,6 +1,7 @@
 import Icon from "./Icon";
 import RoleSwitcher from "./RoleSwitcher";
-import { me, avatar } from "../data/mockData";
+import AccountMenu from "./AccountMenu";
+import WorkspaceSwitcher from "./WorkspaceSwitcher";
 
 export default function Topbar({ title, crumb, onMenu }) {
   return (
@@ -18,11 +19,12 @@ export default function Topbar({ title, crumb, onMenu }) {
       </div>
 
       <div className="topbar__actions">
+        <WorkspaceSwitcher currentTeamId="hr" />
         <RoleSwitcher />
         <button className="icon-btn icon-btn--soft" title="Thông báo">
           <Icon name="Bell" size={18} /><span className="ping" />
         </button>
-        <div className="avatar avatar--me"><img src={avatar(me.img)} alt={me.name} /></div>
+        <AccountMenu />
       </div>
     </header>
   );

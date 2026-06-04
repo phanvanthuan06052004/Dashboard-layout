@@ -43,11 +43,11 @@ export function splitFields(fields, role) {
 
 /* ---------- Record-level scope (which rows a role sees) ---------- */
 // Works for any record having { team, name }.
-export function scopeByRole(role, list) {
+export function scopeByRole(role, list, selfName = SELF_NAME) {
   if (role === "ceo" || role === "coo") return list;
   if (role === "cgo") return list.filter((r) => ["growth", "marketing", "sales"].includes(r.team));
   if (role === "head") return list.filter((r) => r.team === "hr");
-  if (role === "member") return list.filter((r) => r.name === SELF_NAME);
+  if (role === "member") return list.filter((r) => r.name === selfName);
   return list;
 }
 export const scopeEmployees = scopeByRole;

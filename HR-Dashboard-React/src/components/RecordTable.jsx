@@ -2,18 +2,28 @@ import { useState } from "react";
 import Icon from "./Icon";
 import { Tag, ContractTag, Page } from "./ui";
 import { useApp } from "../context/AppContext";
+import { useAuth } from "../context/AuthContext";
 import { CATALOGS } from "../data/schema";
 import { ROLES } from "../data/roles";
+import { maskMoney } from "../data/workspaceRoles";
 import { avatar } from "../data/mockData";
 
-function Cell({ col, row }) {
-  const v = row[col.key];
+function Cell({ col, row, role }) {
+  let v = row[col.key];
+  if (col.gated) v = maskMoney(role, v, col.allow); // cột tiền nhạy cảm → ẩn theo role
   switch (col.type) {
     case "user":
       return (
         <div className="cell-user">
           <img className="avatar" src={avatar(row.img)} alt="" />
           <div><b>{row.name}</b>{col.sub && <small>{row[col.sub]}</small>}</div>
+        </div>
+      );
+    case "person":
+      return (
+        <div className="cell-user">
+          <img className="avatar" src={avatar(row.img)} alt="" />
+          <b>{v}</b>
         </div>
       );
     case "mono": return <span className="mono">{v}</span>;
@@ -29,22 +39,25 @@ function Cell({ col, row }) {
   }
 }
 
-export default function RecordTable({ catalogKey }) {
+export default function RecordTable({ catalogKey, catalogs = CATALOGS, drawerType = "record" }) {
   const { role, openDrawer } = useApp();
-  const cfg = CATALOGS[catalogKey];
+  const { user } = useAuth();
+  const cfg = catalogs[catalogKey];
   const [q, setQ] = useState("");
 
-  let rows = cfg.scope(role, cfg.data());
+  const selfName = user?.name;
+  let rows = cfg.scope(role, cfg.data(), selfName);
   if (q) {
     const s = q.toLowerCase();
     rows = rows.filter((r) => Object.values(r).some((val) => String(val).toLowerCase().includes(s)));
   }
 
-  const scoped = role !== "ceo" && role !== "coo" && cfg.scope(role, cfg.data()).length !== cfg.data().length;
+  const fullCount = cfg.data().length;
+  const scoped = cfg.scope(role, cfg.data(), selfName).length !== fullCount;
   const canAdd = cfg.canAdd?.includes(role);
 
   const open = (row) =>
-    openDrawer("record", { cfg, row, profile: cfg.profile?.(row) });
+    openDrawer(drawerType, drawerType === "record" ? { cfg, row, profile: cfg.profile?.(row) } : row);
 
   return (
     <Page>
@@ -77,7 +90,7 @@ export default function RecordTable({ catalogKey }) {
             <tbody>
               {rows.map((row) => (
                 <tr key={row.id} onClick={() => open(row)}>
-                  {cfg.columns.map((c) => <td key={c.key}><Cell col={c} row={row} /></td>)}
+                  {cfg.columns.map((c) => <td key={c.key}><Cell col={c} row={row} role={role} /></td>)}
                   <td onClick={(e) => e.stopPropagation()}>
                     <button className="icon-btn" title="Xem" onClick={() => open(row)}><Icon name="Eye" size={16} /></button>
                   </td>

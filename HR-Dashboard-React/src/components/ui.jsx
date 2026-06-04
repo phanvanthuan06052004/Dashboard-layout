@@ -7,6 +7,18 @@ const STATUS = {
   approved: ["green", "Đã duyệt"], pending: ["amber", "Chờ duyệt"], processing: ["blue", "Đang xử lý"], rejected: ["red", "Từ chối"],
   present: ["green", "Đúng giờ"], late: ["amber", "Đi muộn"], absent: ["red", "Vắng"],
   open: ["blue", "Đang tuyển"], closed: ["slate", "Đã đóng"], draft: ["amber", "Nháp"],
+  // ---- Marcom ----
+  running: ["green", "Đang chạy"], ended: ["slate", "Đã kết thúc"], scheduled: ["blue", "Đã lên lịch"],
+  published: ["green", "Đã đăng"], paused: ["amber", "Tạm dừng"],
+  new: ["slate", "Lead mới"], mql: ["amber", "MQL"], sql: ["blue", "SQL"], opp: ["violet", "Opportunity"],
+  // ---- Client Excellence (CRM) ----
+  active: ["green", "Active"], trial: ["blue", "Trial"], churned: ["red", "Đã rời"], prospect: ["amber", "Tiềm năng"],
+  healthy: ["green", "Healthy"], atRisk: ["amber", "At-risk"], critical: ["red", "Critical"],
+  won: ["green", "Thắng"], lost: ["red", "Thua"], lead: ["blue", "Tiềm năng"],
+  consulting: ["blue", "Đang tư vấn"], proposal: ["amber", "Đề xuất"], negotiation: ["violet", "Đàm phán"],
+  renewal: ["violet", "Gia hạn"],
+  // ---- Exec risk levels ----
+  high: ["red", "Mức cao"], medium: ["amber", "Mức vừa"], low: ["blue", "Mức thấp"],
 };
 
 // Contract type → tone
