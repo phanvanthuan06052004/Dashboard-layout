@@ -16,6 +16,12 @@ import Candidates from "./pages/Candidates";
 import Performance from "./pages/Performance";
 import Placeholder from "./pages/Placeholder";
 import Login from "./pages/Login";
+import AdminConsole from "./pages/admin/AdminConsole";
+import AdminUsers from "./pages/admin/Users";
+import RolesPermissions from "./pages/admin/RolesPermissions";
+import AuditLog from "./pages/admin/AuditLog";
+import Integrations from "./pages/admin/Integrations";
+import AdminSettings from "./pages/admin/Settings";
 
 // Marcom pages
 import MarcomOverview from "./pages/marcom/MarcomOverview";
@@ -51,7 +57,14 @@ function Guard({ page, children }) {
   return children;
 }
 
-// HR config-driven catalog pages
+// Admin-only guard (chỉ role "admin" — không dựa PAGE_ACCESS vì CEO = "ALL").
+function AdminGuard({ children }) {
+  const { role } = useApp();
+  if (role !== "admin") return <Navigate to="/" replace />;
+  return children;
+}
+
+// config-driven catalog pages
 const CATALOG_ROUTES = ["employees", "contracts", "payroll", "documents", "leave", "attendance", "jobs"];
 
 const PH = {

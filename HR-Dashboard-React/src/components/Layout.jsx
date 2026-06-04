@@ -25,6 +25,12 @@ const META = {
   "/calendar": ["Calendar", "Calendar"],
   "/reports": ["Reports", "Quản lý / Reports"],
   "/settings": ["Settings", "Quản lý / Settings"],
+  "/admin": ["Admin Console", "Quản trị hệ thống"],
+  "/admin/users": ["Quản lý người dùng", "Quản trị / Người dùng"],
+  "/admin/roles": ["Vai trò & Phân quyền", "Quản trị / Phân quyền"],
+  "/admin/audit": ["Nhật ký hoạt động", "Quản trị / Audit log"],
+  "/admin/integrations": ["Tích hợp & Data Layer", "Quản trị / Tích hợp"],
+  "/admin/settings": ["Cấu hình hệ thống", "Quản trị / Cấu hình"],
 };
 
 export default function Layout() {
@@ -39,7 +45,7 @@ export default function Layout() {
       {menuOpen && <div className="scrim" onClick={() => setMenuOpen(false)} />}
       <main className="main">
         <Topbar title={title} crumb={crumb} onMenu={() => setMenuOpen(true)} />
-        {role !== "ceo" && (
+        {role !== "ceo" && role !== "admin" && (
           <div className="role-banner">
             <Icon name="Info" size={18} />
             <span>

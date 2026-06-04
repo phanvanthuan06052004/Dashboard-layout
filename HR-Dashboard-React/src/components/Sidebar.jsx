@@ -48,6 +48,19 @@ const GROUPS = [
   },
 ];
 
+// Cụm chỉ hiện cho Admin (render có điều kiện, không nằm trong GROUPS chung).
+const ADMIN_GROUP = {
+  label: "Quản trị hệ thống",
+  items: [
+    { to: "/admin", icon: "ShieldCheck", label: "Admin Console", end: true },
+    { to: "/admin/users", icon: "Users", label: "Người dùng" },
+    { to: "/admin/roles", icon: "LayoutGrid", label: "Vai trò & Phân quyền" },
+    { to: "/admin/audit", icon: "History", label: "Nhật ký hoạt động" },
+    { to: "/admin/integrations", icon: "Database", label: "Tích hợp & Data Layer" },
+    { to: "/admin/settings", icon: "Settings", label: "Cấu hình hệ thống" },
+  ],
+};
+
 export default function Sidebar({ open, onClose }) {
   const { role } = useApp();
 
@@ -90,6 +103,23 @@ export default function Sidebar({ open, onClose }) {
             })}
           </div>
         ))}
+
+        {role === "admin" && (
+          <div className="nav__group">
+            <p className="nav__label">{ADMIN_GROUP.label}</p>
+            {ADMIN_GROUP.items.map((it) => (
+              <NavLink
+                key={it.to}
+                to={it.to}
+                end={it.end}
+                onClick={onClose}
+                className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
+              >
+                <Icon name={it.icon} /><span>{it.label}</span>
+              </NavLink>
+            ))}
+          </div>
+        )}
       </nav>
 
       <div className="sidebar__foot">
