@@ -106,7 +106,6 @@ export default function Sidebar({ open, onClose }) {
                 key={it.to}
                 to={it.to}
                 end={it.end}
-                onClick={onClose}
                 className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
               >
                 <Icon name={it.icon} /><span>{it.label}</span>
@@ -126,7 +125,6 @@ export default function Sidebar({ open, onClose }) {
                   key={it.page}
                   to={it.to}
                   end={it.end}
-                  onClick={onClose}
                   className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
                 >
                   <Icon name={it.icon} /><span>{it.label}</span>
@@ -145,7 +143,6 @@ export default function Sidebar({ open, onClose }) {
                 key={it.to}
                 to={it.to}
                 end={it.end}
-                onClick={onClose}
                 className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
               >
                 <Icon name={it.icon} /><span>{it.label}</span>
@@ -155,14 +152,6 @@ export default function Sidebar({ open, onClose }) {
         )}
       </nav>
 
-      <div className="sidebar__foot">
-        <div className="upsell">
-          <div className="upsell__icon"><Icon name="Sparkles" size={18} /></div>
-          <p className="upsell__title">BambuUP Brainz</p>
-          <p className="upsell__text">Dữ liệu HR đồng bộ realtime từ Centralized Data Layer.</p>
-          <button className="btn--ghost-light">Tìm hiểu thêm</button>
-        </div>
-      </div>
     </aside>
   );
 }

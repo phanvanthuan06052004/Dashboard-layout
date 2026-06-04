@@ -13,7 +13,7 @@ import { ROLES } from "../data/roles";
 export default function TeamLayout({ team, groups, canAccessFn, metaMap, foot }) {
   const { role } = useApp();
   const { user } = useAuth();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(() => window.innerWidth > 880);
   const { pathname } = useLocation();
   const [title, crumb] = metaMap[pathname] || [team.name, team.sub];
 
@@ -26,11 +26,10 @@ export default function TeamLayout({ team, groups, canAccessFn, metaMap, foot })
   }
 
   return (
-    <div className={`app ${team.wsClass}`}>
+    <div className={`app ${team.wsClass}${menuOpen ? " sidebar-open" : " sidebar-closed"}`}>
       <TeamSidebar open={menuOpen} onClose={() => setMenuOpen(false)} team={team} groups={groups} canAccessFn={canAccessFn} foot={foot} />
-      {menuOpen && <div className="scrim" onClick={() => setMenuOpen(false)} />}
       <main className="main">
-        <TeamTopbar title={title} crumb={crumb} onMenu={() => setMenuOpen(true)} currentTeamId={team.id} />
+        <TeamTopbar title={title} crumb={crumb} onMenu={() => setMenuOpen((value) => !value)} currentTeamId={team.id} />
         {banner && (
           <div className="role-banner">
             <Icon name="Info" size={18} />

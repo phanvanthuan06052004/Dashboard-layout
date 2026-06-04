@@ -38,7 +38,6 @@ export default function TeamSidebar({ open, onClose, team, groups, canAccessFn, 
                   key={it.page}
                   to={it.to}
                   end={it.end}
-                  onClick={onClose}
                   className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
                 >
                   <Icon name={it.icon} /><span>{it.label}</span>
@@ -50,14 +49,15 @@ export default function TeamSidebar({ open, onClose, team, groups, canAccessFn, 
         ))}
       </nav>
 
-      <div className="sidebar__foot">
-        <div className="upsell">
-          <div className="upsell__icon"><Icon name={foot?.icon || "Sparkles"} size={18} /></div>
-          <p className="upsell__title">{foot?.title || "BambuUP Brainz"}</p>
-          <p className="upsell__text">{foot?.text || "Dữ liệu đồng bộ realtime từ Centralized Data Layer."}</p>
-          <button className="btn--ghost-light">Tìm hiểu thêm</button>
+      {foot && (
+        <div className="sidebar__foot">
+          <div className="upsell">
+            <p className="upsell__title">{foot.title || "BambuUP Brainz"}</p>
+            <p className="upsell__text">{foot.text || "Dữ liệu đồng bộ realtime từ Centralized Data Layer."}</p>
+            <button className="btn--ghost-light">Tìm hiểu thêm</button>
+          </div>
         </div>
-      </div>
+      )}
     </aside>
   );
 }

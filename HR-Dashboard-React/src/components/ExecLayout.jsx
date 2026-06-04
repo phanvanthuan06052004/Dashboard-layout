@@ -18,10 +18,8 @@ const NAV = [
       { to: "/", page: "team-hr", icon: "Users", label: "HR Dashboard", badge: "248", end: true },
       { to: "/marcom", page: "team-marcom", icon: "Megaphone", label: "Marcom" },
       { to: "/ce", page: "team-ce", icon: "HeartHandshake", label: "Client Excellence" },
-      { to: "/exec", page: "team-finance", icon: "Coins", label: "Finance" },
-      { to: "/exec", page: "team-platform", icon: "Server", label: "Platform" },
-      { to: "/exec", page: "team-capital", icon: "TrendingUp", label: "Capital" },
-      { to: "/exec", page: "team-research", icon: "FlaskConical", label: "Research" },
+      { to: "/accounting", page: "team-finance", icon: "Landmark", label: "Tài chính" },
+      { to: "/admin", page: "team-admin", icon: "Building2", label: "Quản trị hệ thống" },
     ],
   },
   {
@@ -38,8 +36,6 @@ const META = {
   "/exec/settings": ["Settings", "Executive / Settings"],
 };
 
-const FOOT = { icon: "Crown", title: "Executive Cockpit", text: "Tổng hợp chỉ số cross-team realtime từ BambuUP Brainz." };
-
 export default function ExecLayout() {
-  return <TeamLayout team={TEAMS.exec} groups={NAV} canAccessFn={canAccessExec} metaMap={META} foot={FOOT} />;
+  return <TeamLayout team={TEAMS.exec} groups={NAV} canAccessFn={canAccessExec} metaMap={META} />;
 }

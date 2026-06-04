@@ -44,8 +44,6 @@ const META = {
   "/ce/settings": ["Settings", "Client Excellence / Settings"],
 };
 
-const FOOT = { icon: "HeartHandshake", title: "BambuUP Brainz", text: "Đồng bộ CRM, pipeline & client health realtime." };
-
 export default function CeLayout() {
-  return <TeamLayout team={TEAMS.ce} groups={NAV} canAccessFn={canAccessCE} metaMap={META} foot={FOOT} />;
+  return <TeamLayout team={TEAMS.ce} groups={NAV} canAccessFn={canAccessCE} metaMap={META} />;
 }

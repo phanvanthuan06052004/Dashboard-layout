@@ -28,11 +28,8 @@ export const teamPanels = [
   { key: "hr", name: "Human Resources", icon: "Users", accent: "#7c3aed", route: "/", status: "On Track", built: true, lead: { name: "Hồ Thị Thanh Thùy", img: 47 }, metrics: [{ k: "Tổng nhân sự", v: "248", delta: "+6%", up: true }, { k: "Vị trí đang tuyển", v: "24", delta: "+12%", up: true }, { k: "KPI bình quân", v: "92%", delta: "-2%", up: false }], spark: [220, 226, 231, 238, 242, 248] },
   { key: "marcom", name: "Marketing & Comms", icon: "Megaphone", accent: "#f97316", route: "/marcom", status: "On Track", built: true, lead: { name: "Nguyễn Thị Giang", img: 33 }, metrics: [{ k: "Marketing ROI", v: "4,7x", delta: "+18%", up: true }, { k: "Lead Q2", v: "1.240", delta: "+22%", up: true }, { k: "Chiến dịch live", v: "6", delta: "+2", up: true }], spark: [3.4, 3.6, 3.9, 4.1, 4.4, 4.7] },
   { key: "ce", name: "Client Excellence", icon: "HeartHandshake", accent: "#0ea5b7", route: "/ce", status: "Watch", built: true, lead: { name: "Trần Hải Phong", img: 51 }, metrics: [{ k: "Pipeline", v: "62,4 tỷ", delta: "+11%", up: true }, { k: "MRR", v: "3,28 tỷ", delta: "+8,2%", up: true }, { k: "Churn logo", v: "2,1%", delta: "+0,6%", up: false }], spark: [48, 51, 54, 57, 59, 62.4] },
-  { key: "finance", name: "Finance", icon: "Landmark", accent: "#10b981", route: "/exec/finance", status: "Sắp ra mắt", built: false, comingSoon: "Q3/2026", lead: { name: "Châu Lê", img: 12 }, metrics: [{ k: "Dashboard", v: "Đang xây dựng" }], spark: [4.9, 5.1, 5, 5.3, 5.2, 5.6] },
-  { key: "platform", name: "Platform / Tech", icon: "Server", accent: "#3b82f6", route: "/exec", status: "Sắp ra mắt", built: false, comingSoon: "Q3/2026", lead: { name: "Đinh Văn Ân", img: 8 }, metrics: [{ k: "Dashboard", v: "Đang xây dựng" }], spark: [90, 92, 91, 94, 95, 95] },
-  { key: "admin", name: "Admin / Ops", icon: "Building2", accent: "#64748b", route: "/exec", status: "Sắp ra mắt", built: false, comingSoon: "Q4/2026", lead: { name: "Nguyễn Thị Huyền", img: 45 }, metrics: [{ k: "Dashboard", v: "Đang xây dựng" }], spark: [30, 31, 33, 34, 35, 35] },
-  { key: "capital", name: "Capital / Ventures", icon: "TrendingUp", accent: "#a855f7", route: "/exec", status: "Sắp ra mắt", built: false, comingSoon: "Q4/2026", lead: { name: "Tuyết Trần", img: 9 }, metrics: [{ k: "Dashboard", v: "Đang xây dựng" }], spark: [50, 52, 54, 55, 57, 58] },
-  { key: "research", name: "Research / Insights", icon: "FlaskConical", accent: "#ec4899", route: "/exec", status: "Sắp ra mắt", built: false, comingSoon: "Q1/2027", lead: { name: "Bùi Văn Đạt", img: 15 }, metrics: [{ k: "Dashboard", v: "Đang xây dựng" }], spark: [14, 15, 16, 17, 18, 18] },
+  { key: "finance", name: "Tài chính – Kế toán", icon: "Landmark", accent: "#10b981", route: "/accounting", status: "On Track", built: true, lead: { name: "Bùi Thị Bích Phương", img: 5 }, metrics: [{ k: "Doanh thu YTD", v: "48,6 tỷ", delta: "+14%", up: true }, { k: "Biên LN gộp", v: "61%", delta: "+3pp", up: true }, { k: "Runway", v: "16 th", delta: "+1", up: true }], spark: [6.8, 7.2, 7.5, 8.1, 8.6, 9.4] },
+  { key: "admin", name: "Quản trị hệ thống", icon: "Building2", accent: "#64748b", route: "/admin", status: "On Track", built: true, lead: { name: "IT Administrator", img: 68 }, metrics: [{ k: "Người dùng hệ thống", v: "264", delta: "+6%", up: true }, { k: "Tích hợp active", v: "12", delta: "+2", up: true }, { k: "Sự cố mở", v: "2", delta: "-1", up: true }], spark: [240, 246, 251, 257, 260, 264] },
 ];
 
 export const changeFeed = [
@@ -137,11 +134,8 @@ const EXEC_PAGE_RULES = {
   "team-hr": (role) => ["ceo", "coo"].includes(role),
   "team-marcom": (role) => ["ceo", "cgo"].includes(role),
   "team-ce": (role) => ["ceo", "cgo"].includes(role),
-  "team-finance": () => false,
-  "team-platform": () => false,
-  "team-admin": () => false,
-  "team-capital": () => false,
-  "team-research": () => false,
+  "team-finance": (role) => ["ceo", "coo"].includes(role),
+  "team-admin": (role) => ["ceo", "coo"].includes(role),
 };
 
 export function canAccessExec(role, page) {

@@ -31,10 +31,10 @@ export const TEAMS = {
     home: "/ce", built: true, comingSoon: false, wsClass: "ws--ce",
   },
   finance: {
-    id: "finance", name: "Finance", short: "Tài chính",
-    sub: "P&L · Cashflow · Burn",
+    id: "finance", name: "Tài chính – Kế toán", short: "Tài chính",
+    sub: "Doanh thu · Công nợ · Dòng tiền",
     accent: "#10b981", accentSoft: "#e7f8f1", icon: "Landmark",
-    home: "/finance", built: false, comingSoon: "Q3/2026", wsClass: "ws--finance",
+    home: "/accounting", built: true, comingSoon: false, wsClass: "ws--finance",
   },
   platform: {
     id: "platform", name: "Platform & Engineering", short: "Platform",
@@ -43,10 +43,10 @@ export const TEAMS = {
     home: "/platform", built: false, comingSoon: "Q3/2026", wsClass: "ws--platform",
   },
   admin: {
-    id: "admin", name: "Admin & Operations", short: "Admin",
-    sub: "Văn phòng · Mua sắm · Pháp lý",
+    id: "admin", name: "Quản trị hệ thống", short: "Admin",
+    sub: "Người dùng · Phân quyền · Tích hợp",
     accent: "#64748b", accentSoft: "#eef1f6", icon: "Building2",
-    home: "/admin", built: false, comingSoon: "Q4/2026", wsClass: "ws--admin",
+    home: "/admin", built: true, comingSoon: false, wsClass: "ws--admin",
   },
   capital: {
     id: "capital", name: "Capital & Investment", short: "Capital",
