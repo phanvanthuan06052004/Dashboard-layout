@@ -42,8 +42,6 @@ const META = {
   "/marcom/settings": ["Cài đặt", "Marcom / Settings"],
 };
 
-const FOOT = { icon: "Megaphone", title: "BambuUP Brainz", text: "Đồng bộ dữ liệu chiến dịch & lead realtime." };
-
 export default function MarcomLayout() {
-  return <TeamLayout team={TEAMS.marcom} groups={NAV} canAccessFn={canAccessMarcom} metaMap={META} foot={FOOT} />;
+  return <TeamLayout team={TEAMS.marcom} groups={NAV} canAccessFn={canAccessMarcom} metaMap={META} />;
 }

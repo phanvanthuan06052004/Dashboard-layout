@@ -18,8 +18,9 @@ export default function WorkspaceSwitcher({ currentTeamId }) {
     return () => document.removeEventListener("click", onDoc);
   }, []);
 
-  if (!user || user.teamsAccess.length <= 1) return null;
-  const teams = teamsForAccount(user);
+  if (!user) return null;
+  const teams = teamsForAccount(user).filter((t) => t.built); // chỉ team đã có dashboard
+  if (teams.length <= 1) return null;
   const current = TEAMS[currentTeamId] || TEAMS[user.team];
 
   return (

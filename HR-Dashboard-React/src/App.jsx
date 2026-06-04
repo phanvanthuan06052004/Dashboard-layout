@@ -61,17 +61,17 @@ function Guard({ page, children }) {
   return children;
 }
 
-// Admin-only guard (chỉ role "admin" — không dựa PAGE_ACCESS vì CEO = "ALL").
+// Admin guard — chủ sở hữu (admin) + cấp điều hành giám sát (ceo/coo).
 function AdminGuard({ children }) {
   const { role } = useApp();
-  if (role !== "admin") return <Navigate to="/" replace />;
+  if (!["admin", "ceo", "coo"].includes(role)) return <Navigate to="/" replace />;
   return children;
 }
 
-// Accountant-only guard.
+// Accountant guard — chủ sở hữu (accountant) + cấp điều hành giám sát (ceo/coo).
 function AccountantGuard({ children }) {
   const { role } = useApp();
-  if (role !== "accountant") return <Navigate to="/" replace />;
+  if (!["accountant", "ceo", "coo"].includes(role)) return <Navigate to="/" replace />;
   return children;
 }
 

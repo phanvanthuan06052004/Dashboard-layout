@@ -1,6 +1,5 @@
 import Icon from "./Icon";
 import AccountMenu from "./AccountMenu";
-import WorkspaceSwitcher from "./WorkspaceSwitcher";
 
 /* Topbar dùng chung cho Marcom / CE / Exec. Cùng markup .topbar như HR
    nhưng dùng AccountMenu (đăng xuất) + WorkspaceSwitcher (chỉ exec). */
@@ -20,7 +19,6 @@ export default function TeamTopbar({ title, crumb, onMenu, currentTeamId, search
       </div>
 
       <div className="topbar__actions">
-        <WorkspaceSwitcher currentTeamId={currentTeamId} />
         <button className="icon-btn icon-btn--soft" title="Thông báo"><Icon name="Bell" size={18} /><span className="ping" /></button>
         <AccountMenu />
       </div>

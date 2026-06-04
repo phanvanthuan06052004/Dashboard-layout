@@ -44,16 +44,16 @@ const META = {
 
 export default function Layout() {
   const { role } = useApp();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(() => window.innerWidth > 880);
   const { pathname } = useLocation();
   const [title, crumb] = META[pathname] || ["HR Workspace", ""];
+  const currentTeamId = pathname.startsWith("/accounting") ? "finance" : pathname.startsWith("/admin") ? "admin" : "hr";
 
   return (
-    <div className="app">
+    <div className={`app${menuOpen ? " sidebar-open" : " sidebar-closed"}`}>
       <Sidebar open={menuOpen} onClose={() => setMenuOpen(false)} />
-      {menuOpen && <div className="scrim" onClick={() => setMenuOpen(false)} />}
       <main className="main">
-        <Topbar title={title} crumb={crumb} onMenu={() => setMenuOpen(true)} />
+        <Topbar title={title} crumb={crumb} onMenu={() => setMenuOpen((value) => !value)} currentTeamId={currentTeamId} />
         {role !== "ceo" && role !== "admin" && (
           <div className="role-banner">
             <Icon name="Info" size={18} />

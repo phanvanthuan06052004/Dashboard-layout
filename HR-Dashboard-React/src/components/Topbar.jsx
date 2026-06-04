@@ -1,9 +1,7 @@
 import Icon from "./Icon";
-import RoleSwitcher from "./RoleSwitcher";
 import AccountMenu from "./AccountMenu";
-import WorkspaceSwitcher from "./WorkspaceSwitcher";
 
-export default function Topbar({ title, crumb, onMenu }) {
+export default function Topbar({ title, crumb, onMenu, currentTeamId = "hr" }) {
   return (
     <header className="topbar">
       <button className="icon-btn topbar__menu" onClick={onMenu}><Icon name="Menu" /></button>
@@ -19,8 +17,6 @@ export default function Topbar({ title, crumb, onMenu }) {
       </div>
 
       <div className="topbar__actions">
-        <WorkspaceSwitcher currentTeamId="hr" />
-        <RoleSwitcher />
         <button className="icon-btn icon-btn--soft" title="Thông báo">
           <Icon name="Bell" size={18} /><span className="ping" />
         </button>

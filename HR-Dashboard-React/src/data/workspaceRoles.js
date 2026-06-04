@@ -49,7 +49,7 @@ export const CE_MONEY_ALLOW = ["ceo", "coo", "head", "member"];
 /* ---------------- Exec view matrix (drill từng team) ---------------- */
 export const EXEC_VIEW_MATRIX = {
   ceo: { hr: "full", marcom: "full", ce: "full", finance: "full", platform: "full", admin: "full", capital: "full", research: "full" },
-  coo: { hr: "full", finance: "partial", platform: "partial", admin: "partial", marcom: "locked", ce: "locked", capital: "locked", research: "locked" },
+  coo: { hr: "full", finance: "full", admin: "full", platform: "partial", marcom: "locked", ce: "locked", capital: "locked", research: "locked" },
   cgo: { marcom: "full", ce: "full", capital: "partial", hr: "locked", finance: "locked", platform: "locked", admin: "locked", research: "locked" },
 };
 
