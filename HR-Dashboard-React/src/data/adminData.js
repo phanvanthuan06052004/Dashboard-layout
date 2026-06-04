@@ -15,7 +15,7 @@ export const adminUsers = [
   { id: "U005", name: "Nguyễn Thị Giang",    img: 33, email: "giang.nguyen@bambuup.com",  roleId: "member", team: "growth",   status: "active",  lastLogin: "Hôm nay · 09:15", created: "07/2025", twofa: false },
   { id: "U006", name: "Nguyễn Văn Cao",      img: 12, email: "cao.nguyen@bambuup.com",    roleId: "member", team: "platform", status: "active",  lastLogin: "Hôm nay · 08:45", created: "09/2022", twofa: false },
   { id: "U007", name: "Đinh Văn Ân",         img: 8,  email: "an.dinh@bambuup.com",       roleId: "member", team: "platform", status: "locked",  lastLogin: "12/05/2026 · 17:33", created: "05/2024", twofa: false },
-  { id: "U008", name: "Bùi Thị Bích Phương", img: 5,  email: "phuong.bui@bambuup.com",    roleId: "member", team: "finance",  status: "active",  lastLogin: "Hôm qua · 16:40", created: "01/2024", twofa: false },
+  { id: "U008", name: "Bùi Thị Bích Phương", img: 5,  email: "phuong.bui@bambuup.com",    roleId: "accountant", team: "finance",  status: "active",  lastLogin: "Hôm qua · 16:40", created: "01/2024", twofa: true },
   { id: "U009", name: "Phan Thị Ánh Tuyết",  img: 31, email: "tuyet.phan@bambuup.com",    roleId: "member", team: "research", status: "invited", lastLogin: "—", created: "11/2025", twofa: false },
   { id: "U010", name: "Hà Thị Thu Trang",    img: 25, email: "trang.ha@bambuup.com",      roleId: "member", team: "sales",    status: "invited", lastLogin: "—", created: "10/2025", twofa: false },
   { id: "U011", name: "Bùi Văn Đạt",         img: 15, email: "dat.bui@bambuup.com",       roleId: "member", team: "ops",      status: "active",  lastLogin: "Hôm nay · 10:01", created: "05/2025", twofa: false },
@@ -37,8 +37,8 @@ export const USER_STATUS = {
 
 /* ---------- Phân bổ người dùng theo vai trò ---------- */
 export const usersByRole = (() => {
-  const order = ["ceo", "coo", "cgo", "head", "member", "admin"];
-  const labels = { ceo: "CEO", coo: "COO", cgo: "CGO", head: "Trưởng phòng HR", member: "Thành viên", admin: "Admin" };
+  const order = ["ceo", "coo", "cgo", "head", "member", "accountant", "admin"];
+  const labels = { ceo: "CEO", coo: "COO", cgo: "CGO", head: "Trưởng phòng HR", member: "Thành viên", accountant: "Kế toán", admin: "Admin" };
   return order.map((id) => ({
     id, label: labels[id],
     count: adminUsers.filter((u) => u.roleId === id).length,

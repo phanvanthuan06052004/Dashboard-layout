@@ -48,6 +48,29 @@ const GROUPS = [
   },
 ];
 
+// Cụm chỉ hiện cho Kế toán (render có điều kiện, ở đầu sidebar).
+const ACCOUNTANT_GROUPS = [
+  {
+    label: "Tài chính – Kế toán",
+    items: [
+      { to: "/accounting", icon: "LayoutDashboard", label: "Dashboard Tài chính", end: true },
+      { to: "/accounting/invoices", icon: "FileText", label: "Hóa đơn" },
+      { to: "/accounting/payments", icon: "ArrowLeftRight", label: "Thu & Chi" },
+      { to: "/accounting/expenses", icon: "Receipt", label: "Chi phí" },
+      { to: "/accounting/journal", icon: "BookOpen", label: "Sổ nhật ký" },
+    ],
+  },
+  {
+    label: "Công nợ & Đối soát",
+    items: [
+      { to: "/accounting/ar", icon: "ArrowDownLeft", label: "Phải thu (AR)" },
+      { to: "/accounting/ap", icon: "ArrowUpRight", label: "Phải trả (AP)" },
+      { to: "/accounting/bank", icon: "Banknote", label: "Đối soát ngân hàng" },
+      { to: "/accounting/fcontracts", icon: "FileSignature", label: "Hợp đồng tài chính" },
+    ],
+  },
+];
+
 // Cụm chỉ hiện cho Admin (render có điều kiện, không nằm trong GROUPS chung).
 const ADMIN_GROUP = {
   label: "Quản trị hệ thống",
@@ -75,20 +98,30 @@ export default function Sidebar({ open, onClose }) {
       </div>
 
       <nav className="nav">
-        {GROUPS.map((g) => (
+        {role === "accountant" && ACCOUNTANT_GROUPS.map((g) => (
           <div className="nav__group" key={g.label}>
             <p className="nav__label">{g.label}</p>
-            {g.items.map((it) => {
-              const allowed = canAccess(role, it.page);
-              if (!allowed) {
-                return (
-                  <div className="nav__item is-disabled" key={it.page} title="Không có quyền truy cập">
-                    <Icon name={it.icon} /><span>{it.label}</span>
-                    <Icon name="Lock" size={14} className="nav__lock" />
-                  </div>
-                );
-              }
-              return (
+            {g.items.map((it) => (
+              <NavLink
+                key={it.to}
+                to={it.to}
+                end={it.end}
+                onClick={onClose}
+                className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
+              >
+                <Icon name={it.icon} /><span>{it.label}</span>
+              </NavLink>
+            ))}
+          </div>
+        ))}
+        {GROUPS.map((g) => {
+          // Ẩn hẳn mục không có quyền; nhóm rỗng thì ẩn luôn nhãn nhóm.
+          const items = g.items.filter((it) => canAccess(role, it.page));
+          if (!items.length) return null;
+          return (
+            <div className="nav__group" key={g.label}>
+              <p className="nav__label">{g.label}</p>
+              {items.map((it) => (
                 <NavLink
                   key={it.page}
                   to={it.to}
@@ -99,10 +132,10 @@ export default function Sidebar({ open, onClose }) {
                   <Icon name={it.icon} /><span>{it.label}</span>
                   {it.badge && <span className="badge">{it.badge}</span>}
                 </NavLink>
-              );
-            })}
-          </div>
-        ))}
+              ))}
+            </div>
+          );
+        })}
 
         {role === "admin" && (
           <div className="nav__group">

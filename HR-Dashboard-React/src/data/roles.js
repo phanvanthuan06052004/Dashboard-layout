@@ -11,8 +11,9 @@ export const ROLES = {
   head:   { id: "head",   name: "Trưởng phòng HR", short: "Trưởng phòng", scope: "Chỉ xem data team HR của mình",               dot: "amber",  teams: ["hr"] },
   member: { id: "member", name: "Thành viên HR",   short: "Thành viên",   scope: "Chỉ xem data cá nhân",                        dot: "slate",  teams: ["self"] },
   admin:  { id: "admin",  name: "Admin – Hệ thống", short: "Admin",       scope: "Toàn quyền hệ thống + quản trị người dùng & phân quyền", dot: "violet", teams: "ALL" },
+  accountant: { id: "accountant", name: "Kế toán", short: "Kế toán", scope: "Quản lý tài chính, công nợ & dòng tiền", dot: "green", teams: ["finance"] },
 };
-export const ROLE_ORDER = ["ceo", "coo", "cgo", "head", "member", "admin"];
+export const ROLE_ORDER = ["ceo", "coo", "cgo", "head", "member", "accountant", "admin"];
 
 // Member's own record (for "self only" demo filtering)
 export const SELF_NAME = "Hồ Thị Thanh Thùy";
@@ -21,6 +22,7 @@ export const SELF_NAME = "Hồ Thị Thanh Thùy";
 export const PAGE_ACCESS = {
   ceo: "ALL",
   admin: "ALL",
+  accountant: ["overview", "contracts", "payroll", "reports", "tasks", "calendar"],
   coo:    ["overview", "employees", "contracts", "performance", "attendance", "leave", "reports", "tasks", "calendar", "settings"],
   cgo:    ["overview", "employees", "performance", "attendance", "leave", "reports", "tasks", "calendar"],
   head:   ["overview", "candidates", "jobs", "interviews", "offers", "employees", "contracts", "documents", "performance", "attendance", "leave", "payroll", "tasks", "calendar"],

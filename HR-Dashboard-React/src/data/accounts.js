@@ -1,6 +1,6 @@
 /* ============================================================
    BambuUP Dashboard — Demo accounts (personas) for Login flow
-   Mỗi account: role (ceo|coo|cgo|head|member) + team + teamsAccess
+   Mỗi account: role (ceo|coo|cgo|head|member|accountant|admin) + team + teamsAccess
    → quyết định phân luồng sau khi đăng nhập (RequireAuth/RequireTeam).
    password chỉ mang tính minh hoạ — mock auth chấp nhận mọi mật khẩu.
    ============================================================ */
@@ -71,6 +71,22 @@ export const ACCOUNTS = [
     title: "Client Success Executive (Thành viên CE)", role: "member", team: "ce",
     teamsAccess: ["ce"], home: "/ce", group: "Client Excellence", dot: "slate",
     note: "Chỉ xem account/deal mình phụ trách & activity của bản thân; ẩn doanh thu/forecast.",
+  },
+
+  // ---------- Tài chính – Kế toán ----------
+  {
+    id: "u-phuong", name: "Bùi Thị Bích Phương", email: "phuong@bambuup.com", img: 5,
+    title: "Kế toán (Accountant)", role: "accountant", team: "finance",
+    teamsAccess: ["hr", "finance"], home: "/accounting", group: "Tài chính – Kế toán", dot: "green",
+    note: "Dashboard tài chính + module Hóa đơn, Thu/Chi, Chi phí, Sổ nhật ký, Công nợ AR/AP, Đối soát NH, Hợp đồng TC.",
+  },
+
+  // ---------- Quản trị hệ thống ----------
+  {
+    id: "u-admin", name: "IT Administrator", email: "admin@bambuup.com", img: 68,
+    title: "Quản trị hệ thống (Super Admin)", role: "admin", team: "admin",
+    teamsAccess: ["hr", "finance", "platform", "admin"], home: "/admin", group: "Quản trị hệ thống", dot: "violet",
+    note: "Toàn quyền: Người dùng, Vai trò & Phân quyền, Nhật ký, Tích hợp & Data Layer, Cấu hình hệ thống.",
   },
 ];
 

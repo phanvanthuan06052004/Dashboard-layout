@@ -22,6 +22,10 @@ import RolesPermissions from "./pages/admin/RolesPermissions";
 import AuditLog from "./pages/admin/AuditLog";
 import Integrations from "./pages/admin/Integrations";
 import AdminSettings from "./pages/admin/Settings";
+import FinanceDashboard from "./pages/accounting/FinanceDashboard";
+import FinanceModule from "./pages/accounting/FinanceModule";
+
+const FINANCE_MODULES = ["invoices", "payments", "expenses", "journal", "ar", "ap", "bank", "fcontracts"];
 
 // Marcom pages
 import MarcomOverview from "./pages/marcom/MarcomOverview";
@@ -64,6 +68,20 @@ function AdminGuard({ children }) {
   return children;
 }
 
+// Accountant-only guard.
+function AccountantGuard({ children }) {
+  const { role } = useApp();
+  if (role !== "accountant") return <Navigate to="/" replace />;
+  return children;
+}
+
+// Trang chủ "/": Kế toán tự về Dashboard Tài chính, các role khác giữ Overview.
+function HomeRedirect() {
+  const { role } = useApp();
+  if (role === "accountant") return <Navigate to="/accounting" replace />;
+  return <Overview />;
+}
+
 // config-driven catalog pages
 const CATALOG_ROUTES = ["employees", "contracts", "payroll", "documents", "leave", "attendance", "jobs"];
 
@@ -89,11 +107,12 @@ export default function App() {
           {/* Entry point */}
           <Route path="/login" element={<Login />} />
 
-          {/* HR workspace (giữ nguyên, gate bằng đăng nhập + quyền team hr) */}
+          {/* HR workspace + cụm Admin & Kế toán (role-based, sống trong Layout HR,
+              chuyển qua nút "Quyền"). Gate bằng đăng nhập + quyền team hr. */}
           <Route
             element={<RequireAuth><RequireTeam team="hr"><Layout /></RequireTeam></RequireAuth>}
           >
-            <Route index element={<Overview />} />
+            <Route index element={<HomeRedirect />} />
             <Route path="overview" element={<Overview />} />
             <Route path="candidates" element={<Guard page="candidates"><Candidates /></Guard>} />
             <Route path="performance" element={<Guard page="performance"><Performance /></Guard>} />
@@ -102,6 +121,18 @@ export default function App() {
             ))}
             {Object.keys(PH).map((page) => (
               <Route key={page} path={page} element={<Guard page={page}><PlaceholderRoute page={page} /></Guard>} />
+            ))}
+            {/* Cụm Quản trị hệ thống — chỉ Admin */}
+            <Route path="admin" element={<AdminGuard><AdminConsole /></AdminGuard>} />
+            <Route path="admin/users" element={<AdminGuard><AdminUsers /></AdminGuard>} />
+            <Route path="admin/roles" element={<AdminGuard><RolesPermissions /></AdminGuard>} />
+            <Route path="admin/audit" element={<AdminGuard><AuditLog /></AdminGuard>} />
+            <Route path="admin/integrations" element={<AdminGuard><Integrations /></AdminGuard>} />
+            <Route path="admin/settings" element={<AdminGuard><AdminSettings /></AdminGuard>} />
+            {/* Cụm Kế toán — chỉ Accountant */}
+            <Route path="accounting" element={<AccountantGuard><FinanceDashboard /></AccountantGuard>} />
+            {FINANCE_MODULES.map((key) => (
+              <Route key={key} path={`accounting/${key}`} element={<AccountantGuard><FinanceModule key={key} catalogKey={key} /></AccountantGuard>} />
             ))}
           </Route>
 
