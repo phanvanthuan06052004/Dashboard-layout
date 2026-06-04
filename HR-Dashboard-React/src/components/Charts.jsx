@@ -1,6 +1,8 @@
 import Chart from "react-apexcharts";
 
 const violet = "#7c3aed", violetL = "#c4b5fd", blue = "#3b82f6", green = "#10b981", amber = "#f59e0b", slate = "#cbd5e1";
+// Tắt animation reveal để tránh lỗi runMaskReveal khi unmount lúc chuyển trang.
+const noAnim = { animations: { enabled: false } };
 
 export function Sparkline({ data, up = true }) {
   return (
@@ -10,7 +12,7 @@ export function Sparkline({ data, up = true }) {
       height={46}
       series={[{ data }]}
       options={{
-        chart: { sparkline: { enabled: true } },
+        chart: { sparkline: { enabled: true }, ...noAnim },
         plotOptions: { bar: { columnWidth: "55%", borderRadius: 3 } },
         colors: [up ? violet : amber],
         tooltip: { enabled: false },
@@ -29,7 +31,7 @@ export function DeptChart({ cats, fulltime, freelance }) {
         { name: "Freelance", data: freelance },
       ]}
       options={{
-        chart: { stacked: true, toolbar: { show: false }, fontFamily: "inherit" },
+        chart: { stacked: true, toolbar: { show: false }, fontFamily: "inherit", ...noAnim },
         colors: [violet, violetL],
         plotOptions: { bar: { columnWidth: "45%", borderRadius: 6, borderRadiusApplication: "end" } },
         dataLabels: { enabled: false },
@@ -51,7 +53,7 @@ export function AttendanceDonut({ ontime, leave, off }) {
       height={210}
       series={[ontime, leave, off]}
       options={{
-        chart: { fontFamily: "inherit" },
+        chart: { fontFamily: "inherit", ...noAnim },
         labels: ["Đúng giờ", "Nghỉ phép", "Vắng"],
         colors: [violet, amber, slate],
         stroke: { width: 0 },
@@ -84,7 +86,7 @@ export function HiringChart({ months, applied, hired }) {
         { name: "Tuyển được", data: hired },
       ]}
       options={{
-        chart: { toolbar: { show: false }, fontFamily: "inherit" },
+        chart: { toolbar: { show: false }, fontFamily: "inherit", ...noAnim },
         colors: [violet, green],
         fill: { type: "gradient", gradient: { shadeIntensity: 1, opacityFrom: 0.35, opacityTo: 0.02 } },
         stroke: { curve: "smooth", width: 3 },
@@ -106,7 +108,7 @@ export function MiniBars({ items }) {
       height={200}
       series={[{ name: "Số lượng", data: items.map((i) => i.v) }]}
       options={{
-        chart: { toolbar: { show: false }, fontFamily: "inherit" },
+        chart: { toolbar: { show: false }, fontFamily: "inherit", ...noAnim },
         colors: [violet],
         plotOptions: { bar: { borderRadius: 6, columnWidth: "50%", distributed: false } },
         dataLabels: { enabled: false },

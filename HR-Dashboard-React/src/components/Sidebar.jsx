@@ -14,25 +14,33 @@ const GROUPS = [
     ],
   },
   {
-    label: "Talent & Recruitment",
+    label: "Tuyển dụng",
     items: [
-      { to: "/candidates", page: "candidates", icon: "UserSearch", label: "Candidates", badge: "421" },
-      { to: "/jobs", page: "jobs", icon: "Briefcase", label: "Jobs", badge: "24" },
+      { to: "/candidates", page: "candidates", icon: "UserSearch", label: "Hồ sơ ứng viên", badge: "421" },
+      { to: "/jobs", page: "jobs", icon: "Briefcase", label: "Job Descriptions" },
       { to: "/interviews", page: "interviews", icon: "MessagesSquare", label: "Interviews", badge: "12" },
       { to: "/offers", page: "offers", icon: "FileCheck", label: "Offers" },
     ],
   },
   {
-    label: "Workforce",
+    label: "Nhân sự",
     items: [
-      { to: "/employees", page: "employees", icon: "Users", label: "Employees" },
+      { to: "/employees", page: "employees", icon: "Users", label: "Thông tin nhân sự" },
+      { to: "/contracts", page: "contracts", icon: "FileText", label: "Hợp đồng" },
+      { to: "/documents", page: "documents", icon: "FolderOpen", label: "Hồ sơ tài liệu" },
       { to: "/performance", page: "performance", icon: "TrendingUp", label: "Performance & KPI" },
-      { to: "/attendance", page: "attendance", icon: "Clock", label: "Attendance" },
-      { to: "/payroll", page: "payroll", icon: "Wallet", label: "Payroll" },
     ],
   },
   {
-    label: "Management",
+    label: "Chấm công & Lương",
+    items: [
+      { to: "/attendance", page: "attendance", icon: "Clock", label: "Checkin" },
+      { to: "/leave", page: "leave", icon: "CalendarOff", label: "Nghỉ phép" },
+      { to: "/payroll", page: "payroll", icon: "Wallet", label: "Lương thưởng" },
+    ],
+  },
+  {
+    label: "Quản lý",
     items: [
       { to: "/reports", page: "reports", icon: "BarChart3", label: "Reports" },
       { to: "/settings", page: "settings", icon: "Settings", label: "Settings" },

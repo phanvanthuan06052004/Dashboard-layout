@@ -17,89 +17,100 @@
 
 ---
 
-## 2. Quyền truy cập trang (sidebar)
+## 2. Danh mục dữ liệu (theo hệ thống HR thật)
 
-✅ = mở được · 🔒 = bị khóa (hiện icon ổ khóa, click vào sẽ không vào được; gõ URL trực tiếp sẽ tự redirect về Overview)
+| Danh mục | Trang | Field chính |
+|----------|-------|-------------|
+| Thông tin nhân sự | `/employees` | Mã NV, họ tên, trình độ, ngày sinh, giới tính, chuyên ngành, địa chỉ thường trú/hiện tại, trường, CCCD, ngày/nơi cấp, MST, lương, KPI |
+| Hợp đồng | `/contracts` | Loại HĐ (HĐLĐ/HĐTK/HĐTV/HĐĐT/HĐTTS), thời hạn, lần HĐLĐ, thử việc, đào tạo, hiệu lực HĐLĐ |
+| Lương thưởng & phúc lợi | `/payroll` | Lương cơ bản, phụ cấp, thưởng, mức đóng BH, thực nhận |
+| Hồ sơ tài liệu | `/documents` | CV, CCCD, bằng cấp, sơ yếu LL, HĐLĐ, giấy KSK (✓ = đã có) |
+| Nghỉ phép | `/leave` | Loại nghỉ, từ/đến ngày, số ngày, lý do, trạng thái duyệt |
+| Checkin | `/attendance` | Ngày, giờ vào/ra, số giờ, trạng thái |
+| Job Descriptions (JD) | `/jobs` | Vị trí, phòng ban, cấp bậc, số lượng, trạng thái, phụ trách, mô tả |
+| Hồ sơ ứng viên (CV) | `/candidates` | Pipeline kéo-thả + hồ sơ ứng viên |
+
+---
+
+## 3. Quyền truy cập trang (sidebar)
+
+✅ = mở được · 🔒 = bị khóa (icon ổ khóa; gõ URL trực tiếp sẽ tự redirect về Overview)
 
 | Trang | CEO | COO | CGO | Trưởng phòng HR | Thành viên |
 |-------|:---:|:---:|:---:|:---:|:---:|
-| Overview | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Calendar | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Tasks | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Candidates (CV) | ✅ | 🔒 | 🔒 | ✅ | 🔒 |
-| Jobs | ✅ | 🔒 | 🔒 | ✅ | 🔒 |
-| Interviews | ✅ | 🔒 | 🔒 | ✅ | 🔒 |
-| Offers | ✅ | 🔒 | 🔒 | ✅ | 🔒 |
-| Employees | ✅ | ✅ | ✅ | ✅ | 🔒 |
+| Overview / Calendar / Tasks | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Hồ sơ ứng viên (CV) | ✅ | 🔒 | 🔒 | ✅ | 🔒 |
+| Job Descriptions | ✅ | 🔒 | 🔒 | ✅ | 🔒 |
+| Interviews / Offers | ✅ | 🔒 | 🔒 | ✅ | 🔒 |
+| Thông tin nhân sự | ✅ | ✅ | ✅ | ✅ | 🔒 |
+| Hợp đồng | ✅ | ✅ | 🔒 | ✅ | 🔒 |
+| Hồ sơ tài liệu | ✅ | 🔒 | 🔒 | ✅ | 🔒 |
 | Performance & KPI | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Attendance | ✅ | ✅ | ✅ | ✅ | 🔒 |
-| Payroll | ✅ | ✅ | 🔒 | 🔒 | 🔒 |
+| Checkin | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Nghỉ phép | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Lương thưởng | ✅ | 🔒 | 🔒 | ✅ | ✅ (của mình) |
 | Reports | ✅ | ✅ | ✅ | 🔒 | 🔒 |
 | Settings | ✅ | ✅ | 🔒 | 🔒 | 🔒 |
 
-> **Recruitment (Candidates/Jobs/Interviews/Offers)** thuộc nghiệp vụ phòng HR → chỉ **CEO** và **Trưởng phòng HR** truy cập.
+> Tuyển dụng (CV/JD/Interviews/Offers) là nghiệp vụ HR → chỉ **CEO** & **Trưởng phòng HR**.
+> Lương cá nhân nhạy cảm → **COO/CGO không truy cập** trang Lương thưởng.
 
 ---
 
-## 3. Phạm vi dữ liệu (record-level)
+## 4. Phạm vi dữ liệu (record-level)
 
-Cùng một trang nhưng số dòng dữ liệu khác nhau theo role:
+Cùng một trang nhưng số dòng khác nhau theo role (áp dụng cho mọi danh mục nhân sự: Thông tin NS, Hợp đồng, Lương, Tài liệu, Nghỉ phép, Checkin):
 
-| Trang | CEO | COO | CGO | Trưởng phòng HR | Thành viên |
-|-------|-----|-----|-----|-----------------|-----------|
-| **Employees** | Toàn bộ nhân sự | Toàn bộ (giám sát) | Chỉ Growth/Marketing/Sales | Chỉ team HR | Chỉ hồ sơ bản thân |
-| **Performance** | Toàn công ty | Toàn công ty | Chỉ team mình | Toàn công ty (team HR) | Chỉ KPI cá nhân |
-| **Overview** | Đầy đủ widget | Đầy đủ | Đầy đủ | Đầy đủ | Ẩn "Tuân thủ hồ sơ" & "Ứng viên mới" (không phải data cá nhân) |
+| Role | Thấy record nào |
+|------|-----------------|
+| CEO / COO | Toàn bộ nhân sự |
+| CGO | Chỉ nhân sự team Growth / Marketing / Sales |
+| Trưởng phòng HR | Chỉ nhân sự team HR |
+| Thành viên | Chỉ bản ghi của chính mình |
 
 ---
 
-## 4. Quyền theo trường dữ liệu (field-level) — khi click drill-down
+## 5. Quyền theo trường (field-level) — khi click drill-down
 
-Khi click vào 1 nhân sự / ứng viên / chỉ số → mở **panel chi tiết**. Các trường nhạy cảm bị ẩn theo role (panel sẽ hiện ghi chú *"Ẩn theo phân quyền"*).
+Click 1 bản ghi → mở **panel chi tiết**. Trường nhạy cảm bị ẩn theo role, panel hiện ghi chú *"Ẩn theo phân quyền"*.
 
-### 4.1 Chi tiết Nhân sự (Employee)
-| Trường | CEO | COO | CGO | Trưởng phòng HR | Thành viên |
-|--------|:---:|:---:|:---:|:---:|:---:|
-| Mã NS, Chức danh, Phòng ban, Loại HĐ, Địa điểm, Ngày vào, Quản lý | ✅ | ✅ | ✅ | ✅ | ✅ |
+### 5.1 Thông tin nhân sự
+| Nhóm trường | CEO | COO | CGO | Trưởng phòng HR | Thành viên |
+|-------------|:---:|:---:|:---:|:---:|:---:|
+| Tổ chức (chức danh, phòng ban, quản lý, trạng thái) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Cá nhân – cơ bản (giới tính, ngày sinh, địa chỉ) | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Email | ✅ | ✅ | ❌ | ✅ | ✅ |
 | Điện thoại | ✅ | ❌ | ❌ | ✅ | ✅ |
+| Học vấn (trình độ, chuyên ngành, trường, TN) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Giấy tờ** (CCCD, ngày/nơi cấp, MST) 🔒 | ✅ | ❌ | ❌ | ✅ | ✅ (của mình) |
 | KPI cá nhân | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Hình thức hợp đồng | ✅ | ❌ | ❌ | ✅ | ❌ |
-| **Lương** 🔒 | ✅ | ❌ | ❌ | ✅ | ✅ (của mình) |
+| **Lương (net)** 🔒 | ✅ | ❌ | ❌ | ✅ | ✅ (của mình) |
 
-### 4.2 Chi tiết Ứng viên (Candidate)
+### 5.2 Lương thưởng & phúc lợi
+Toàn bộ trường (lương cơ bản, phụ cấp, thưởng, BH, thực nhận) là **nhạy cảm** → chỉ **CEO / Trưởng phòng HR / Thành viên (của mình)** vào được trang & xem.
+
+### 5.3 Hợp đồng
+Mọi trường hiển thị cho role có quyền vào trang (CEO/COO/Trưởng phòng HR). CGO/Thành viên không truy cập.
+
+### 5.4 Hồ sơ ứng viên (Candidate)
 | Trường | CEO | Trưởng phòng HR |
 |--------|:---:|:---:|
-| Vị trí, Giai đoạn, Nguồn, Kinh nghiệm | ✅ | ✅ |
-| Email, Điện thoại | ✅ | ✅ |
+| Vị trí, giai đoạn, nguồn, kinh nghiệm | ✅ | ✅ |
+| Email, điện thoại | ✅ | ✅ |
 | **Lương mong muốn** 🔒 | ✅ | ✅ |
-> (COO/CGO/Thành viên không vào được trang Candidates nên không áp dụng.)
 
-### 4.3 Project Drill-down (Lớp 2 — click 1 task/dự án)
+### 5.5 Project Drill-down (Lớp 2 — click task/dự án)
 | Trường | CEO | COO | CGO | Trưởng phòng HR | Thành viên |
 |--------|:---:|:---:|:---:|:---:|:---:|
-| PM, Trạng thái, Timeline, KPI dự án | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Doanh thu thực tế** 🔒 | ✅ | ✅ | ❌ | ❌ | ❌ |
-| **Forecast** 🔒 | ✅ | ✅ | ❌ | ❌ | ❌ |
-> Doanh thu/Forecast là dữ liệu Finance → chỉ CEO & COO (COO phụ trách Finance).
-
----
-
-## 5. Tóm tắt trải nghiệm từng role
-
-- **CEO – Quỳnh:** thấy mọi trang, mọi dữ liệu, mọi trường (kể cả lương & doanh thu). Cross-team analytics đầy đủ.
-- **COO – Châu:** quản trị vận hành — xem Employees/Performance/Payroll/Reports toàn công ty, xem doanh thu dự án; **không xem** pipeline tuyển dụng và **không xem lương cá nhân**.
-- **CGO – Tuyết:** chỉ data Growth/Marketing/Sales; xem KPI & headcount team mình; không vào tuyển dụng, payroll, lương, doanh thu.
-- **Trưởng phòng HR:** "chủ" nghiệp vụ tuyển dụng — full Candidates/Jobs/Interviews/Offers + Employees & lương **của team HR**; không xem Reports/Payroll toàn công ty.
-- **Thành viên HR:** chỉ thấy **data cá nhân** — KPI của mình, task của mình, hồ sơ & lương của mình. Mọi mục quản lý đều bị khóa.
+| PM, trạng thái, timeline, KPI | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Doanh thu thực tế / Forecast** 🔒 | ✅ | ✅ | ❌ | ❌ | ❌ |
 
 ---
 
 ## 6. Cài đặt trong code
 
-Toàn bộ phân quyền nằm tại **`src/data/roles.js`** (single source of truth):
-- `PAGE_ACCESS` — quyền truy cập trang.
-- `EMPLOYEE_FIELDS`, `CANDIDATE_FIELDS`, `PROJECT_FIELDS` — quyền theo trường (mỗi field có `roles`).
-- `scopeEmployees()`, `scopePerformance()` — lọc record theo role.
+- **`src/data/roles.js`** — `PAGE_ACCESS` (quyền trang) + `scopeByRole` (lọc record) + field rules cho candidate/project.
+- **`src/data/schema.js`** — định nghĩa từng danh mục: cột bảng + nhóm trường drill-down, mỗi field có `roles` (ẩn/hiện theo quyền).
+- **`src/data/mockData.js`** — dữ liệu mẫu (nhân sự + hợp đồng + lương + tài liệu + nghỉ phép + checkin + JD).
 
-Đổi quyền chỉ cần sửa file này — UI tự cập nhật.
+Đổi quyền chỉ cần sửa các file này — UI tự cập nhật (bảng, drill-down, sidebar đều dùng chung config).

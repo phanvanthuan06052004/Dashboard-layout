@@ -2,9 +2,9 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider, useApp } from "./context/AppContext";
 import { canAccess } from "./data/roles";
 import Layout from "./components/Layout";
+import RecordTable from "./components/RecordTable";
 import Overview from "./pages/Overview";
 import Candidates from "./pages/Candidates";
-import Employees from "./pages/Employees";
 import Performance from "./pages/Performance";
 import Placeholder from "./pages/Placeholder";
 
@@ -14,14 +14,14 @@ function Guard({ page, children }) {
   return children;
 }
 
+// config-driven catalog pages
+const CATALOG_ROUTES = ["employees", "contracts", "payroll", "documents", "leave", "attendance", "jobs"];
+
 const PH = {
   tasks: ["Tasks", "CheckSquare", "Quản lý toàn bộ công việc của phòng nhân sự."],
   calendar: ["Calendar", "CalendarDays", "Lịch phỏng vấn, onboarding & sự kiện nội bộ."],
-  jobs: ["Jobs", "Briefcase", "Danh sách vị trí đang mở & mô tả công việc."],
   interviews: ["Interviews", "MessagesSquare", "Lịch & feedback các vòng phỏng vấn."],
   offers: ["Offers", "FileCheck", "Quản lý thư mời nhận việc & trạng thái ký."],
-  attendance: ["Attendance", "Clock", "Theo dõi chấm công, nghỉ phép & OT."],
-  payroll: ["Payroll", "Wallet", "Bảng lương, phụ cấp & quyết toán thuế."],
   reports: ["Reports", "BarChart3", "Báo cáo nhân sự tổng hợp & xuất file."],
   settings: ["Settings", "Settings", "Cấu hình workspace, phân quyền & tích hợp."],
 };
@@ -39,8 +39,10 @@ export default function App() {
           <Route index element={<Overview />} />
           <Route path="overview" element={<Overview />} />
           <Route path="candidates" element={<Guard page="candidates"><Candidates /></Guard>} />
-          <Route path="employees" element={<Guard page="employees"><Employees /></Guard>} />
           <Route path="performance" element={<Guard page="performance"><Performance /></Guard>} />
+          {CATALOG_ROUTES.map((key) => (
+            <Route key={key} path={key} element={<Guard page={key}><RecordTable catalogKey={key} /></Guard>} />
+          ))}
           {Object.keys(PH).map((page) => (
             <Route key={page} path={page} element={<Guard page={page}><PlaceholderRoute page={page} /></Guard>} />
           ))}
