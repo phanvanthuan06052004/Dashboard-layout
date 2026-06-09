@@ -8,7 +8,7 @@ export const ROLES = {
   ceo:    { id: "ceo",    name: "CEO – Quỳnh",     short: "CEO",          scope: "Full access mọi team + Cross-team analytics", dot: "violet", teams: "ALL" },
   coo:    { id: "coo",    name: "COO – Châu",      short: "COO",          scope: "Ops + Finance + Platform",                    dot: "blue",   teams: ["ops", "finance", "platform", "hr"] },
   cgo:    { id: "cgo",    name: "CGO – Tuyết",     short: "CGO",          scope: "Growth + Marketing + Sales",                  dot: "green",  teams: ["growth", "marketing", "sales"] },
-  head:   { id: "head",   name: "Trưởng phòng HR", short: "Trưởng phòng", scope: "Chỉ xem data team HR của mình",               dot: "amber",  teams: ["hr"] },
+  head:   { id: "head",   name: "Trưởng phòng HR", short: "Trưởng phòng", scope: "Xem toàn bộ hồ sơ nhân sự toàn công ty",       dot: "amber",  teams: ["hr"] },
   member: { id: "member", name: "Thành viên HR",   short: "Thành viên",   scope: "Chỉ xem data cá nhân",                        dot: "slate",  teams: ["self"] },
   admin:  { id: "admin",  name: "Admin – Hệ thống", short: "Admin",       scope: "Toàn quyền hệ thống + quản trị người dùng & phân quyền", dot: "violet", teams: "ALL" },
   accountant: { id: "accountant", name: "Kế toán", short: "Kế toán", scope: "Quản lý tài chính, công nợ & dòng tiền", dot: "green", teams: ["finance"] },
@@ -23,10 +23,10 @@ export const PAGE_ACCESS = {
   ceo: "ALL",
   admin: "ALL",
   accountant: ["overview", "contracts", "payroll", "reports", "tasks", "calendar"],
-  coo:    ["overview", "employees", "contracts", "performance", "attendance", "leave", "reports", "tasks", "calendar", "settings"],
-  cgo:    ["overview", "employees", "performance", "attendance", "leave", "reports", "tasks", "calendar"],
-  head:   ["overview", "candidates", "jobs", "interviews", "offers", "employees", "contracts", "documents", "performance", "attendance", "leave", "payroll", "tasks", "calendar"],
-  member: ["overview", "tasks", "calendar", "attendance", "leave", "performance", "payroll"],
+  coo:    ["overview", "employees", "contracts", "performance", "attendance", "leave", "leavebalance", "salaryscale", "learning", "pulse", "reports", "tasks", "calendar", "settings"],
+  cgo:    ["overview", "employees", "performance", "attendance", "leave", "learning", "pulse", "reports", "tasks", "calendar"],
+  head:   ["overview", "candidates", "recruitment", "jobs", "interviews", "offers", "referrals", "employees", "contracts", "legaldocs", "documents", "performance", "learning", "pulse", "attendance", "leave", "leavebalance", "dependents", "payroll", "salaryscale", "tasks", "calendar"],
+  member: ["overview", "tasks", "calendar", "attendance", "leave", "leavebalance", "performance", "learning", "pulse", "payroll"],
 };
 
 export function canAccess(role, page) {
@@ -36,7 +36,9 @@ export function canAccess(role, page) {
 
 /* ---------- Field-level visibility (generic) ---------- */
 // field.roles = "ALL" or array of role ids.
+// Trưởng phòng HR (head) quản lý hồ sơ nhân sự toàn công ty → xem mọi trường.
 export function fieldVisible(field, role) {
+  if (role === "head") return true;
   return field.roles === "ALL" || field.roles.includes(role);
 }
 export function splitFields(fields, role) {
@@ -48,9 +50,9 @@ export function splitFields(fields, role) {
 /* ---------- Record-level scope (which rows a role sees) ---------- */
 // Works for any record having { team, name }.
 export function scopeByRole(role, list, selfName = SELF_NAME) {
-  if (role === "ceo" || role === "coo") return list;
+  // Trưởng phòng HR quản lý nhân sự toàn công ty → xem full như CEO/COO.
+  if (role === "ceo" || role === "coo" || role === "head") return list;
   if (role === "cgo") return list.filter((r) => ["growth", "marketing", "sales"].includes(r.team));
-  if (role === "head") return list.filter((r) => r.team === "hr");
   if (role === "member") return list.filter((r) => r.name === selfName);
   return list;
 }
@@ -68,13 +70,21 @@ export function canOpenEmployee(role, emp) {
 
 /* ---------- Candidate & Project field rules (drawer) ---------- */
 export const CANDIDATE_FIELDS = [
+  { key: "reqId", label: "Mã yêu cầu tuyển dụng", icon: "ClipboardList", roles: "ALL" },
   { key: "role", label: "Vị trí ứng tuyển", icon: "Briefcase", roles: "ALL" },
   { key: "stage", label: "Giai đoạn", icon: "GitBranch", roles: "ALL" },
   { key: "source", label: "Nguồn ứng viên", icon: "Globe", roles: "ALL" },
   { key: "exp", label: "Kinh nghiệm", icon: "Clock", roles: "ALL" },
-  { key: "email", label: "Email", icon: "Mail", roles: ["ceo", "head", "admin"] },
+  { key: "school", label: "Trường học", icon: "School", roles: "ALL" },
+  { key: "major", label: "Ngành học", icon: "BookOpen", roles: "ALL" },
+  { key: "livingPlace", label: "Địa điểm sống", icon: "MapPin", roles: "ALL" },
+  { key: "cvLink", label: "Đường dẫn CV", icon: "FileText", roles: "ALL" },
+  { key: "coverLink", label: "Thư xin việc", icon: "Mail", roles: "ALL" },
+  { key: "email", label: "Email", icon: "AtSign", roles: ["ceo", "head", "admin"] },
   { key: "phone", label: "Điện thoại", icon: "Phone", roles: ["ceo", "head", "admin"] },
   { key: "expected", label: "Lương mong muốn", icon: "Wallet", roles: ["ceo", "head", "admin"], sensitive: true },
+  { key: "aiDecision", label: "Đánh giá CV (AI)", icon: "Sparkles", roles: "ALL", type: "status" },
+  { key: "aiEval", label: "Nhận định của AI", icon: "Bot", roles: "ALL", full: true },
 ];
 
 export const PROJECT_FIELDS = [

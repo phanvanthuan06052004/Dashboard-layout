@@ -8,6 +8,7 @@ import {
   me, avatar, stats, statDetail, headcountByDept, attendance,
   tasks as taskData, interviews, compliance, applicants, projects,
 } from "../data/mockData";
+import { redAlerts, contractAlerts, recruitmentFunnel, docCompleteness } from "../data/hrData";
 
 export default function Overview() {
   const { role, openDrawer } = useApp();
@@ -148,6 +149,95 @@ export default function Overview() {
                     <div><b>{a.name}</b><small>{a.team}</small></div>
                   </div>
                   <span className="tag tag--slate">{a.job}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pipeline tuyển dụng + Độ đầy đủ hồ sơ */}
+      {!isMember && (
+        <div className="grid grid--2 mt">
+          <div className="card">
+            <div className="card__head">
+              <h3><Icon name="Filter" size={18} />Pipeline tuyển dụng</h3>
+              <span className="link" onClick={() => navigate("/candidates")}>Xem pipeline <Icon name="ChevronRight" size={14} /></span>
+            </div>
+            <div className="card__pad" style={{ paddingTop: 10 }}>
+              {recruitmentFunnel.map((f, i) => {
+                const max = recruitmentFunnel[0].v;
+                const conv = i === 0 ? 100 : Math.round((f.v / recruitmentFunnel[i - 1].v) * 100);
+                return (
+                  <div className="funnel-row" key={f.name}>
+                    <span className="funnel-name">{f.name}</span>
+                    <div className="funnel-bar">
+                      <div className="funnel-bar__fill" style={{ width: `${(f.v / max) * 100}%`, background: f.color }}>{f.v}</div>
+                    </div>
+                    <span className="funnel-conv">{conv}%</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card__head"><h3><Icon name="FolderCheck" size={18} />Tỷ lệ đầy đủ hồ sơ toàn diện</h3></div>
+            <div className="card__pad">
+              <div className="gauge-wrap">
+                <AttendanceDonut
+                  ontime={docCompleteness.clean} leave={docCompleteness.partial} off={docCompleteness.missing}
+                  colors={["#10b981", "#f59e0b", "#ef4444"]}
+                  labels={["Sạch & đủ 100%", "Thiếu một phần", "Thiếu nghiêm trọng"]}
+                  centerLabel="Hồ sơ sạch" centerValue={`${docCompleteness.clean}%`}
+                />
+                <div className="gauge-legend">
+                  <div className="legend-row"><span className="dot dot--green" /><div><b>{docCompleteness.clean}%</b> <span>Sạch &amp; đủ 100%</span></div></div>
+                  <div className="legend-row"><span className="dot dot--amber" /><div><b>{docCompleteness.partial}%</b> <span>Thiếu một phần</span></div></div>
+                  <div className="legend-row"><span className="dot" style={{ background: "var(--red-500)" }} /><div><b>{docCompleteness.missing}%</b> <span>Thiếu nghiêm trọng</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Danh sách Đỏ (hồ sơ quá hạn) + Cảnh báo hết hạn hợp đồng */}
+      {!isMember && (
+        <div className="grid grid--2e mt">
+          <div className="card">
+            <div className="card__head">
+              <h3><Icon name="AlertTriangle" size={18} />Danh sách Đỏ — hồ sơ quá hạn</h3>
+              <span className="tag tag--red">{redAlerts.length} cảnh báo</span>
+            </div>
+            <div className="card__pad" style={{ paddingTop: 6 }}>
+              {redAlerts.map((a) => (
+                <div className="feed-item is-click" key={a.id}>
+                  <span className={`feed-ico feed-ico--${a.level === "high" ? "red" : "amber"}`}><Icon name="FileWarning" size={16} /></span>
+                  <div className="feed-body">
+                    <div className="feed-title">{a.name}</div>
+                    <div className="feed-desc">{a.issue}</div>
+                    <div className="feed-meta"><span className={`tag tag--${a.level === "high" ? "red" : "amber"}`}>{a.overdue}</span></div>
+                  </div>
+                  <button className="btn btn--soft" style={{ alignSelf: "center" }}><Icon name="Bell" size={14} />Nhắc</button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card__head">
+              <h3><Icon name="CalendarClock" size={18} />Cảnh báo hết hạn hợp đồng (≤15 ngày)</h3>
+              <span className="link" onClick={() => navigate("/contracts")}>Xem HĐ <Icon name="ChevronRight" size={14} /></span>
+            </div>
+            <div className="card__pad" style={{ paddingTop: 6 }}>
+              {contractAlerts.map((c) => (
+                <div className="prog-row" key={c.id} style={{ justifyContent: "space-between" }}>
+                  <div className="cell-user">
+                    <img className="avatar" style={{ width: 30, height: 30 }} src={avatar(c.img)} alt="" />
+                    <div><b>{c.name}</b><small>{c.type} · hết hạn {c.expiry}</small></div>
+                  </div>
+                  <span className={`tag tag--${c.daysLeft <= 5 ? "red" : "amber"}`}>Còn {c.daysLeft} ngày</span>
                 </div>
               ))}
             </div>

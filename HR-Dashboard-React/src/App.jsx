@@ -15,6 +15,11 @@ import Overview from "./pages/Overview";
 import Candidates from "./pages/Candidates";
 import Performance from "./pages/Performance";
 import Placeholder from "./pages/Placeholder";
+// HR pages mở rộng theo file CSDL của team HR
+import Recruitment from "./pages/Recruitment";
+import SalaryScale from "./pages/SalaryScale";
+import Learning from "./pages/Learning";
+import PulseSurvey from "./pages/PulseSurvey";
 import Login from "./pages/Login";
 import AdminConsole from "./pages/admin/AdminConsole";
 import AdminUsers from "./pages/admin/Users";
@@ -116,6 +121,14 @@ export default function App() {
             <Route path="overview" element={<Overview />} />
             <Route path="candidates" element={<Guard page="candidates"><Candidates /></Guard>} />
             <Route path="performance" element={<Guard page="performance"><Performance /></Guard>} />
+            {/* HR mở rộng theo file CSDL: tuyển dụng / L&D / pulse / thang bảng lương */}
+            <Route path="recruitment" element={<Guard page="recruitment"><Recruitment /></Guard>} />
+            <Route path="learning" element={<Guard page="learning"><Learning /></Guard>} />
+            <Route path="pulse" element={<Guard page="pulse"><PulseSurvey /></Guard>} />
+            <Route path="salaryscale" element={<Guard page="salaryscale"><SalaryScale /></Guard>} />
+            <Route path="legaldocs" element={<Guard page="legaldocs"><RecordTable catalogKey="legaldocs" /></Guard>} />
+            <Route path="leavebalance" element={<Guard page="leavebalance"><RecordTable catalogKey="leaveBalance" /></Guard>} />
+            <Route path="dependents" element={<Guard page="dependents"><RecordTable catalogKey="dependents" /></Guard>} />
             {CATALOG_ROUTES.map((key) => (
               <Route key={key} path={key} element={<Guard page={key}><RecordTable catalogKey={key} /></Guard>} />
             ))}

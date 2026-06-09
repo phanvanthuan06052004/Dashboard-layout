@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Icon from "./Icon";
-import { Tag, ContractTag, Page } from "./ui";
+import { Tag, ContractTag, Page, CompGroup, Level, GapTag, YesNo } from "./ui";
 import { useApp } from "../context/AppContext";
 import { useAuth } from "../context/AuthContext";
 import { CATALOGS } from "../data/schema";
@@ -9,9 +9,13 @@ import { maskMoney } from "../data/workspaceRoles";
 import { avatar } from "../data/mockData";
 
 function Cell({ col, row, role }) {
-  let v = row[col.key];
+  let v = col.get ? col.get(row) : row[col.key];
   if (col.gated) v = maskMoney(role, v, col.allow); // cột tiền nhạy cảm → ẩn theo role
   switch (col.type) {
+    case "yesno": return <YesNo v={v} />;
+    case "compGroup": return <CompGroup g={v} />;
+    case "level": return <Level v={v} />;
+    case "gap": return <GapTag v={v} />;
     case "user":
       return (
         <div className="cell-user">
@@ -39,7 +43,7 @@ function Cell({ col, row, role }) {
   }
 }
 
-export default function RecordTable({ catalogKey, catalogs = CATALOGS, drawerType = "record" }) {
+export default function RecordTable({ catalogKey, catalogs = CATALOGS, drawerType = "record", embed = false }) {
   const { role, openDrawer } = useApp();
   const { user } = useAuth();
   const cfg = catalogs[catalogKey];
@@ -59,19 +63,30 @@ export default function RecordTable({ catalogKey, catalogs = CATALOGS, drawerTyp
   const open = (row) =>
     openDrawer(drawerType, drawerType === "record" ? { cfg, row, profile: cfg.profile?.(row) } : row);
 
-  return (
-    <Page>
-      <div className="page-head">
-        <div>
-          <h2>{cfg.title}</h2>
-          <p>{cfg.sub} · {rows.length} bản ghi {scoped && `(giới hạn theo quyền ${ROLES[role].short})`}</p>
-        </div>
-        <div className="head-actions">
-          <button className="btn btn--soft"><Icon name="Download" size={16} />Export</button>
-          {canAdd && <button className="btn btn--primary"><Icon name="Plus" size={16} />Thêm bản ghi</button>}
-        </div>
+  const head = (
+    <div className="page-head">
+      <div>
+        <h2>{cfg.title}</h2>
+        <p>{cfg.sub} · {rows.length} bản ghi {scoped && `(giới hạn theo quyền ${ROLES[role].short})`}</p>
       </div>
+      <div className="head-actions">
+        <button className="btn btn--soft"><Icon name="Download" size={16} />Export</button>
+        {canAdd && <button className="btn btn--primary"><Icon name="Plus" size={16} />Thêm bản ghi</button>}
+      </div>
+    </div>
+  );
 
+  const body = (
+    <>
+      {embed && (
+        <div className="embed-head">
+          <p>{cfg.sub} · {rows.length} bản ghi {scoped && `(giới hạn theo quyền ${ROLES[role].short})`}</p>
+          <div className="head-actions">
+            <button className="btn btn--soft"><Icon name="Download" size={16} />Export</button>
+            {canAdd && <button className="btn btn--primary"><Icon name="Plus" size={16} />Thêm bản ghi</button>}
+          </div>
+        </div>
+      )}
       <div className="card">
         <div className="toolbar">
           <div className="search">
@@ -105,6 +120,14 @@ export default function RecordTable({ catalogKey, catalogs = CATALOGS, drawerTyp
           </table>
         </div>
       </div>
+    </>
+  );
+
+  if (embed) return body;
+  return (
+    <Page>
+      {head}
+      {body}
     </Page>
   );
 }

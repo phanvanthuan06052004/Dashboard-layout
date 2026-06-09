@@ -482,3 +482,46 @@ img { display:block; max-width:100%; }
 .grid--stats.cols-7{ grid-template-columns:repeat(4,1fr); }
 @media (max-width:1180px){ .grid--stats.cols-5,.grid--stats.cols-7{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:880px){ .grid--stats.cols-5,.grid--stats.cols-7{ grid-template-columns:1fr; } }
+
+/* ============================================================
+   HR mở rộng theo file CSDL — Tabs / Heatmap / 9-box / Level
+   ============================================================ */
+/* ---------- Tabs (segmented control) ---------- */
+.tabs{ display:flex; gap:6px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:5px; margin-bottom:18px; overflow-x:auto; box-shadow:var(--shadow-sm); }
+.tab{ display:inline-flex; align-items:center; gap:7px; padding:9px 14px; border-radius:10px; font-weight:700; font-size:13px; color:var(--ink-500); white-space:nowrap; transition:.15s; }
+.tab:hover{ background:var(--violet-50); color:var(--violet-600); }
+.tab.is-active{ background:linear-gradient(135deg,var(--violet-600),var(--violet-500)); color:#fff; box-shadow:0 6px 14px rgba(124,58,237,.25); }
+.tab .lucide{ color:currentColor; }
+.tab__count{ font-size:11px; font-weight:700; background:rgba(15,18,34,.07); padding:1px 7px; border-radius:99px; }
+.tab.is-active .tab__count{ background:rgba(255,255,255,.25); }
+
+/* ---------- Embed table head (table trong tab) ---------- */
+.embed-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+.embed-head p{ color:var(--ink-400); font-size:13px; }
+
+/* ---------- Level dots (đánh giá 1-5) ---------- */
+.lvl{ display:inline-flex; align-items:center; gap:3px; }
+.lvl i{ width:8px; height:8px; border-radius:50%; background:var(--line-2); display:inline-block; }
+.lvl i.on{ background:var(--violet-600); }
+.lvl b{ margin-left:6px; font-size:12px; color:var(--ink-600); font-variant-numeric:tabular-nums; }
+
+/* ---------- Competency heatmap ---------- */
+.heat{ width:100%; border-collapse:separate; border-spacing:6px; }
+.heat th{ font-size:11.5px; font-weight:700; color:var(--ink-400); text-transform:uppercase; letter-spacing:.03em; padding:4px 6px; text-align:center; white-space:nowrap; }
+.heat th:first-child{ text-align:left; }
+.heat__dept{ font-size:13px; font-weight:700; color:var(--ink-900); white-space:nowrap; padding-right:10px; }
+.heat td{ text-align:center; }
+.heat__cell{ display:inline-grid; place-items:center; width:48px; height:36px; border-radius:9px; font-weight:800; font-size:14px; }
+
+/* ---------- 9-box matrix (năng lực × hiệu suất) ---------- */
+.ninebox{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.nb-cell{ border:1px solid var(--line); border-radius:14px; padding:12px; min-height:104px; display:flex; flex-direction:column; gap:10px; background:var(--bg); }
+.nb-cell--green{ background:var(--green-50); border-color:#bbecd6; }
+.nb-cell--red{ background:var(--red-50); border-color:#f6c9c9; }
+.nb-cell--violet{ background:var(--violet-50); border-color:var(--violet-200); }
+.nb-people{ display:flex; flex-wrap:wrap; gap:5px; margin-top:auto; }
+.nb-person .avatar{ width:30px; height:30px; box-shadow:0 0 0 2px #fff; }
+.nb-axis{ display:flex; gap:20px; flex-wrap:wrap; margin-top:14px; font-size:12px; color:var(--ink-400); font-weight:600; }
+.nb-axis span{ display:inline-flex; align-items:center; gap:5px; }
+.nb-axis .lucide{ color:var(--violet-600); }
+@media (max-width:880px){ .ninebox{ grid-template-columns:1fr; } }

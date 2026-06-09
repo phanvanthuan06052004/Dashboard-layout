@@ -85,7 +85,7 @@ export const applicants = [
    NHÂN SỰ — nguồn dữ liệu trung tâm (mỗi người có nested
    contract / comp / docs). Các danh mục khác derive từ đây.
    ============================================================ */
-export const employees = [
+const RAW_EMPLOYEES = [
   {
     id: "II023928", name: "Hồ Thị Thanh Thùy", img: 47, gender: "Nữ",
     dept: "Nhân sự", title: "Trưởng phòng Nhân sự", manager: "Quỳnh Nguyễn", team: "hr", status: "fulltime",
@@ -198,10 +198,56 @@ export const employees = [
   },
 ];
 
+/* ============================================================
+   Sheet 01 — Sổ QL Nhân sự: bổ sung các trường còn thiếu theo
+   yêu cầu HR (email công việc, MST, BHXH, ngân hàng, loại hình,
+   hình thức làm việc, trạng thái nhân sự, dân tộc, quốc tịch...).
+   Giữ literal RAW_EMPLOYEES gọn, merge phần mở rộng qua EMP_EXTRA.
+   ============================================================ */
+const EMP_EXTRA = {
+  II023928: { emailWork: "thuy.ho@bambuup.com", mst: "8012345678", bhxh: "0123456789", bank: "0021000123456", bankName: "Vietcombank", level: "Manager", empType: "Full-time", workMode: "office", location: "VP Hà Nội", startDate: "06/01/2018", source: "Tuyển dụng nội bộ (Referral)", workStatus: "active", lastDay: "—", marital: "Đã kết hôn", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  II020337: { emailWork: "huyen.nguyen@bambuup.com", mst: "8023456789", bhxh: "0123456790", bank: "1903123456789", bankName: "Techcombank", level: "Manager", empType: "Full-time", workMode: "office", location: "VP Hà Nội", startDate: "06/09/2020", source: "VietnamWorks", workStatus: "active", lastDay: "—", marital: "Đã kết hôn", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  D00046: { emailWork: "cao.nguyen@bambuup.com", mst: "8034567890", bhxh: "0123456791", bank: "0691000234567", bankName: "Vietcombank", level: "Executive", empType: "Full-time", workMode: "hybrid", location: "VP Hà Nội", startDate: "24/07/2022", source: "LinkedIn", workStatus: "active", lastDay: "—", marital: "Đã kết hôn", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  II025100: { emailWork: "giang.nguyen@bambuup.com", mst: "8045678901", bhxh: "0123456792", bank: "1903234567890", bankName: "Techcombank", level: "Manager", empType: "Full-time", workMode: "hybrid", location: "VP Hà Nội", startDate: "13/07/2025", source: "LinkedIn", workStatus: "active", lastDay: "—", marital: "Đã kết hôn", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  II124120: { emailWork: "an.dinh@bambuup.com", mst: "8056789012", bhxh: "0123456793", bank: "0011004345678", bankName: "BIDV", level: "Executive", empType: "Full-time", workMode: "office", location: "VP Hà Nội", startDate: "20/03/2024", source: "TopCV", workStatus: "active", lastDay: "—", marital: "Độc thân", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  II024248: { emailWork: "phuong.bui@bambuup.com", mst: "8067890123", bhxh: "0123456794", bank: "0021000456789", bankName: "Vietcombank", level: "Executive", empType: "Full-time", workMode: "office", location: "VP Hà Nội", startDate: "01/03/2023", source: "Referral", workStatus: "active", lastDay: "—", marital: "Đã kết hôn", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  II025203: { emailWork: "tuyet.phan@bambuup.com", mst: "—", bhxh: "—", bank: "1903456789012", bankName: "Techcombank", level: "Executive", empType: "Full-time", workMode: "hybrid", location: "VP HCM", startDate: "16/11/2025", source: "Career Site", workStatus: "probation", lastDay: "—", marital: "Độc thân", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  II025159: { emailWork: "trang.ha@bambuup.com", mst: "—", bhxh: "—", bank: "0011005567890", bankName: "BIDV", level: "Trainee", empType: "Trainee (Thực tập sinh)", workMode: "office", location: "VP HCM", startDate: "01/10/2025", source: "Tuyển dụng nội bộ (Referral)", workStatus: "probation", lastDay: "—", marital: "Độc thân", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  II125086: { emailWork: "dat.bui@bambuup.com", mst: "—", bhxh: "—", bank: "0021000678901", bankName: "Vietcombank", level: "Trainee", empType: "Trainee (Thực tập sinh)", workMode: "remote", location: "Remote", startDate: "18/05/2025", source: "Facebook", workStatus: "active", lastDay: "—", marital: "Độc thân", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+  II022709: { emailWork: "anh.bui@bambuup.com", mst: "8089012345", bhxh: "0123456795", bank: "1903567890123", bankName: "Techcombank", level: "Executive", empType: "Full-time", workMode: "office", location: "VP HCM", startDate: "13/03/2022", source: "VietnamWorks", workStatus: "active", lastDay: "—", marital: "Độc thân", ethnicity: "Kinh", nationality: "Việt Nam", religion: "Không" },
+};
+
+export const employees = RAW_EMPLOYEES.map((e) => ({ ...e, ...EMP_EXTRA[e.id] }));
+
 /* ---------- Danh mục derive từ employees ---------- */
-export const contracts = employees.map((e) => ({ id: e.id, name: e.name, img: e.img, dept: e.dept, team: e.team, ...e.contract }));
-export const compensation = employees.map((e) => ({ id: e.id, name: e.name, img: e.img, dept: e.dept, team: e.team, title: e.title, ...e.comp }));
-export const documents = employees.map((e) => ({ id: e.id, name: e.name, img: e.img, dept: e.dept, team: e.team, ...e.docs }));
+// Sheet 02 — HĐLĐ: bổ sung số HĐ, trạng thái ký kết, lương ký kết, phạm vi CV.
+const SIGN_BY = ["signed", "signed", "signed", "signed", "sent", "signed", "reviewing", "sent", "drafting", "signed"];
+export const contracts = employees.map((e, i) => ({
+  id: e.id, name: e.name, img: e.img, dept: e.dept, team: e.team, ...e.contract,
+  no: `HD-2026-${String(i + 1).padStart(3, "0")}`,
+  signStatus: SIGN_BY[i] || "signed",
+  signSalary: e.comp.base,
+  scope: e.title,
+  draftLink: "drive/draft", signedLink: e.contract.hdldStart !== "—" ? "drive/signed" : "—",
+}));
+// Sheet 05 — Bảng lương C&B: bổ sung cấu trúc lương 3P, công, OT, BHXH NLĐ, thuế TNCN.
+const num = (s) => Number(String(s).replace(/[^\d]/g, "")) || 0;
+const vnd = (n) => n.toLocaleString("vi-VN") + "đ";
+export const compensation = employees.map((e) => {
+  const base = num(e.comp.base);
+  return {
+    id: e.id, name: e.name, img: e.img, dept: e.dept, team: e.team, title: e.title, ...e.comp,
+    period: "PR_2026_06", standardDays: 22, actualDays: 21,
+    positionPay: vnd(Math.round(base * 0.5)),   // P1 — lương vị trí (trách nhiệm)
+    competencyPay: vnd(Math.round(base * 0.3)),  // P2 — lương năng lực
+    performancePay: vnd(Math.round(base * 0.2)), // P3 — lương hiệu suất
+    lunch: "730.000đ", fuel: "500.000đ",
+    bhxhEmp: vnd(Math.round(base * 0.105)),      // NLĐ đóng 10.5%
+    bhxhCompany: vnd(Math.round(base * 0.215)),  // Công ty đóng 21.5%
+    pit: vnd(Math.round(base * 0.05)),           // thuế TNCN (ước tính demo)
+  };
+});
+export const documents = employees.map((e) => ({ id: e.id, name: e.name, img: e.img, dept: e.dept, team: e.team, empType: e.empType, ...e.docs }));
 
 /* ---------- Nghỉ phép (Leave Requests) ---------- */
 export const leaveRequests = [
@@ -239,7 +285,7 @@ export const pipelineColumns = [
   { id: "offer", title: "Offer", dot: "#10b981" },
 ];
 
-export const candidates = [
+const RAW_CANDIDATES = [
   { id: "c1", col: "applied", name: "Liam Carter", role: "Senior Backend", img: 11, since: "2 ngày", email: "liam@mail.com", phone: "0911 111 111", source: "LinkedIn", exp: "6 năm", expected: "55.000.000đ", stage: "Chờ sàng lọc CV" },
   { id: "c2", col: "applied", name: "Mason Turner", role: "Sales Exec", img: 15, since: "3 ngày", email: "mason@mail.com", phone: "0911 222 222", source: "TopCV", exp: "3 năm", expected: "20.000.000đ", stage: "Chờ sàng lọc CV" },
   { id: "c3", col: "applied", name: "Nora Wells", role: "UX Researcher", img: 31, since: "4 ngày", email: "nora@mail.com", phone: "0911 333 333", source: "Referral", exp: "4 năm", expected: "30.000.000đ", stage: "Chờ sàng lọc CV" },
@@ -251,6 +297,20 @@ export const candidates = [
   { id: "c9", col: "offer", name: "Sofia L.", role: "Finance Lead", img: 32, since: "chờ ký", email: "sofia.l@mail.com", phone: "0911 999 999", source: "Referral", exp: "8 năm", expected: "55.000.000đ", stage: "Đã gửi offer" },
   { id: "c10", col: "offer", name: "Marcus G.", role: "Product Designer", img: 68, since: "đã nhận", email: "marcus.g@mail.com", phone: "0911 000 000", source: "LinkedIn", exp: "5 năm", expected: "38.000.000đ", stage: "Đã nhận offer" },
 ];
+
+/* Sheet 06 — Quản lý ứng viên: bổ sung trường CV/Thư xin việc/Trường học/
+   Ngành học + Đánh giá CV bằng AI (mô tả & quyết định Fit/Consider). */
+const CAND_SCHOOLS = ["ĐH Bách khoa HN", "ĐH Kinh tế Quốc dân", "ĐH FPT", "RMIT", "ĐH Ngoại thương", "ĐH Bách khoa HCM", "ĐH KHXH&NV", "ĐH Mỹ thuật CN", "Học viện Tài chính", "ĐH Kinh tế TP.HCM"];
+const CAND_MAJORS = ["CNTT", "Marketing", "UX/UI Design", "Khoa học dữ liệu", "Quản trị KD", "Hệ thống TT", "Truyền thông", "Thiết kế đồ họa", "Tài chính", "Quản trị KD"];
+export const candidates = RAW_CANDIDATES.map((c, i) => ({
+  ...c,
+  reqId: `REQ-2026-00${(i % 5) + 1}`,
+  cvLink: "drive/cv-goc", coverLink: "drive/thu-xin-viec", otherLink: "—",
+  school: CAND_SCHOOLS[i] || "—", major: CAND_MAJORS[i] || "—",
+  livingPlace: i % 2 === 0 ? "Hà Nội" : "TP.HCM",
+  aiEval: `AI đánh giá: phù hợp ~${72 + i * 2}% so với JD (kinh nghiệm ${c.exp}, nguồn ${c.source}).`,
+  aiDecision: c.col === "offer" || c.col === "interview" ? "Fit" : c.col === "screening" ? "Consider" : "Chờ đánh giá",
+}));
 
 export const performance = [
   { name: "Hồ Thị Thanh Thùy", img: 47, dept: "Nhân sự", task: 38, presence: 28, meeting: 18, score: 96 },

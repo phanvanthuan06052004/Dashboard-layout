@@ -17,18 +17,25 @@ const GROUPS = [
     label: "Tuyển dụng",
     items: [
       { to: "/candidates", page: "candidates", icon: "UserSearch", label: "Hồ sơ ứng viên", badge: "421" },
-      { to: "/jobs", page: "jobs", icon: "Briefcase", label: "Job Descriptions" },
+      { to: "/recruitment", page: "recruitment", icon: "ClipboardList", label: "Quản lý tuyển dụng" },
       { to: "/interviews", page: "interviews", icon: "MessagesSquare", label: "Interviews", badge: "12" },
-      { to: "/offers", page: "offers", icon: "FileCheck", label: "Offers" },
     ],
   },
   {
     label: "Nhân sự",
     items: [
       { to: "/employees", page: "employees", icon: "Users", label: "Thông tin nhân sự" },
-      { to: "/contracts", page: "contracts", icon: "FileText", label: "Hợp đồng" },
+      { to: "/contracts", page: "contracts", icon: "FileText", label: "Hợp đồng (HĐLĐ)" },
+      { to: "/legaldocs", page: "legaldocs", icon: "Scale", label: "Văn bản pháp lý" },
       { to: "/documents", page: "documents", icon: "FolderOpen", label: "Hồ sơ tài liệu" },
+    ],
+  },
+  {
+    label: "Năng lực & Đào tạo",
+    items: [
       { to: "/performance", page: "performance", icon: "TrendingUp", label: "Performance & KPI" },
+      { to: "/learning", page: "learning", icon: "GraduationCap", label: "Đào tạo & Năng lực" },
+      { to: "/pulse", page: "pulse", icon: "HeartHandshake", label: "Pulse Survey" },
     ],
   },
   {
@@ -36,7 +43,10 @@ const GROUPS = [
     items: [
       { to: "/attendance", page: "attendance", icon: "Clock", label: "Checkin" },
       { to: "/leave", page: "leave", icon: "CalendarOff", label: "Nghỉ phép" },
-      { to: "/payroll", page: "payroll", icon: "Wallet", label: "Lương thưởng" },
+      { to: "/leavebalance", page: "leavebalance", icon: "CalendarHeart", label: "Phép năm" },
+      { to: "/dependents", page: "dependents", icon: "Users", label: "Người phụ thuộc" },
+      { to: "/payroll", page: "payroll", icon: "Wallet", label: "Lương thưởng (C&B)" },
+      { to: "/salaryscale", page: "salaryscale", icon: "Ruler", label: "Thang bảng lương" },
     ],
   },
   {

@@ -19,6 +19,18 @@ const STATUS = {
   renewal: ["violet", "Gia hạn"],
   // ---- Exec risk levels ----
   high: ["red", "Mức cao"], medium: ["amber", "Mức vừa"], low: ["blue", "Mức thấp"],
+  // ---- HR: trạng thái ký kết văn bản (Sheet 02/03) ----
+  signed: ["green", "Đã ký kết"], sent: ["blue", "Đã gửi"], reviewing: ["amber", "Chờ duyệt"], drafting: ["slate", "Dự thảo"],
+  // ---- HR: trạng thái Offer (Sheet 06) ----
+  confirmed: ["green", "Đã confirm"], preparing: ["blue", "Chuẩn bị HĐ"],
+  // ---- HR: trạng thái thưởng Referral (Sheet 06) ----
+  passed: ["blue", "Hồ sơ đạt"], paid: ["green", "Đã chi thưởng"],
+  // ---- HR: trạng thái nhân sự (Sheet 01) ----
+  terminated: ["red", "Đã nghỉ"],
+  // ---- HR: L&D / IDP & training (Sheet 08) ----
+  notstarted: ["slate", "Chưa bắt đầu"], doing2: ["blue", "Đang học"],
+  // ---- HR: đánh giá CV (Sheet 06) ----
+  Fit: ["green", "Fit"], Consider: ["amber", "Consider"], "Chờ đánh giá": ["slate", "Chờ đánh giá"],
 };
 
 // Contract type → tone
@@ -33,6 +45,32 @@ export function Tag({ status, tone, children }) {
     return <span className={`tag tag--${t}`}><span className="dotmini" />{label}</span>;
   }
   return <span className={`tag tag--${tone || "slate"}`}>{children}</span>;
+}
+
+/* ---- HR shared cell renderers (dùng cho RecordTable + DrillDrawer) ---- */
+const COMP_GROUP = { core: ["violet", "Cốt lõi"], technical: ["blue", "Chuyên môn"], leadership: ["amber", "Lãnh đạo"] };
+export function CompGroup({ g }) {
+  const [t, l] = COMP_GROUP[g] || ["slate", g];
+  return <span className={`tag tag--${t}`}>{l}</span>;
+}
+export function Level({ v }) {
+  const n = Number(v) || 0;
+  return (
+    <span className="lvl">
+      {[1, 2, 3, 4, 5].map((i) => <i key={i} className={i <= n ? "on" : ""} />)}
+      <b>{n}/5</b>
+    </span>
+  );
+}
+export function GapTag({ v }) {
+  const n = Number(v);
+  if (Number.isNaN(n)) return <span>—</span>;
+  const t = n < 0 ? "red" : n > 0 ? "green" : "slate";
+  return <span className={`tag tag--${t}`}>{n > 0 ? `+${n}` : n}{n < 0 ? " · cần đào tạo" : ""}</span>;
+}
+export function YesNo({ v }) {
+  const yes = v === "Có" || v === true || v === "Yes";
+  return <span className={`tag tag--${yes ? "green" : "slate"}`}>{yes ? "Có" : "Không"}</span>;
 }
 
 export function Page({ children }) {

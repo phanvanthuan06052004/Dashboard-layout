@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Icon from "./Icon";
-import { Tag, ContractTag } from "./ui";
+import { Tag, ContractTag, CompGroup, Level, GapTag } from "./ui";
 import { useApp } from "../context/AppContext";
 import { CANDIDATE_FIELDS, PROJECT_FIELDS, splitFields, ROLES } from "../data/roles";
 import { MARCOM_CAMPAIGN_FIELDS, MARCOM_LEAD_FIELDS, MARCOM_CONTENT_FIELDS, CE_DEAL_FIELDS } from "../data/workspaceRoles";
@@ -10,6 +10,9 @@ function fieldValue(field, data) {
   const v = field.get ? field.get(data) : data[field.key];
   if (field.type === "status") return <Tag status={v} />;
   if (field.type === "contract") return <ContractTag type={v} />;
+  if (field.type === "compGroup") return <CompGroup g={v} />;
+  if (field.type === "level") return <Level v={v} />;
+  if (field.type === "gap") return <GapTag v={v} />;
   if (field.type === "doc") return v === "x"
     ? <span style={{ color: "var(--green-500)", fontWeight: 700 }}>✓ Đã có</span>
     : <span style={{ color: "var(--ink-400)" }}>Chưa có</span>;
