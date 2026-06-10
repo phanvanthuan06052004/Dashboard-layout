@@ -23,6 +23,7 @@ import Learning from "./pages/Learning";
 import PulseSurvey from "./pages/PulseSurvey";
 import Login from "./pages/Login";
 import AdminConsole from "./pages/admin/AdminConsole";
+import AdminModule from "./pages/admin/AdminModule";
 import AdminUsers from "./pages/admin/Users";
 import RolesPermissions from "./pages/admin/RolesPermissions";
 import AuditLog from "./pages/admin/AuditLog";
@@ -32,6 +33,8 @@ import FinanceDashboard from "./pages/accounting/FinanceDashboard";
 import FinanceModule from "./pages/accounting/FinanceModule";
 
 const FINANCE_MODULES = ["invoices", "payments", "expenses", "journal", "ar", "ap", "bank", "fcontracts"];
+// Cụm Admin / Vận hành — bám sát file "Admin Operations Tracker".
+const ADMIN_MODULES = ["commercial", "pnl", "receivables", "payables", "contracts", "vendors", "procurement", "companydocs", "assets", "services"];
 
 // Marcom pages
 import MarcomOverview from "./pages/marcom/MarcomOverview";
@@ -85,6 +88,7 @@ function AccountantGuard({ children }) {
 function HomeRedirect() {
   const { role } = useApp();
   if (role === "accountant") return <Navigate to="/accounting" replace />;
+  if (role === "admin") return <Navigate to="/admin" replace />;
   return <Overview />;
 }
 
@@ -137,8 +141,12 @@ export default function App() {
             {Object.keys(PH).map((page) => (
               <Route key={page} path={page} element={<Guard page={page}><PlaceholderRoute page={page} /></Guard>} />
             ))}
-            {/* Cụm Quản trị hệ thống — chỉ Admin */}
+            {/* Cụm Admin / Vận hành — Admin Console + 10 module theo file */}
             <Route path="admin" element={<AdminGuard><AdminConsole /></AdminGuard>} />
+            {ADMIN_MODULES.map((key) => (
+              <Route key={key} path={`admin/${key}`} element={<AdminGuard><AdminModule key={key} catalogKey={key} /></AdminGuard>} />
+            ))}
+            {/* Cụm Quản trị hệ thống — chỉ Admin */}
             <Route path="admin/users" element={<AdminGuard><AdminUsers /></AdminGuard>} />
             <Route path="admin/roles" element={<AdminGuard><RolesPermissions /></AdminGuard>} />
             <Route path="admin/audit" element={<AdminGuard><AuditLog /></AdminGuard>} />

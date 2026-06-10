@@ -5,7 +5,7 @@ import AdminDrawer from "../admin/AdminDrawer";
 /* Drawer thêm/sửa bản ghi tài chính. Dùng vỏ AdminDrawer + form theo config.fields.
    Cha truyền key đổi mỗi lần mở → remount & seed lại form từ `initial` (lazy init).
    props: open, mode("add"|"edit"), config, initial, onSave(row), onDelete(id), onClose */
-export default function RecordFormDrawer({ open, mode, config, initial, onSave, onDelete, onClose }) {
+export default function RecordFormDrawer({ open, mode, config, initial, onSave, onDelete, onClose, chip = "Kế toán" }) {
   const [form, setForm] = useState(() => (initial ? { ...initial } : {}));
 
   if (!config) return null;
@@ -17,7 +17,7 @@ export default function RecordFormDrawer({ open, mode, config, initial, onSave, 
     <AdminDrawer
       open={open}
       onClose={onClose}
-      chip="Kế toán"
+      chip={chip}
       title={mode === "add" ? `Thêm: ${config.title}` : config.recordTitle}
       sub={mode === "add" ? "Nhập thông tin bản ghi mới" : "Xem & chỉnh sửa bản ghi"}
       footer={

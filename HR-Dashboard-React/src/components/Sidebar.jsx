@@ -82,17 +82,50 @@ const ACCOUNTANT_GROUPS = [
 ];
 
 // Cụm chỉ hiện cho Admin (render có điều kiện, không nằm trong GROUPS chung).
-const ADMIN_GROUP = {
-  label: "Quản trị hệ thống",
-  items: [
-    { to: "/admin", icon: "ShieldCheck", label: "Admin Console", end: true },
-    { to: "/admin/users", icon: "Users", label: "Người dùng" },
-    { to: "/admin/roles", icon: "LayoutGrid", label: "Vai trò & Phân quyền" },
-    { to: "/admin/audit", icon: "History", label: "Nhật ký hoạt động" },
-    { to: "/admin/integrations", icon: "Database", label: "Tích hợp & Data Layer" },
-    { to: "/admin/settings", icon: "Settings", label: "Cấu hình hệ thống" },
-  ],
-};
+// Cấu trúc bám sát file "Admin Operations Tracker" của công ty.
+const ADMIN_GROUPS = [
+  {
+    label: "Tổng quan vận hành",
+    items: [
+      { to: "/admin", icon: "LayoutDashboard", label: "Admin Console", end: true },
+    ],
+  },
+  {
+    label: "Kinh doanh & Tài chính dự án",
+    items: [
+      { to: "/admin/commercial", icon: "GitBranch", label: "Commercial Tracker" },
+      { to: "/admin/pnl", icon: "PieChart", label: "P&L Dự án" },
+      { to: "/admin/receivables", icon: "ArrowDownLeft", label: "Công nợ phải thu (AR)" },
+      { to: "/admin/payables", icon: "ArrowUpRight", label: "Công nợ phải trả (AP)" },
+    ],
+  },
+  {
+    label: "Hợp đồng & Mua sắm",
+    items: [
+      { to: "/admin/contracts", icon: "FileSignature", label: "Hợp đồng" },
+      { to: "/admin/vendors", icon: "Store", label: "Nhà cung cấp (NCC)" },
+      { to: "/admin/procurement", icon: "ShoppingCart", label: "Mua sắm (PR/PO)" },
+    ],
+  },
+  {
+    label: "Pháp lý & Tài sản",
+    items: [
+      { to: "/admin/companydocs", icon: "FolderLock", label: "Hồ sơ công ty" },
+      { to: "/admin/assets", icon: "Laptop", label: "Tài sản" },
+      { to: "/admin/services", icon: "Repeat", label: "VP & Dịch vụ định kỳ" },
+    ],
+  },
+  {
+    label: "Quản trị hệ thống",
+    items: [
+      { to: "/admin/users", icon: "Users", label: "Người dùng" },
+      { to: "/admin/roles", icon: "LayoutGrid", label: "Vai trò & Phân quyền" },
+      { to: "/admin/audit", icon: "History", label: "Nhật ký hoạt động" },
+      { to: "/admin/integrations", icon: "Database", label: "Tích hợp & Data Layer" },
+      { to: "/admin/settings", icon: "Settings", label: "Cấu hình hệ thống" },
+    ],
+  },
+];
 
 export default function Sidebar({ open, onClose }) {
   const { role } = useApp();
@@ -103,7 +136,7 @@ export default function Sidebar({ open, onClose }) {
         <Logo size={40} />
         <div className="brand__meta">
           <span className="brand__name">Bambu<span className="brand__up">UP</span></span>
-          <span className="brand__sub">HR Workspace</span>
+          <span className="brand__sub">{role === "admin" ? "Admin Workspace" : "HR Workspace"}</span>
         </div>
       </div>
 
@@ -116,6 +149,7 @@ export default function Sidebar({ open, onClose }) {
                 key={it.to}
                 to={it.to}
                 end={it.end}
+                onClick={onClose}
                 className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
               >
                 <Icon name={it.icon} /><span>{it.label}</span>
@@ -123,42 +157,48 @@ export default function Sidebar({ open, onClose }) {
             ))}
           </div>
         ))}
-        {GROUPS.map((g) => {
-          // Ẩn hẳn mục không có quyền; nhóm rỗng thì ẩn luôn nhãn nhóm.
-          const items = g.items.filter((it) => canAccess(role, it.page));
-          if (!items.length) return null;
-          return (
+
+        {/* Admin: chỉ hiển thị cụm vận hành (theo file) — ẩn các nhóm HR để giữ trọng tâm. */}
+        {role === "admin" ? (
+          ADMIN_GROUPS.map((g) => (
             <div className="nav__group" key={g.label}>
               <p className="nav__label">{g.label}</p>
-              {items.map((it) => (
+              {g.items.map((it) => (
                 <NavLink
-                  key={it.page}
+                  key={it.to}
                   to={it.to}
                   end={it.end}
+                  onClick={onClose}
                   className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
                 >
                   <Icon name={it.icon} /><span>{it.label}</span>
-                  {it.badge && <span className="badge">{it.badge}</span>}
                 </NavLink>
               ))}
             </div>
-          );
-        })}
-
-        {role === "admin" && (
-          <div className="nav__group">
-            <p className="nav__label">{ADMIN_GROUP.label}</p>
-            {ADMIN_GROUP.items.map((it) => (
-              <NavLink
-                key={it.to}
-                to={it.to}
-                end={it.end}
-                className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
-              >
-                <Icon name={it.icon} /><span>{it.label}</span>
-              </NavLink>
-            ))}
-          </div>
+          ))
+        ) : (
+          GROUPS.map((g) => {
+            // Ẩn hẳn mục không có quyền; nhóm rỗng thì ẩn luôn nhãn nhóm.
+            const items = g.items.filter((it) => canAccess(role, it.page));
+            if (!items.length) return null;
+            return (
+              <div className="nav__group" key={g.label}>
+                <p className="nav__label">{g.label}</p>
+                {items.map((it) => (
+                  <NavLink
+                    key={it.page}
+                    to={it.to}
+                    end={it.end}
+                    onClick={onClose}
+                    className={({ isActive }) => "nav__item" + (isActive ? " is-active" : "")}
+                  >
+                    <Icon name={it.icon} /><span>{it.label}</span>
+                    {it.badge && <span className="badge">{it.badge}</span>}
+                  </NavLink>
+                ))}
+              </div>
+            );
+          })
         )}
       </nav>
 
