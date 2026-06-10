@@ -8,7 +8,7 @@ import {
   me, avatar, stats, statDetail, headcountByDept, attendance,
   tasks as taskData, interviews, compliance, applicants, projects,
 } from "../data/mockData";
-import { redAlerts, contractAlerts, recruitmentFunnel, docCompleteness } from "../data/hrData";
+import { redAlerts, contractAlerts, recruitmentFunnel, docCompleteness, upcomingBirthdays, probationReviews } from "../data/hrData";
 
 export default function Overview() {
   const { role, openDrawer } = useApp();
@@ -21,6 +21,9 @@ export default function Overview() {
 
   // Member sees only own tasks (demo: assigned to self / first two)
   const myTasks = isMember ? taskState.slice(0, 3) : taskState;
+
+  // Số nhân sự có sinh nhật đúng hôm nay (để hiển thị badge nhắc nhở)
+  const birthdaysToday = upcomingBirthdays.filter((b) => b.daysLeft === 0).length;
 
   return (
     <Page>
@@ -240,6 +243,74 @@ export default function Overview() {
                   <span className={`tag tag--${c.daysLeft <= 5 ? "red" : "amber"}`}>Còn {c.daysLeft} ngày</span>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sinh nhật sắp tới + Đánh giá nhân sự thử việc */}
+      {!isMember && (
+        <div className="grid grid--2 mt">
+          <div className="card">
+            <div className="card__head">
+              <h3><Icon name="Gift" size={18} />DS sắp tới ngày sinh nhật</h3>
+              {birthdaysToday > 0
+                ? <span className="tag tag--green">{birthdaysToday} sinh nhật hôm nay 🎉</span>
+                : <span className="tag tag--violet">{upcomingBirthdays.length} sắp tới</span>}
+            </div>
+            <div className="table-wrap">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Mã nhân viên</th><th>Họ tên</th><th>Ngày sinh</th><th style={{ textAlign: "right" }}>Số ngày còn lại</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {upcomingBirthdays.map((b) => {
+                    const today = b.daysLeft === 0;
+                    return (
+                      <tr key={b.id} style={today ? { background: "var(--green-50, #dcfce7)" } : undefined}>
+                        <td><b>{b.id}</b></td>
+                        <td>{b.name}</td>
+                        <td>{today ? "—" : b.dob}</td>
+                        <td style={{ textAlign: "right" }}>
+                          {today
+                            ? <span className="tag tag--green">Hôm nay 🎂</span>
+                            : <b>{b.daysLeft} ngày</b>}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card__head">
+              <h3><Icon name="ClipboardCheck" size={18} />DS đánh giá nhân sự thử việc</h3>
+              <span className="tag tag--amber">{probationReviews.length} cần đánh giá</span>
+            </div>
+            <div className="table-wrap">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Mã nhân viên</th><th>Họ tên</th><th>Ngày KT thử việc</th><th style={{ textAlign: "right" }}>Số ngày còn lại</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {probationReviews.map((p) => (
+                    <tr key={p.id}>
+                      <td><b>{p.id}</b></td>
+                      <td>{p.name}</td>
+                      <td>{p.endDate}</td>
+                      <td style={{ textAlign: "right" }}>
+                        <span className={`tag tag--${p.daysLeft <= 15 ? "red" : p.daysLeft <= 30 ? "amber" : "slate"}`}>Còn {p.daysLeft} ngày</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

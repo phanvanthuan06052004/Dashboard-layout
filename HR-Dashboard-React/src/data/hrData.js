@@ -204,3 +204,34 @@ export const channelEfficiency = [
 
 /* Tỷ lệ đầy đủ hồ sơ toàn diện (Document completeness) */
 export const docCompleteness = { clean: 64, partial: 28, missing: 8 };
+
+/* ============================================================
+   DS SẮP TỚI NGÀY SINH NHẬT — nhắc sinh nhật nhân sự
+   daysLeft: số ngày còn lại tới sinh nhật (0 = đúng hôm nay).
+   ============================================================ */
+export const upcomingBirthdays = [
+  { id: "BBU-0021", name: "Võ Ngọc Bảo Uyên",  dob: "10/06/2002", daysLeft: 0 },
+  { id: "BBU-0023", name: "Phan Quỳnh Như",     dob: "10/06/2001", daysLeft: 0 },
+  { id: "BBU-0020", name: "Quách Minh Châu",    dob: "21/06/1992", daysLeft: 11 },
+  { id: "BBU-0001", name: "Nguyễn Hương Giang", dob: "24/06/1981", daysLeft: 14 },
+  { id: "BBU-0002", name: "Nguyễn Thị Tuyết",   dob: "08/07/1986", daysLeft: 28 },
+  { id: "BBU-0018", name: "Phan Thị Đỗ Quyên",  dob: "15/07/1981", daysLeft: 35 },
+  { id: "BBU-0015", name: "Nguyễn Đức Vinh",    dob: "13/08/2004", daysLeft: 64 },
+  { id: "BBU-0006", name: "Nguyễn Thị Mỹ Hạnh", dob: "12/09/1998", daysLeft: 94 },
+  { id: "BBU-0008", name: "Nguyễn Thị Thùy",    dob: "08/10/2003", daysLeft: 120 },
+  { id: "BBU-0009", name: "Nguyễn Hạnh Nhi",    dob: "03/11/2003", daysLeft: 146 },
+  { id: "BBU-0013", name: "Đỗ Phú Luân",        dob: "08/11/2004", daysLeft: 151 },
+  { id: "BBU-0004", name: "Nguyễn Quỳnh Anh",   dob: "25/12/2001", daysLeft: 198 },
+  { id: "BBU-0007", name: "Lê Hoàng Ngọc",      dob: "13/01/2000", daysLeft: 217 },
+];
+
+/* ============================================================
+   DS ĐÁNH GIÁ NHÂN SỰ THỬ VIỆC — nhắc ngày kết thúc thử việc
+   daysLeft: số ngày còn lại tới ngày kết thúc thử việc.
+   ============================================================ */
+export const probationReviews = [
+  { id: "BBU-0018", name: "Phan Thị Đỗ Quyên",  endDate: "03/07/2026", daysLeft: 23 },
+  { id: "BBU-0019", name: "Nguyễn Nhật Lam",    endDate: "03/07/2026", daysLeft: 23 },
+  { id: "BBU-0020", name: "Quách Minh Châu",    endDate: "17/07/2026", daysLeft: 37 },
+  { id: "BBU-0021", name: "Võ Ngọc Bảo Uyên",   endDate: "26/08/2026", daysLeft: 77 },
+];

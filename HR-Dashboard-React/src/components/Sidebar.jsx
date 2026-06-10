@@ -24,6 +24,7 @@ const GROUPS = [
   {
     label: "Nhân sự",
     items: [
+      { to: "/lookup", page: "lookup", icon: "FolderSearch", label: "Tra cứu hồ sơ" },
       { to: "/employees", page: "employees", icon: "Users", label: "Thông tin nhân sự" },
       { to: "/contracts", page: "contracts", icon: "FileText", label: "Hợp đồng (HĐLĐ)" },
       { to: "/legaldocs", page: "legaldocs", icon: "Scale", label: "Văn bản pháp lý" },
@@ -41,7 +42,6 @@ const GROUPS = [
   {
     label: "Chấm công & Lương",
     items: [
-      { to: "/attendance", page: "attendance", icon: "Clock", label: "Checkin" },
       { to: "/leave", page: "leave", icon: "CalendarOff", label: "Nghỉ phép" },
       { to: "/leavebalance", page: "leavebalance", icon: "CalendarHeart", label: "Phép năm" },
       { to: "/dependents", page: "dependents", icon: "Users", label: "Người phụ thuộc" },

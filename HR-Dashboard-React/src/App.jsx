@@ -17,6 +17,7 @@ import Performance from "./pages/Performance";
 import Placeholder from "./pages/Placeholder";
 // HR pages mở rộng theo file CSDL của team HR
 import Recruitment from "./pages/Recruitment";
+import EmployeeLookup from "./pages/EmployeeLookup";
 import SalaryScale from "./pages/SalaryScale";
 import Learning from "./pages/Learning";
 import PulseSurvey from "./pages/PulseSurvey";
@@ -88,7 +89,7 @@ function HomeRedirect() {
 }
 
 // config-driven catalog pages
-const CATALOG_ROUTES = ["employees", "contracts", "payroll", "documents", "leave", "attendance", "jobs"];
+const CATALOG_ROUTES = ["employees", "contracts", "payroll", "documents", "leave", "jobs"];
 
 const PH = {
   tasks: ["Tasks", "CheckSquare", "Quản lý toàn bộ công việc của phòng nhân sự."],
@@ -119,6 +120,7 @@ export default function App() {
           >
             <Route index element={<HomeRedirect />} />
             <Route path="overview" element={<Overview />} />
+            <Route path="lookup" element={<Guard page="lookup"><EmployeeLookup /></Guard>} />
             <Route path="candidates" element={<Guard page="candidates"><Candidates /></Guard>} />
             <Route path="performance" element={<Guard page="performance"><Performance /></Guard>} />
             {/* HR mở rộng theo file CSDL: tuyển dụng / L&D / pulse / thang bảng lương */}

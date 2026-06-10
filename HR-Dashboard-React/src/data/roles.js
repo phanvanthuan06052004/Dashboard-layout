@@ -23,9 +23,9 @@ export const PAGE_ACCESS = {
   ceo: "ALL",
   admin: "ALL",
   accountant: ["overview", "contracts", "payroll", "reports", "tasks", "calendar"],
-  coo:    ["overview", "employees", "contracts", "performance", "attendance", "leave", "leavebalance", "salaryscale", "learning", "pulse", "reports", "tasks", "calendar", "settings"],
-  cgo:    ["overview", "employees", "performance", "attendance", "leave", "learning", "pulse", "reports", "tasks", "calendar"],
-  head:   ["overview", "candidates", "recruitment", "jobs", "interviews", "offers", "referrals", "employees", "contracts", "legaldocs", "documents", "performance", "learning", "pulse", "attendance", "leave", "leavebalance", "dependents", "payroll", "salaryscale", "tasks", "calendar"],
+  coo:    ["overview", "lookup", "employees", "contracts", "performance", "attendance", "leave", "leavebalance", "salaryscale", "learning", "pulse", "reports", "tasks", "calendar", "settings"],
+  cgo:    ["overview", "lookup", "employees", "performance", "attendance", "leave", "learning", "pulse", "reports", "tasks", "calendar"],
+  head:   ["overview", "lookup", "candidates", "recruitment", "jobs", "interviews", "offers", "referrals", "employees", "contracts", "legaldocs", "documents", "performance", "learning", "pulse", "attendance", "leave", "leavebalance", "dependents", "payroll", "salaryscale", "tasks", "calendar"],
   member: ["overview", "tasks", "calendar", "attendance", "leave", "leavebalance", "performance", "learning", "pulse", "payroll"],
 };
 
