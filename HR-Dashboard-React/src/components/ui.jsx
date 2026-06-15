@@ -11,12 +11,28 @@ const STATUS = {
   running: ["green", "Đang chạy"], ended: ["slate", "Đã kết thúc"], scheduled: ["blue", "Đã lên lịch"],
   published: ["green", "Đã đăng"], paused: ["amber", "Tạm dừng"],
   new: ["slate", "Lead mới"], mql: ["amber", "MQL"], sql: ["blue", "SQL"], opp: ["violet", "Opportunity"],
-  // ---- Client Excellence (CRM) ----
+  // ---- Client Excellence (CRM cũ — giữ tương thích) ----
   active: ["green", "Active"], trial: ["blue", "Trial"], churned: ["red", "Đã rời"], prospect: ["amber", "Tiềm năng"],
   healthy: ["green", "Healthy"], atRisk: ["amber", "At-risk"], critical: ["red", "Critical"],
-  won: ["green", "Thắng"], lost: ["red", "Thua"], lead: ["blue", "Tiềm năng"],
-  consulting: ["blue", "Đang tư vấn"], proposal: ["amber", "Đề xuất"], negotiation: ["violet", "Đàm phán"],
+  won: ["green", "Thắng (Won)"], lost: ["red", "Thua (Lost)"], lead: ["blue", "Tiềm năng"],
+  consulting: ["blue", "Đang tư vấn"], proposal: ["amber", "Đề xuất"], negotiation: ["amber", "Đàm phán"],
   renewal: ["violet", "Gia hạn"],
+  // ---- Client Excellence (tái dựng theo CEMS) ----
+  // Account status
+  inDiscussion: ["blue", "Đang trao đổi"], dormant: ["slate", "Tạm ngừng"], former: ["red", "Ngừng hợp tác"], strategic: ["violet", "Tài khoản CL"],
+  // Opportunity stages
+  discussion: ["blue", "Trao đổi"], proposalDev: ["amber", "Soạn Proposal"], submitted: ["violet", "Đã nộp"],
+  // Project status / RAG health
+  planning: ["slate", "Lập kế hoạch"], onHold: ["amber", "Tạm dừng"], completed: ["green", "Hoàn thành"],
+  green: ["green", "Đúng tiến độ"], yellow: ["amber", "Cần chú ý"], red: ["red", "Rủi ro"],
+  // Deliverable status
+  notStarted: ["slate", "Chưa bắt đầu"], inProgress: ["blue", "Đang làm"], inReview: ["violet", "Đang review"], overdueD: ["red", "Quá hạn"],
+  // Startup pipeline rounds
+  applied: ["slate", "Đã nộp đơn"], qualified: ["blue", "Đạt sơ tuyển"], shortlisted: ["amber", "Vào shortlist"], finalist: ["violet", "Chung kết"], winner: ["green", "Quán quân"],
+  // Matchmaking stages
+  matchmaking: ["slate", "Matchmaking"], followup: ["blue", "Follow-up"], businessDiscussion: ["amber", "Bàn hợp tác"], pilot: ["violet", "Pilot/POC"], partnership: ["green", "Partnership"],
+  // Event status
+  upcoming: ["blue", "Sắp diễn ra"], held: ["green", "Đã tổ chức"],
   // ---- Exec risk levels ----
   high: ["red", "Mức cao"], medium: ["amber", "Mức vừa"], low: ["blue", "Mức thấp"],
   // ---- HR: trạng thái ký kết văn bản (Sheet 02/03) ----

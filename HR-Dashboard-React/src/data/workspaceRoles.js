@@ -18,7 +18,9 @@ export const CE_SELF = "Phạm Thảo Vy";
 /* ---------------- Page access (sidebar) ---------------- */
 // head + cấp điều hành (ceo/coo/cgo) thấy mọi trang; member bị giới hạn.
 const MARCOM_MEMBER_PAGES = ["overview", "campaigns", "leads", "content", "assets"];
-const CE_MEMBER_PAGES = ["overview", "pipeline", "accounts", "contacts", "subscriptions", "activities"];
+// CE rebuild theo file yêu cầu: member (CE_SELF) thấy các trang vận hành của mình,
+// ẩn các dashboard quản trị/phân tích team (nguồn lực, sức khoẻ, hiệu suất, báo cáo, settings).
+const CE_MEMBER_PAGES = ["overview", "opportunities", "projects", "deliverables", "accounts", "engagement", "stakeholders", "startups", "matchmaking", "knowledge", "events"];
 
 export function canAccessMarcom(role, page) {
   return role === "member" ? MARCOM_MEMBER_PAGES.includes(page) : true;
@@ -34,6 +36,11 @@ export function scopeMarcom(role, rows, selfName = MARCOM_SELF) {
 }
 export function scopeCE(role, rows, selfName = CE_SELF) {
   if (role === "member") return rows.filter((r) => (r.csm || r.owner) === selfName);
+  return rows;
+}
+// Scope theo field phụ trách tuỳ entity (pm cho project, contributor cho knowledge...).
+export function scopeCEBy(role, rows, key = "owner", selfName = CE_SELF) {
+  if (role === "member") return rows.filter((r) => r[key] === selfName);
   return rows;
 }
 

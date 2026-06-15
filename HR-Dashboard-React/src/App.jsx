@@ -46,14 +46,21 @@ import MarcomBudget from "./pages/marcom/MarcomBudget";
 import MarcomAssets from "./pages/marcom/MarcomAssets";
 import MarcomSettings from "./pages/marcom/MarcomSettings";
 
-// Client Excellence pages
+// Client Excellence pages (tái dựng theo file yêu cầu — 12 dashboard)
 import CeOverview from "./pages/ce/CeOverview";
-import CePipeline from "./pages/ce/CePipeline";
+import CeEngagement from "./pages/ce/CeEngagement";
+import CeOpportunities from "./pages/ce/CeOpportunities";
+import CeProjects from "./pages/ce/CeProjects";
+import CeDeliverables from "./pages/ce/CeDeliverables";
+import CeResources from "./pages/ce/CeResources";
 import CeAccounts from "./pages/ce/CeAccounts";
-import CeContacts from "./pages/ce/CeContacts";
-import CeSubscriptions from "./pages/ce/CeSubscriptions";
 import CeHealth from "./pages/ce/CeHealth";
-import CeActivities from "./pages/ce/CeActivities";
+import CeStakeholders from "./pages/ce/CeStakeholders";
+import CeStartups from "./pages/ce/CeStartups";
+import CeMatchmaking from "./pages/ce/CeMatchmaking";
+import CeEvents from "./pages/ce/CeEvents";
+import CeKnowledge from "./pages/ce/CeKnowledge";
+import CePerformance from "./pages/ce/CePerformance";
 import CeReports from "./pages/ce/CeReports";
 import CeSettings from "./pages/ce/CeSettings";
 
@@ -180,15 +187,22 @@ export default function App() {
             <Route path="settings" element={<MarcomSettings />} />
           </Route>
 
-          {/* Client Excellence workspace */}
+          {/* Client Excellence workspace — 12 dashboard theo CEMS */}
           <Route path="/ce" element={<RequireAuth><RequireTeam team="ce"><CeLayout /></RequireTeam></RequireAuth>}>
             <Route index element={<CeOverview />} />
-            <Route path="pipeline" element={<CePipeline />} />
+            <Route path="engagement" element={<CeEngagement />} />
+            <Route path="opportunities" element={<CeOpportunities />} />
+            <Route path="projects" element={<CeProjects />} />
+            <Route path="deliverables" element={<CeDeliverables />} />
+            <Route path="resources" element={<CeResources />} />
             <Route path="accounts" element={<CeAccounts />} />
-            <Route path="contacts" element={<CeContacts />} />
-            <Route path="subscriptions" element={<CeSubscriptions />} />
             <Route path="health" element={<CeHealth />} />
-            <Route path="activities" element={<CeActivities />} />
+            <Route path="stakeholders" element={<CeStakeholders />} />
+            <Route path="startups" element={<CeStartups />} />
+            <Route path="matchmaking" element={<CeMatchmaking />} />
+            <Route path="events" element={<CeEvents />} />
+            <Route path="knowledge" element={<CeKnowledge />} />
+            <Route path="performance" element={<CePerformance />} />
             <Route path="reports" element={<CeReports />} />
             <Route path="settings" element={<CeSettings />} />
           </Route>

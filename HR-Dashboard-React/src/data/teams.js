@@ -26,7 +26,7 @@ export const TEAMS = {
   },
   ce: {
     id: "ce", name: "Client Excellence", short: "Client Excellence",
-    sub: "Pipeline · Deal · Subscription",
+    sub: "Opportunity · Project · Ecosystem · Impact",
     accent: "#0ea5b7", accentSoft: "#ecfeff", icon: "HeartHandshake",
     home: "/ce", built: true, comingSoon: false, wsClass: "ws--ce",
   },
