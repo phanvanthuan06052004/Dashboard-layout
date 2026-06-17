@@ -42,15 +42,17 @@ export default function CeProjects() {
         </SectionCard>
       </div>
 
-      <SectionCard title="Tiến độ thực tế vs kế hoạch" icon="LineChart" headRight={<span className="tag tag--amber">% hoàn thành lũy kế</span>}>
-        <HiringChart
-          months={ce_projectPlanVsActual.months}
-          applied={ce_projectPlanVsActual.plan}
-          hired={ce_projectPlanVsActual.actual}
-          names={["Kế hoạch %", "Thực tế %"]}
-          colors={[CE_PALETTE.slate, CE_PALETTE.primary]}
-        />
-      </SectionCard>
+      <div className="mt">
+        <SectionCard title="Tiến độ thực tế vs kế hoạch" icon="LineChart" headRight={<span className="tag tag--amber">% hoàn thành lũy kế</span>}>
+          <HiringChart
+            months={ce_projectPlanVsActual.months}
+            applied={ce_projectPlanVsActual.plan}
+            hired={ce_projectPlanVsActual.actual}
+            names={["Kế hoạch %", "Thực tế %"]}
+            colors={[CE_PALETTE.slate, CE_PALETTE.primary]}
+          />
+        </SectionCard>
+      </div>
 
       {/* Project Master list — search + member-scope (pm) + money masking + drill */}
       <div className="card__head" style={{ margin: "22px 0 2px", padding: "0 2px" }}>
@@ -59,6 +61,7 @@ export default function CeProjects() {
       </div>
       <RecordTable embed catalogKey="ceProjects" catalogs={CE_CATALOGS} />
 
+      <div className="mt">
       <SectionCard
         title="Cảnh báo tiến độ dự án"
         icon="BellRing"
@@ -79,6 +82,7 @@ export default function CeProjects() {
           </div>
         ))}
       </SectionCard>
+      </div>
     </Page>
   );
 }

@@ -108,15 +108,17 @@ export default function CeHealth() {
         </div>
       </div>
 
-      <SectionCard title="Xu hướng gắn kết (6 tháng)" icon="LineChart" headRight={<span className="tag tag--green">Health +9</span>}>
-        <HiringChart
-          months={ce_engagementTrend.months}
-          applied={ce_engagementTrend.health}
-          hired={ce_engagementTrend.interactions}
-          names={["Health TB", "Số tương tác"]}
-          colors={[CE_PALETTE.primary, CE_PALETTE.green]}
-        />
-      </SectionCard>
+      <div className="mt">
+        <SectionCard title="Xu hướng gắn kết (6 tháng)" icon="LineChart" headRight={<span className="tag tag--green">Health +9</span>}>
+          <HiringChart
+            months={ce_engagementTrend.months}
+            applied={ce_engagementTrend.health}
+            hired={ce_engagementTrend.interactions}
+            names={["Health TB", "Số tương tác"]}
+            colors={[CE_PALETTE.primary, CE_PALETTE.green]}
+          />
+        </SectionCard>
+      </div>
 
       <div className="mt">
         <SectionCard title="Cảnh báo quan hệ khách hàng" icon="BellRing" headRight={<span className="tag tag--red">{ce_healthAlerts.filter((a) => a.level === "high").length} khẩn</span>}>

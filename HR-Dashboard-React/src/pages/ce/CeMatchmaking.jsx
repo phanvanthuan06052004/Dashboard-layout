@@ -67,6 +67,7 @@ export default function CeMatchmaking() {
         </SectionCard>
       </div>
 
+      <div className="mt">
       <SectionCard
         title="Cảnh báo quản trị"
         icon="BellRing"
@@ -87,6 +88,7 @@ export default function CeMatchmaking() {
           </div>
         ))}
       </SectionCard>
+      </div>
     </Page>
   );
 }
