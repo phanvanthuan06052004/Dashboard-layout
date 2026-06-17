@@ -41,7 +41,7 @@ function Column({ col, items, onOpen, renderCard }) {
   );
 }
 
-export default function KanbanBoard({ columns, items: seed, onOpen, renderCard }) {
+export default function KanbanBoard({ columns, items: seed, onOpen, renderCard, cols }) {
   const [items, setItems] = useState(seed);
   const [activeId, setActiveId] = useState(null);
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
@@ -73,7 +73,7 @@ export default function KanbanBoard({ columns, items: seed, onOpen, renderCard }
       onDragEnd={onDragEnd}
       onDragCancel={() => setActiveId(null)}
     >
-      <div className="kanban">
+      <div className="kanban" style={cols ? { gridTemplateColumns: `repeat(${cols}, 1fr)` } : undefined}>
         {columns.map((col) => (
           <Column key={col.id} col={col} items={byCol(col.id)} onOpen={onOpen} renderCard={renderCard} />
         ))}
