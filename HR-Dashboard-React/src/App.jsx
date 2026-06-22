@@ -31,8 +31,16 @@ import Integrations from "./pages/admin/Integrations";
 import AdminSettings from "./pages/admin/Settings";
 import FinanceDashboard from "./pages/accounting/FinanceDashboard";
 import FinanceModule from "./pages/accounting/FinanceModule";
+import MasterPEL from "./pages/accounting/MasterPEL";
+import ProjectManagement from "./pages/accounting/ProjectManagement";
 
-const FINANCE_MODULES = ["invoices", "payments", "expenses", "journal", "ar", "ap", "bank", "fcontracts"];
+const FINANCE_MODULES = ["invoices", "payments", "expenses", "journal", "ar", "ap", "bank", "fcontracts", "paymentRequests", "advances", "hrStaff", "hrCtv"];
+const FINANCE_ROUTE_MAP = {
+  paymentRequests: "payment-requests",
+  advances: "advances",
+  hrStaff: "hr-staff",
+  hrCtv: "hr-ctv",
+};
 // Cụm Admin / Vận hành — bám sát file "Admin Operations Tracker".
 const ADMIN_MODULES = ["commercial", "pnl", "receivables", "payables", "contracts", "vendors", "procurement", "companydocs", "assets", "services"];
 
@@ -161,8 +169,10 @@ export default function App() {
             <Route path="admin/settings" element={<AdminGuard><AdminSettings /></AdminGuard>} />
             {/* Cụm Kế toán — chỉ Accountant */}
             <Route path="accounting" element={<AccountantGuard><FinanceDashboard /></AccountantGuard>} />
+            <Route path="accounting/master-pel" element={<AccountantGuard><MasterPEL /></AccountantGuard>} />
+            <Route path="accounting/projects" element={<AccountantGuard><ProjectManagement /></AccountantGuard>} />
             {FINANCE_MODULES.map((key) => (
-              <Route key={key} path={`accounting/${key}`} element={<AccountantGuard><FinanceModule key={key} catalogKey={key} /></AccountantGuard>} />
+              <Route key={key} path={`accounting/${FINANCE_ROUTE_MAP[key] || key}`} element={<AccountantGuard><FinanceModule key={key} catalogKey={key} /></AccountantGuard>} />
             ))}
           </Route>
 

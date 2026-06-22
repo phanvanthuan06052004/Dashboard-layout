@@ -63,20 +63,26 @@ const ACCOUNTANT_GROUPS = [
   {
     label: "Tài chính – Kế toán",
     items: [
-      { to: "/accounting", icon: "LayoutDashboard", label: "Dashboard Tài chính", end: true },
-      { to: "/accounting/invoices", icon: "FileText", label: "Hóa đơn" },
-      { to: "/accounting/payments", icon: "ArrowLeftRight", label: "Thu & Chi" },
-      { to: "/accounting/expenses", icon: "Receipt", label: "Chi phí" },
-      { to: "/accounting/journal", icon: "BookOpen", label: "Sổ nhật ký" },
+      { to: "/accounting", icon: "LayoutDashboard", label: "Dashboard tổng hợp", end: true },
+      { to: "/accounting/master-pel", icon: "Table", label: "Master PEL" },
+      { to: "/accounting/projects", icon: "Briefcase", label: "Quản lý Dự án" },
+      { to: "/accounting/payment-requests", icon: "CreditCard", label: "Đề nghị thanh toán" },
+      { to: "/accounting/advances", icon: "Wallet", label: "Tạm ứng" },
     ],
   },
   {
-    label: "Công nợ & Đối soát",
+    label: "Công nợ & Hóa đơn",
     items: [
-      { to: "/accounting/ar", icon: "ArrowDownLeft", label: "Phải thu (AR)" },
-      { to: "/accounting/ap", icon: "ArrowUpRight", label: "Phải trả (AP)" },
-      { to: "/accounting/bank", icon: "Banknote", label: "Đối soát ngân hàng" },
-      { to: "/accounting/fcontracts", icon: "FileSignature", label: "Hợp đồng tài chính" },
+      { to: "/accounting/invoices", icon: "FileText", label: "Hóa đơn" },
+      { to: "/accounting/ar", icon: "ArrowDownLeft", label: "Công nợ phải thu (AR)" },
+      { to: "/accounting/payments", icon: "ArrowLeftRight", label: "Thu & Chi" },
+    ],
+  },
+  {
+    label: "Nhân sự → Kế toán",
+    items: [
+      { to: "/accounting/hr-staff", icon: "Users", label: "Nhân sự (Thuế/BHXH)" },
+      { to: "/accounting/hr-ctv", icon: "UserCheck", label: "CTV Dự án" },
     ],
   },
 ];
@@ -136,7 +142,7 @@ export default function Sidebar({ open, onClose }) {
         <Logo size={40} />
         <div className="brand__meta">
           <span className="brand__name">Bambu<span className="brand__up">UP</span></span>
-          <span className="brand__sub">{role === "admin" ? "Admin Workspace" : "HR Workspace"}</span>
+          <span className="brand__sub">{role === "admin" ? "Admin Workspace" : role === "accountant" ? "Kế toán Workspace" : "HR Workspace"}</span>
         </div>
       </div>
 

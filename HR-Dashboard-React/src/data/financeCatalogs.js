@@ -361,5 +361,181 @@ const fcontracts = {
   ],
 };
 
-export const FINANCE_CATALOGS = { invoices, payments, expenses, journal, ar, ap, bank, fcontracts };
+/* ---------------- 9) ĐỀ NGHỊ THANH TOÁN (ĐNTT) ---------------- */
+const dnttStatus = {
+  pending: { tone: "amber", label: "Chờ duyệt" },
+  approved: { tone: "blue", label: "Đã duyệt" },
+  transferred: { tone: "green", label: "Đã chuyển khoản" },
+  rejected: { tone: "red", label: "Từ chối" },
+};
+const paymentReqs = {
+  key: "paymentRequests", title: "Đề nghị thanh toán (ĐNTT)", sub: "Quản lý đề xuất thanh toán từ các team dự án",
+  icon: "CreditCard", addLabel: "Tạo ĐNTT", recordTitle: "Chi tiết ĐNTT",
+  statusMap: dnttStatus,
+  columns: [
+    { key: "id", label: "Mã ĐNTT", type: "mono" },
+    { key: "projectName", label: "Dự án", type: "bold" },
+    { key: "costItem", label: "Hạng mục chi phí" },
+    { key: "requester", label: "Người đề xuất" },
+    { key: "amount", label: "Số tiền", type: "money" },
+    { key: "date", label: "Ngày tạo" },
+    { key: "status", label: "Trạng thái", type: "badge" },
+    { key: "uncFile", label: "UNC", type: "doc" },
+  ],
+  filters: [
+    { key: "status", label: "Trạng thái", icon: "ListFilter", options: optStatus(dnttStatus) },
+  ],
+  fields: [
+    { key: "id", label: "Mã ĐNTT", type: "text" },
+    { key: "projectName", label: "Dự án", type: "text" },
+    { key: "costItem", label: "Hạng mục chi phí", type: "text" },
+    { key: "requester", label: "Người đề xuất", type: "text" },
+    { key: "amount", label: "Số tiền (₫)", type: "number" },
+    { key: "date", label: "Ngày tạo", type: "date" },
+    { key: "approver", label: "Người duyệt", type: "text" },
+    { key: "status", label: "Trạng thái", type: "status", options: dnttStatus },
+    { key: "uncFile", label: "File UNC đính kèm", type: "select", options: ["x", ""] },
+  ],
+  importCols: ["Mã ĐNTT", "Dự án", "Hạng mục", "Người đề xuất", "Số tiền", "Trạng thái"],
+  rows: [
+    { id: "DNTT-001", project: "DA-2026-001", projectName: "Chuyển đổi số Bộ Công Thương", costItem: "Chi phí CTV – Chuyên gia tư vấn", requester: "Nguyễn Văn A", amount: 80000000, status: "transferred", uncFile: "x", date: "15/03/2026", approver: "Trần Thị B" },
+    { id: "DNTT-002", project: "DA-2026-001", projectName: "Chuyển đổi số Bộ Công Thương", costItem: "Thuê địa điểm workshop", requester: "Lê Văn C", amount: 15000000, status: "transferred", uncFile: "x", date: "20/04/2026", approver: "Trần Thị B" },
+    { id: "DNTT-003", project: "DA-2026-002", projectName: "VinGroup Innovation Lab", costItem: "Cloud infrastructure", requester: "Phạm Thị D", amount: 85000000, status: "approved", uncFile: "", date: "10/06/2026", approver: "Nguyễn Văn E" },
+    { id: "DNTT-004", project: "DA-2026-003", projectName: "FPT Accelerator Batch 3", costItem: "Mentor fees", requester: "Hoàng Văn F", amount: 50000000, status: "pending", uncFile: "", date: "18/06/2026", approver: "" },
+    { id: "DNTT-005", project: "DA-2026-005", projectName: "BIDV CVC Advisory", costItem: "Due diligence reports", requester: "Nguyễn Thị G", amount: 30000000, status: "pending", uncFile: "", date: "20/06/2026", approver: "" },
+    { id: "DNTT-006", project: "DA-2026-006", projectName: "Techstars – FinTech Platform", costItem: "Licences & API", requester: "Trần Văn H", amount: 60000000, status: "transferred", uncFile: "x", date: "05/05/2026", approver: "Lê Thị I" },
+    { id: "DNTT-007", project: "DA-2026-001", projectName: "Chuyển đổi số Bộ Công Thương", costItem: "In ấn tài liệu", requester: "Nguyễn Văn A", amount: 28000000, status: "rejected", uncFile: "", date: "12/05/2026", approver: "Trần Thị B" },
+  ],
+};
+
+/* ---------------- 10) TẠM ỨNG ---------------- */
+const advanceStatus = {
+  pending: { tone: "amber", label: "Chờ duyệt" },
+  approved: { tone: "blue", label: "Đã duyệt" },
+  settled: { tone: "green", label: "Đã quyết toán" },
+  rejected: { tone: "red", label: "Từ chối" },
+};
+const advancesConfig = {
+  key: "advances", title: "Tạm ứng", sub: "Quản lý đề xuất tạm ứng theo dự án",
+  icon: "Wallet", addLabel: "Tạo tạm ứng", recordTitle: "Chi tiết tạm ứng",
+  statusMap: advanceStatus,
+  columns: [
+    { key: "id", label: "Mã TU", type: "mono" },
+    { key: "projectName", label: "Dự án", type: "bold" },
+    { key: "purpose", label: "Mục đích" },
+    { key: "requester", label: "Người đề xuất" },
+    { key: "amount", label: "Số tiền", type: "money" },
+    { key: "date", label: "Ngày tạo" },
+    { key: "status", label: "Trạng thái", type: "badge" },
+  ],
+  filters: [
+    { key: "status", label: "Trạng thái", icon: "ListFilter", options: optStatus(advanceStatus) },
+  ],
+  fields: [
+    { key: "id", label: "Mã tạm ứng", type: "text" },
+    { key: "projectName", label: "Dự án", type: "text" },
+    { key: "purpose", label: "Mục đích tạm ứng", type: "textarea" },
+    { key: "requester", label: "Người đề xuất", type: "text" },
+    { key: "amount", label: "Số tiền (₫)", type: "number" },
+    { key: "date", label: "Ngày tạo", type: "date" },
+    { key: "settledDate", label: "Ngày quyết toán", type: "date" },
+    { key: "status", label: "Trạng thái", type: "status", options: advanceStatus },
+  ],
+  importCols: ["Mã TU", "Dự án", "Mục đích", "Người đề xuất", "Số tiền", "Trạng thái"],
+  rows: [
+    { id: "TU-001", project: "DA-2026-001", projectName: "Chuyển đổi số Bộ Công Thương", purpose: "Tạm ứng công tác Hà Nội – Workshop #2", requester: "Nguyễn Văn A", amount: 25000000, status: "settled", date: "01/04/2026", settledDate: "20/04/2026" },
+    { id: "TU-002", project: "DA-2026-003", projectName: "FPT Accelerator Batch 3", purpose: "Tạm ứng chi phí sự kiện Demo Day", requester: "Hoàng Văn F", amount: 40000000, status: "approved", date: "10/06/2026", settledDate: "" },
+    { id: "TU-003", project: "DA-2026-005", projectName: "BIDV CVC Advisory", purpose: "Tạm ứng đi lại & tiếp khách", requester: "Nguyễn Thị G", amount: 15000000, status: "pending", date: "19/06/2026", settledDate: "" },
+    { id: "TU-004", project: "DA-2026-006", projectName: "Techstars – FinTech Platform", purpose: "Tạm ứng QA & Testing phase 1", requester: "Trần Văn H", amount: 35000000, status: "settled", date: "01/05/2026", settledDate: "25/05/2026" },
+    { id: "TU-005", project: "DA-2026-002", projectName: "VinGroup Innovation Lab", purpose: "Tạm ứng mua vật liệu prototype", requester: "Phạm Thị D", amount: 20000000, status: "pending", date: "21/06/2026", settledDate: "" },
+  ],
+};
+
+/* ---------------- 11) NHÂN SỰ → KẾ TOÁN (Thuế/BHXH) ---------------- */
+const hrRecordStatus = {
+  completed: { tone: "green", label: "Đã tạo hồ sơ" },
+  pending: { tone: "amber", label: "Chưa hoàn tất" },
+};
+const hrStaffConfig = {
+  key: "hrStaff", title: "Nhân sự (Thuế & BHXH)", sub: "Thông tin nhân sự chính thức / thử việc — phục vụ kế toán",
+  icon: "Users", addLabel: "Thêm nhân sự", recordTitle: "Chi tiết nhân sự",
+  statusMap: hrRecordStatus,
+  columns: [
+    { key: "fullName", label: "Họ và tên", type: "bold" },
+    { key: "cccd", label: "Số CCCD", type: "mono" },
+    { key: "taxId", label: "MST" },
+    { key: "email", label: "Email" },
+    { key: "hospital", label: "BV BHYT" },
+    { key: "employeeType", label: "Loại", type: "tag" },
+    { key: "recordStatus", label: "Hồ sơ", type: "badge" },
+  ],
+  filters: [
+    { key: "recordStatus", label: "Hồ sơ", icon: "ListFilter", options: optStatus(hrRecordStatus) },
+    { key: "employeeType", label: "Loại", icon: "Users", options: opt(["Chính thức", "Thử việc"]) },
+  ],
+  fields: [
+    { key: "fullName", label: "Họ và tên", type: "text" },
+    { key: "dob", label: "Ngày tháng năm sinh", type: "date" },
+    { key: "hometown", label: "Quê quán", type: "text" },
+    { key: "permanentAddress", label: "Địa chỉ thường trú", type: "text" },
+    { key: "cccd", label: "Số CCCD", type: "text" },
+    { key: "cccdDate", label: "Ngày cấp CCCD", type: "date" },
+    { key: "taxId", label: "Mã số thuế (MST)", type: "text" },
+    { key: "email", label: "Email cá nhân", type: "text" },
+    { key: "hospital", label: "Bệnh viện đăng ký KCB ban đầu", type: "text" },
+    { key: "employeeType", label: "Loại nhân sự", type: "select", options: ["Chính thức", "Thử việc"] },
+    { key: "department", label: "Phòng ban", type: "text" },
+    { key: "recordStatus", label: "Trạng thái hồ sơ", type: "status", options: hrRecordStatus },
+  ],
+  importCols: ["Họ tên", "CCCD", "MST", "Email", "BV BHYT", "Loại", "Hồ sơ"],
+  rows: [
+    { id: "NS-001", fullName: "Nguyễn Hoàng Nam", dob: "15/03/1995", hometown: "Hà Nội", permanentAddress: "123 Trần Duy Hưng, Cầu Giấy, HN", cccd: "001095001234", cccdDate: "20/06/2021", taxId: "8001234567", email: "nam.nh@gmail.com", hospital: "BV Bạch Mai", employeeType: "Chính thức", department: "Innovation", recordStatus: "completed" },
+    { id: "NS-002", fullName: "Trần Thị Bích", dob: "22/08/1993", hometown: "Hải Phòng", permanentAddress: "45 Lạch Tray, Ngô Quyền, HP", cccd: "031093002345", cccdDate: "15/01/2022", taxId: "8002345678", email: "bich.tt@gmail.com", hospital: "BV Việt Đức", employeeType: "Chính thức", department: "Kế toán", recordStatus: "completed" },
+    { id: "NS-003", fullName: "Lê Văn Cường", dob: "10/11/1998", hometown: "Đà Nẵng", permanentAddress: "78 NVL, Hải Châu, ĐN", cccd: "048098003456", cccdDate: "05/09/2023", taxId: "8003456789", email: "cuong.lv@gmail.com", hospital: "BV Đà Nẵng", employeeType: "Thử việc", department: "Accelerator", recordStatus: "pending" },
+    { id: "NS-004", fullName: "Phạm Thị Dung", dob: "05/05/1990", hometown: "TP.HCM", permanentAddress: "234 Nguyễn Huệ, Q.1, TP.HCM", cccd: "079090004567", cccdDate: "12/03/2021", taxId: "8004567890", email: "dung.pt@gmail.com", hospital: "BV Chợ Rẫy", employeeType: "Chính thức", department: "Fin Solutions", recordStatus: "completed" },
+    { id: "NS-005", fullName: "Hoàng Văn Phong", dob: "28/12/1996", hometown: "Nghệ An", permanentAddress: "12 ĐL Lê Nin, TP. Vinh, NA", cccd: "038096005678", cccdDate: "25/07/2022", taxId: "", email: "phong.hv@gmail.com", hospital: "BV 108", employeeType: "Thử việc", department: "Innovation", recordStatus: "pending" },
+  ],
+};
+
+/* ---------------- 12) CTV DỰ ÁN ---------------- */
+const hrCtvConfig = {
+  key: "hrCtv", title: "Cộng tác viên (CTV) dự án", sub: "Phục vụ chi phí dự án & quyết toán thuế TNCN cuối năm",
+  icon: "UserCheck", addLabel: "Thêm CTV", recordTitle: "Chi tiết CTV",
+  statusMap: hrRecordStatus,
+  columns: [
+    { key: "fullName", label: "Họ và tên", type: "bold" },
+    { key: "cccd", label: "Số CCCD", type: "mono" },
+    { key: "taxId", label: "MST" },
+    { key: "email", label: "Email" },
+    { key: "projectName", label: "Dự án tham gia", type: "tag" },
+    { key: "recordStatus", label: "Hồ sơ", type: "badge" },
+  ],
+  filters: [
+    { key: "recordStatus", label: "Hồ sơ", icon: "ListFilter", options: optStatus(hrRecordStatus) },
+  ],
+  fields: [
+    { key: "fullName", label: "Họ và tên", type: "text" },
+    { key: "dob", label: "Ngày tháng năm sinh", type: "date" },
+    { key: "cccd", label: "Số CCCD", type: "text" },
+    { key: "cccdDate", label: "Ngày cấp CCCD", type: "date" },
+    { key: "permanentAddress", label: "Địa chỉ thường trú", type: "text" },
+    { key: "actualAddress", label: "Địa chỉ thực tế", type: "text" },
+    { key: "hometown", label: "Quê quán", type: "text" },
+    { key: "taxId", label: "Mã số thuế (MST)", type: "text" },
+    { key: "email", label: "Email cá nhân", type: "text" },
+    { key: "projectName", label: "Dự án tham gia", type: "text" },
+    { key: "recordStatus", label: "Trạng thái hồ sơ", type: "status", options: hrRecordStatus },
+  ],
+  importCols: ["Họ tên", "CCCD", "MST", "Email", "Dự án", "Hồ sơ"],
+  rows: [
+    { id: "CTV-001", fullName: "Đỗ Quang Huy", dob: "12/04/1992", cccd: "001092010123", cccdDate: "10/05/2021", permanentAddress: "56 HQV, Cầu Giấy, HN", actualAddress: "56 HQV, Cầu Giấy, HN", hometown: "Hà Nội", taxId: "8010123456", email: "huy.dq@gmail.com", projectId: "DA-2026-001", projectName: "Chuyển đổi số BCT", recordStatus: "completed" },
+    { id: "CTV-002", fullName: "Vũ Thị Lan", dob: "30/07/1994", cccd: "001094010234", cccdDate: "15/08/2021", permanentAddress: "89 Kim Mã, Ba Đình, HN", actualAddress: "89 Kim Mã, Ba Đình, HN", hometown: "Hà Nam", taxId: "8010234567", email: "lan.vt@gmail.com", projectId: "DA-2026-001", projectName: "Chuyển đổi số BCT", recordStatus: "completed" },
+    { id: "CTV-003", fullName: "Ngô Thanh Sơn", dob: "18/01/1990", cccd: "079090010345", cccdDate: "20/11/2022", permanentAddress: "12 Lê Lợi, Q.1, HCM", actualAddress: "45 Nguyễn Trãi, Q.5, HCM", hometown: "Bình Dương", taxId: "8010345678", email: "son.nt@gmail.com", projectId: "DA-2026-002", projectName: "VinGroup Innovation Lab", recordStatus: "completed" },
+    { id: "CTV-004", fullName: "Bùi Minh Đức", dob: "05/09/1988", cccd: "036088010456", cccdDate: "01/03/2023", permanentAddress: "23 Trần Phú, Hà Đông, HN", actualAddress: "100 Nguyễn Xiển, TX, HN", hometown: "Thanh Hóa", taxId: "8010456789", email: "duc.bm@gmail.com", projectId: "DA-2026-003", projectName: "FPT Accelerator B3", recordStatus: "pending" },
+    { id: "CTV-005", fullName: "Trịnh Thị Mai", dob: "14/06/1995", cccd: "001095010567", cccdDate: "08/12/2021", permanentAddress: "67 Xuân Thủy, CG, HN", actualAddress: "67 Xuân Thủy, CG, HN", hometown: "Hà Nội", taxId: "", email: "mai.tt@gmail.com", projectId: "DA-2026-005", projectName: "BIDV CVC Advisory", recordStatus: "pending" },
+    { id: "CTV-006", fullName: "Phan Anh Tuấn", dob: "22/03/1991", cccd: "048091010678", cccdDate: "05/04/2022", permanentAddress: "34 Bạch Đằng, HC, ĐN", actualAddress: "34 Bạch Đằng, HC, ĐN", hometown: "Đà Nẵng", taxId: "8010678901", email: "tuan.pa@gmail.com", projectId: "DA-2026-006", projectName: "Techstars FinTech", recordStatus: "completed" },
+  ],
+};
+
+export const FINANCE_CATALOGS = { invoices, payments, expenses, journal, ar, ap, bank, fcontracts, paymentRequests: paymentReqs, advances: advancesConfig, hrStaff: hrStaffConfig, hrCtv: hrCtvConfig };
 export { vnd };
