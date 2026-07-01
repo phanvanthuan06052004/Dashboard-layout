@@ -137,6 +137,102 @@ export function HiringChart({ months, applied, hired, colors = [violet, green], 
   );
 }
 
+// Line chart tổng quát (1-3 series) — dùng cho follower growth, xu hướng open/CTR, SEO position.
+export function LineChart({ cats, series, colors = [violet], height = 300, smooth = true, yFormatter }) {
+  return (
+    <Chart
+      type="line"
+      height={height}
+      series={series}
+      options={{
+        chart: { toolbar: { show: false }, fontFamily: "inherit", ...noAnim },
+        colors,
+        stroke: { curve: smooth ? "smooth" : "straight", width: 3 },
+        markers: { size: 0, hover: { size: 5 } },
+        dataLabels: { enabled: false },
+        legend: { position: "top", horizontalAlign: "right", markers: { radius: 6 }, fontWeight: 600 },
+        grid: { borderColor: "#eef0f6", strokeDashArray: 4 },
+        xaxis: { categories: cats, axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { colors: "#9298b5", fontWeight: 600 } } },
+        yaxis: { labels: { style: { colors: "#9298b5" }, formatter: yFormatter } },
+        tooltip: { shared: true, intersect: false },
+      }}
+    />
+  );
+}
+
+// Combo Bar + Line — cột (reach) + đường (engagement rate / position).
+export function ComboBarLine({ cats, barName, barData, lineName, lineData, colors = [violet, amber], height = 300, barFmt, lineFmt }) {
+  return (
+    <Chart
+      type="line"
+      height={height}
+      series={[
+        { name: barName, type: "column", data: barData },
+        { name: lineName, type: "line", data: lineData },
+      ]}
+      options={{
+        chart: { toolbar: { show: false }, fontFamily: "inherit", ...noAnim },
+        colors,
+        stroke: { width: [0, 3], curve: "smooth" },
+        plotOptions: { bar: { columnWidth: "45%", borderRadius: 6, borderRadiusApplication: "end" } },
+        dataLabels: { enabled: false },
+        legend: { position: "top", horizontalAlign: "right", markers: { radius: 6 }, fontWeight: 600 },
+        grid: { borderColor: "#eef0f6", strokeDashArray: 4 },
+        xaxis: { categories: cats, axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { colors: "#9298b5", fontWeight: 600 } } },
+        yaxis: [
+          { labels: { style: { colors: "#9298b5" }, formatter: barFmt } },
+          { opposite: true, labels: { style: { colors: "#9298b5" }, formatter: lineFmt } },
+        ],
+        tooltip: { shared: true, intersect: false },
+      }}
+    />
+  );
+}
+
+// Grouped bar (nhiều series) — so sánh hiệu suất theo loại nội dung / kênh.
+export function GroupedBar({ cats, series, colors = [violet, green], height = 300, horizontal = false, yFormatter }) {
+  return (
+    <Chart
+      type="bar"
+      height={height}
+      series={series}
+      options={{
+        chart: { toolbar: { show: false }, fontFamily: "inherit", ...noAnim },
+        colors,
+        plotOptions: { bar: { horizontal, columnWidth: "58%", borderRadius: 5, borderRadiusApplication: "end" } },
+        dataLabels: { enabled: false },
+        legend: { position: "top", horizontalAlign: "right", markers: { radius: 6 }, fontWeight: 600 },
+        grid: { borderColor: "#eef0f6", strokeDashArray: 4 },
+        xaxis: { categories: cats, axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { colors: "#9298b5", fontWeight: 600 } } },
+        yaxis: { labels: { style: { colors: "#9298b5" }, formatter: yFormatter } },
+        tooltip: { shared: true, intersect: false },
+      }}
+    />
+  );
+}
+
+// Heatmap — Best Time to Post (giờ × ngày). rows: [{ name, data:[{x,y}] }].
+export function Heatmap({ rows, colorRange = [violet], height = 300 }) {
+  return (
+    <Chart
+      type="heatmap"
+      height={height}
+      series={rows}
+      options={{
+        chart: { toolbar: { show: false }, fontFamily: "inherit", ...noAnim },
+        dataLabels: { enabled: false },
+        colors: colorRange,
+        legend: { show: false },
+        grid: { borderColor: "#eef0f6" },
+        xaxis: { axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { colors: "#9298b5", fontWeight: 600 } } },
+        yaxis: { labels: { style: { colors: "#9298b5", fontWeight: 600 } } },
+        plotOptions: { heatmap: { radius: 4, enableShades: true, shadeIntensity: 0.6 } },
+        tooltip: { y: { formatter: (v) => v + "% ER" } },
+      }}
+    />
+  );
+}
+
 export function MiniBars({ items, color = violet }) {
   const max = Math.max(...items.map((i) => i.v));
   return (

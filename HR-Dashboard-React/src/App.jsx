@@ -44,13 +44,16 @@ const FINANCE_ROUTE_MAP = {
 // Cụm Admin / Vận hành — bám sát file "Admin Operations Tracker".
 const ADMIN_MODULES = ["commercial", "pnl", "receivables", "payables", "contracts", "vendors", "procurement", "companydocs", "assets", "services"];
 
-// Marcom pages
+// Marcom pages (tái dựng theo file yêu cầu — 14 tính năng / 27 chỉ số)
 import MarcomOverview from "./pages/marcom/MarcomOverview";
-import MarcomCampaigns from "./pages/marcom/MarcomCampaigns";
+import MarcomKpi from "./pages/marcom/MarcomKpi";
 import MarcomLeads from "./pages/marcom/MarcomLeads";
+import MarcomAudience from "./pages/marcom/MarcomAudience";
 import MarcomContent from "./pages/marcom/MarcomContent";
-import MarcomAnalytics from "./pages/marcom/MarcomAnalytics";
-import MarcomBudget from "./pages/marcom/MarcomBudget";
+import MarcomEmail from "./pages/marcom/MarcomEmail";
+import MarcomSeo from "./pages/marcom/MarcomSeo";
+import MarcomCampaigns from "./pages/marcom/MarcomCampaigns";
+import MarcomRoi from "./pages/marcom/MarcomRoi";
 import MarcomAssets from "./pages/marcom/MarcomAssets";
 import MarcomSettings from "./pages/marcom/MarcomSettings";
 
@@ -188,11 +191,14 @@ export default function App() {
           {/* Marcom workspace */}
           <Route path="/marcom" element={<RequireAuth><RequireTeam team="marcom"><MarcomLayout /></RequireTeam></RequireAuth>}>
             <Route index element={<MarcomOverview />} />
-            <Route path="campaigns" element={<MarcomCampaigns />} />
+            <Route path="kpi" element={<MarcomKpi />} />
             <Route path="leads" element={<MarcomLeads />} />
+            <Route path="audience" element={<MarcomAudience />} />
             <Route path="content" element={<MarcomContent />} />
-            <Route path="analytics" element={<MarcomAnalytics />} />
-            <Route path="budget" element={<MarcomBudget />} />
+            <Route path="email" element={<MarcomEmail />} />
+            <Route path="seo" element={<MarcomSeo />} />
+            <Route path="campaigns" element={<MarcomCampaigns />} />
+            <Route path="roi" element={<MarcomRoi />} />
             <Route path="assets" element={<MarcomAssets />} />
             <Route path="settings" element={<MarcomSettings />} />
           </Route>
