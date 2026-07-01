@@ -43,7 +43,7 @@ export const legalDocs = [
   { id: "QD-2026-004", empId: "II125086", name: "Bùi Văn Đạt", img: 15, team: "ops", type: "Hợp đồng đào tạo nghề (Trainee)", effective: "18/05/2025", expiry: "17/08/2025", signStatus: "signed", signer: "Châu Lê", note: "—" },
   { id: "QD-2026-009", empId: "II025159", name: "Hà Thị Thu Trang", img: 25, team: "sales", type: "Thỏa thuận tiếp nhận TTS", effective: "01/10/2025", expiry: "31/03/2026", signStatus: "sent", signer: "Tuyết Trần", note: "Đã gửi, chờ ký lại." },
   { id: "QD-2026-021", empId: "D00046", name: "Nguyễn Văn Cao", img: 12, team: "platform", type: "Quyết định nâng lương", effective: "01/01/2026", expiry: "—", signStatus: "reviewing", signer: "Quỳnh Nguyễn", note: "Chờ sếp duyệt ký." },
-  { id: "QD-2026-025", empId: "II024248", name: "Bùi Thị Bích Phương", img: 5, team: "finance", type: "Giấy ủy quyền", effective: "—", expiry: "—", signStatus: "drafting", signer: "—", note: "Đang soạn thảo." },
+  { id: "QD-2026-025", empId: "II024248", name: "Sunny Nguyễn", img: 5, team: "finance", type: "Giấy ủy quyền", effective: "—", expiry: "—", signStatus: "drafting", signer: "—", note: "Đang soạn thảo." },
   { id: "NDA-2026-002", empId: "II023928", name: "Hồ Thị Thanh Thùy", img: 47, team: "hr", type: "NDA (Cam kết bảo mật)", effective: "06/01/2018", expiry: "—", signStatus: "signed", signer: "Quỳnh Nguyễn", note: "—" },
 ];
 

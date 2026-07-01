@@ -75,7 +75,7 @@ export const ACCOUNTS = [
 
   // ---------- Tài chính – Kế toán ----------
   {
-    id: "u-phuong", name: "Bùi Thị Bích Phương", email: "phuong@bambuup.com", img: 5,
+    id: "u-phuong", name: "Sunny Nguyễn", email: "phuong@bambuup.com", img: 5,
     title: "Kế toán (Accountant)", role: "accountant", team: "finance",
     teamsAccess: ["hr", "finance"], home: "/accounting", group: "Tài chính – Kế toán", dot: "green",
     note: "Dashboard tài chính + module Hóa đơn, Thu/Chi, Chi phí, Sổ nhật ký, Công nợ AR/AP, Đối soát NH, Hợp đồng TC.",

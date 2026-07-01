@@ -142,7 +142,7 @@ const RAW_EMPLOYEES = [
     docs: { cv: "x", cccd: "x", degree: "x", resume: "x", hdld: "x", health: "" },
   },
   {
-    id: "II024248", name: "Bùi Thị Bích Phương", img: 5, gender: "Nữ",
+    id: "II024248", name: "Sunny Nguyễn", img: 5, gender: "Nữ",
     dept: "Tài chính", title: "Kế toán", manager: "Nguyễn Thị Huyền", team: "finance", status: "fulltime",
     email: "phuong.bui@bambuup.com", phone: "0906 789 012",
     edu: "Đại học", major: "Tài chính - ngân hàng", school: "ĐH Kinh tế Quốc dân", gradMonth: 6, gradYear: 2018,
@@ -252,7 +252,7 @@ export const documents = employees.map((e) => ({ id: e.id, name: e.name, img: e.
 /* ---------- Nghỉ phép (Leave Requests) ---------- */
 export const leaveRequests = [
   { id: "lr1", code: "II025100", name: "Nguyễn Thị Giang", img: 33, team: "growth", type: "Nghỉ phép năm", from: "10/06/2026", to: "12/06/2026", days: 3, reason: "Việc gia đình", status: "approved" },
-  { id: "lr2", code: "II024248", name: "Bùi Thị Bích Phương", img: 5, team: "finance", type: "Nghỉ ốm", from: "08/06/2026", to: "08/06/2026", days: 1, reason: "Khám sức khỏe", status: "approved" },
+  { id: "lr2", code: "II024248", name: "Sunny Nguyễn", img: 5, team: "finance", type: "Nghỉ ốm", from: "08/06/2026", to: "08/06/2026", days: 1, reason: "Khám sức khỏe", status: "approved" },
   { id: "lr3", code: "II022709", name: "Bùi Thị Ánh", img: 23, team: "sales", type: "Nghỉ không lương", from: "15/06/2026", to: "19/06/2026", days: 5, reason: "Việc cá nhân", status: "pending" },
   { id: "lr4", code: "II124120", name: "Đinh Văn Ân", img: 8, team: "platform", type: "Nghỉ phép năm", from: "20/06/2026", to: "21/06/2026", days: 2, reason: "Nghỉ dưỡng", status: "processing" },
   { id: "lr5", code: "II025203", name: "Phan Thị Ánh Tuyết", img: 31, team: "research", type: "Nghỉ ốm", from: "05/06/2026", to: "06/06/2026", days: 2, reason: "Ốm", status: "rejected" },

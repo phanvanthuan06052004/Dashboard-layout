@@ -15,7 +15,7 @@ export const adminUsers = [
   { id: "U005", name: "Nguyễn Thị Giang",    img: 33, email: "giang.nguyen@bambuup.com",  roleId: "member", team: "growth",   status: "active",  lastLogin: "Hôm nay · 09:15", created: "07/2025", twofa: false },
   { id: "U006", name: "Nguyễn Văn Cao",      img: 12, email: "cao.nguyen@bambuup.com",    roleId: "member", team: "platform", status: "active",  lastLogin: "Hôm nay · 08:45", created: "09/2022", twofa: false },
   { id: "U007", name: "Đinh Văn Ân",         img: 8,  email: "an.dinh@bambuup.com",       roleId: "member", team: "platform", status: "locked",  lastLogin: "12/05/2026 · 17:33", created: "05/2024", twofa: false },
-  { id: "U008", name: "Bùi Thị Bích Phương", img: 5,  email: "phuong.bui@bambuup.com",    roleId: "accountant", team: "finance",  status: "active",  lastLogin: "Hôm qua · 16:40", created: "01/2024", twofa: true },
+  { id: "U008", name: "Sunny Nguyễn", img: 5,  email: "phuong.bui@bambuup.com",    roleId: "accountant", team: "finance",  status: "active",  lastLogin: "Hôm qua · 16:40", created: "01/2024", twofa: true },
   { id: "U009", name: "Phan Thị Ánh Tuyết",  img: 31, email: "tuyet.phan@bambuup.com",    roleId: "member", team: "research", status: "invited", lastLogin: "—", created: "11/2025", twofa: false },
   { id: "U010", name: "Hà Thị Thu Trang",    img: 25, email: "trang.ha@bambuup.com",      roleId: "member", team: "sales",    status: "invited", lastLogin: "—", created: "10/2025", twofa: false },
   { id: "U011", name: "Bùi Văn Đạt",         img: 15, email: "dat.bui@bambuup.com",       roleId: "member", team: "ops",      status: "active",  lastLogin: "Hôm nay · 10:01", created: "05/2025", twofa: false },
@@ -98,7 +98,7 @@ export const auditLog = [
   { id: "a5",  day: "Hôm nay",  time: "08:45", who: "Nguyễn Văn Cao",     img: 12, type: "edit",       action: "Cập nhật hồ sơ ứng viên Ahmad Zainy", target: "candidate · c6" },
   { id: "a6",  day: "Hôm qua",  time: "18:24", who: "Tuyết Trần",         img: 31, type: "login",      action: "Đăng nhập từ TP.HCM (Safari)", target: "Mobile" },
   { id: "a7",  day: "Hôm qua",  time: "17:30", who: "IT Administrator",   img: 68, type: "permission", action: "Tạo tài khoản & gửi lời mời", target: "Phan Thị Ánh Tuyết" },
-  { id: "a8",  day: "Hôm qua",  time: "16:40", who: "Bùi Thị Bích Phương", img: 5, type: "edit",       action: "Sửa bảng lương tháng 5", target: "payroll · II024248" },
+  { id: "a8",  day: "Hôm qua",  time: "16:40", who: "Sunny Nguyễn", img: 5, type: "edit",       action: "Sửa bảng lương tháng 5", target: "payroll · II024248" },
   { id: "a9",  day: "Hôm qua",  time: "14:05", who: "Châu Lê",            img: 45, type: "export",     action: "Xuất danh sách hợp đồng sắp hết hạn", target: "contracts.csv" },
   { id: "a10", day: "Hôm qua",  time: "09:02", who: "IT Administrator",   img: 68, type: "security",   action: "Bật yêu cầu 2FA bắt buộc cho vai trò CEO/COO", target: "Chính sách bảo mật" },
 ];
