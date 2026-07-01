@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import Icon from "../../components/Icon";
 import { Page, Tag } from "../../components/ui";
 import { Sparkline } from "../../components/Charts";
-import { RevExpProfitChart, ServiceLineDonut, CustomerGroupBar } from "../../components/AccountingCharts";
+import { RevExpProfitChart, ServiceLineDonut, CustomerGroupBar, ServiceLineProfitDonut, CustomerGroupGroupedBar } from "../../components/AccountingCharts";
 import AdminDrawer, { DField } from "../admin/AdminDrawer";
 import {
   projects, computeMasterPEL, accountingAlerts, revenueByServiceLine, revenueByCustomerGroup,
+  profitByServiceLine, financeByCustomerGroup,
   SERVICE_LINES, CUSTOMER_GROUPS, PROJECT_STATUSES, FINANCIAL_FLAGS, TIME_FILTERS, vnd,
 } from "../../data/accountingData";
 import { performance12m } from "../../data/financeData";
@@ -73,23 +74,38 @@ export default function FinanceDashboard() {
 
   const pel = useMemo(() => computeMasterPEL(filtered), [filtered]);
   const slData = useMemo(() => revenueByServiceLine(filtered), [filtered]);
+  const slProfitData = useMemo(() => profitByServiceLine(filtered), [filtered]);
   const cgData = useMemo(() => revenueByCustomerGroup(filtered), [filtered]);
+  const cgFinanceData = useMemo(() => financeByCustomerGroup(filtered), [filtered]);
+
+  const [alertsTab, setAlertsTab] = useState("alerts");
+  const todayTasks = [
+    { id: "t1", title: "Review hợp đồng đầu ra dự án Chuyển đổi số BCT", desc: "Hạn chót: Hôm nay", date: "Hôm nay", icon: "FileSignature", checked: false },
+    { id: "t2", title: "Báo tăng BHXH cho nhân sự Lê Văn Cường", desc: "Đã ký chính thức, hạn trước 15 hàng tháng", date: "Trước 15/07", icon: "Users", checked: false },
+    { id: "t3", title: "Đối soát giao dịch ngân hàng ACB ***9012 (VinGroup 285tr)", desc: "Sao kê ngày 10/06 chưa khớp sổ sách", date: "Hôm nay", icon: "Banknote", checked: true },
+    { id: "t4", title: "Quyết toán tạm ứng TU-002 (Demo Day) của Hoàng Văn F", desc: "Hạn quyết toán: 10/07 (còn 15 ngày)", date: "Hạn 10/07", icon: "Wallet", checked: false },
+    { id: "t5", title: "Phê duyệt uỷ nhiệm chi ĐNTT-004 Mentor fees (50tr)", desc: "Yêu cầu đính kèm UNC chuyển khoản xong", date: "Hôm nay", icon: "CreditCard", checked: false },
+  ];
+  const [tasksList, setTasksList] = useState(todayTasks);
+  const toggleTask = (tid) => {
+    setTasksList(prev => prev.map(t => t.id === tid ? { ...t, checked: !t.checked } : t));
+  };
 
   const alerts = [...accountingAlerts].sort((a, b) => {
     const w = { high: 0, medium: 1, low: 2 };
     return w[a.severity] - w[b.severity];
   });
 
-  // KPI cards based on spec
+  // KPI cards based on spec page 8
   const kpis = [
     { key: "total", label: "Tổng dự án đang chạy", icon: "Briefcase", tone: "v", value: pel.runningProjects, delta: `${pel.totalProjects} tổng`, up: true, cap: `${pel.totalProjects} dự án`, spark: [3, 4, 5, 5, 6, 6, 7] },
-    { key: "rev", label: "Tổng doanh thu", icon: "TrendingUp", tone: "g", value: vnd(pel.totalRevenue), delta: "+12,5%", up: true, cap: "đã thu & dự kiến", spark: [3500, 4200, 5000, 5500, 6200, 6800, 7500].map(v => v / 10) },
-    { key: "budgeted", label: "Tổng chi phí dự kiến", icon: "Calculator", tone: "a", value: vnd(pel.totalBudgeted), delta: "budget", up: false, cap: "tổng dự toán", spark: [200, 280, 350, 420, 470, 520, 550].map(v => v / 1) },
-    { key: "actual", label: "Tổng chi phí thực tế", icon: "Receipt", tone: "b", value: vnd(pel.totalActualCost), delta: vnd(pel.totalBudgeted - pel.totalActualCost) + " tiết kiệm", up: true, cap: "đã phát sinh", spark: [150, 220, 300, 380, 420, 460, 500].map(v => v / 1) },
-    { key: "expProfit", label: "Lợi nhuận dự kiến", icon: "Target", tone: "g", value: vnd(pel.expectedProfit), delta: `${pel.grossMargin}% biên`, up: true, cap: "DT − CP dự toán", spark: [300, 400, 500, 600, 700, 800, 900].map(v => v / 1) },
-    { key: "actProfit", label: "Lợi nhuận thực tế", icon: "PiggyBank", tone: "v", value: vnd(pel.actualProfit), delta: "+8,3%", up: true, cap: "thu − chi thực tế", spark: [200, 300, 400, 500, 600, 700, 800].map(v => v / 1) },
-    { key: "margin", label: "Biên lợi nhuận gộp", icon: "Percent", tone: "g", value: `${pel.grossMargin}%`, delta: "+2,1pp", up: true, cap: "(DT − CP DK) / DT", spark: [58, 60, 62, 63, 64, 65, 66] },
-    { key: "debt", label: "Công nợ tồn đọng", icon: "AlertTriangle", tone: "r", value: vnd(pel.totalDebt), delta: `${filtered.filter(p => p.totalDebt > 0).length} dự án`, up: false, cap: "cần thu hồi", spark: [2800, 3000, 3200, 3400, 3500, 3600, 3950].map(v => v / 1) },
+    { key: "rev", label: "Tổng doanh thu dự kiến", icon: "TrendingUp", tone: "g", value: vnd(pel.totalRevenue), delta: "+12,5%", up: true, cap: "đã ký hợp đồng", spark: [3500, 4200, 5000, 5500, 6200, 6800, 7500].map(v => v / 10) },
+    { key: "budgeted", label: "Tổng chi phí dự kiến", icon: "Calculator", tone: "a", value: vnd(pel.totalBudgeted), delta: "dự toán", up: false, cap: "tổng chi phí dự toán", spark: [200, 280, 350, 420, 470, 520, 550].map(v => v / 1) },
+    { key: "expProfit", label: "Tổng lợi nhuận dự kiến", icon: "Target", tone: "g", value: vnd(pel.expectedProfit), delta: `${pel.grossMargin}% biên`, up: true, cap: "DT − CP dự toán", spark: [300, 400, 500, 600, 700, 800, 900].map(v => v / 1) },
+    { key: "debt", label: "Công nợ phải thu", icon: "AlertTriangle", tone: "r", value: vnd(pel.totalDebt), delta: `${filtered.filter(p => p.totalDebt > 0).length} dự án`, up: false, cap: "công nợ khách hàng", spark: [2800, 3000, 3200, 3400, 3500, 3600, 3950].map(v => v / 1) },
+    { key: "actualRev", label: "Tổng doanh thu thực tế", icon: "TrendingUp", tone: "g", value: vnd(pel.totalCollected), delta: "+10,2%", up: true, cap: "đã thu tiền", spark: [2000, 2400, 2800, 3000, 3200, 3400, 3550].map(v => v / 10) },
+    { key: "actualCost", label: "Tổng chi phí thực tế", icon: "Receipt", tone: "a", value: vnd(pel.totalActualCost), delta: vnd(pel.totalBudgeted - pel.totalActualCost) + " tiết kiệm", up: true, cap: "đã phát sinh chi phí", spark: [150, 220, 300, 380, 420, 460, 480].map(v => v / 1) },
+    { key: "actProfit", label: "Tổng lợi nhuận thực tế", icon: "PiggyBank", tone: "v", value: vnd(pel.actualProfit), delta: "+8,3%", up: true, cap: "thu − chi thực tế", spark: [200, 300, 400, 500, 600, 700, 800].map(v => v / 1) },
   ];
 
   // Top debt projects
@@ -100,7 +116,7 @@ export default function FinanceDashboard() {
       <div className="page-head">
         <div>
           <h2>Dashboard Kế toán — Quản lý Dự án & Tài chính</h2>
-          <p>Tổng quan Master PEL BambuUP — cập nhật {`tháng 6/2026`}. Hiển thị {filtered.length}/{projects.length} dự án.</p>
+          <p>Tổng quan Master PEL BambuUP — cập nhật ngày {new Date().toLocaleDateString("vi-VN")} (ngày xem hiện tại). Hiển thị {filtered.length}/{projects.length} dự án.</p>
         </div>
         <div className="head-actions">
           <button className="btn btn--soft" onClick={() => navigate("/accounting/master-pel")}><Icon name="Table" size={16} />Master PEL</button>
@@ -135,7 +151,7 @@ export default function FinanceDashboard() {
             <div className="stat__top"><StatIco tone={s.tone} name={s.icon} />{s.label}</div>
             <div className="stat__row">
               <div>
-                <div className="stat__val" style={{ fontSize: 22 }}>{s.value}</div>
+                <div className="stat__val" style={{ fontSize: 21 }}>{s.value}</div>
                 <span className={`stat__delta ${s.up ? "up" : "down"}`}>
                   <Icon name={s.up ? "TrendingUp" : "TrendingDown"} size={13} />{s.delta}
                 </span>
@@ -154,29 +170,79 @@ export default function FinanceDashboard() {
           <div className="card__pad"><RevExpProfitChart {...performance12m} /></div>
         </div>
         <div className="card">
-          <div className="card__head"><h3><Icon name="PieChart" size={18} />Doanh thu theo Line dịch vụ</h3></div>
-          <div className="card__pad">{slData.length > 0 ? <ServiceLineDonut data={slData} /> : <p style={{ color: "var(--ink-400)", textAlign: "center", padding: 40 }}>Không có dữ liệu</p>}</div>
+          <div className="card__head"><h3><Icon name="PieChart" size={18} />Cơ cấu dự án theo Line dịch vụ</h3></div>
+          <div className="card__pad">
+            {slData.length > 0 ? (
+              <div style={{ display: "flex", gap: 16 }}>
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ fontSize: 12, fontWeight: 700, textAlign: "center", marginBottom: 6, color: "var(--ink-500)" }}>Cơ cấu Doanh thu</h4>
+                  <ServiceLineDonut data={slData} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ fontSize: 12, fontWeight: 700, textAlign: "center", marginBottom: 6, color: "var(--ink-500)" }}>Cơ cấu Lợi nhuận & Margin</h4>
+                  <ServiceLineProfitDonut data={slProfitData} />
+                </div>
+              </div>
+            ) : <p style={{ color: "var(--ink-400)", textAlign: "center", padding: 40 }}>Không có dữ liệu</p>}
+          </div>
         </div>
       </div>
 
       <div className="grid grid--2 mt">
         <div className="card">
-          <div className="card__head"><h3><Icon name="BarChart2" size={18} />Doanh thu theo Nhóm khách hàng</h3></div>
-          <div className="card__pad">{cgData.length > 0 ? <CustomerGroupBar data={cgData} /> : <p style={{ color: "var(--ink-400)", textAlign: "center", padding: 40 }}>Không có dữ liệu</p>}</div>
+          <div className="card__head"><h3><Icon name="BarChart2" size={18} />Tài chính theo Nhóm khách hàng</h3></div>
+          <div className="card__pad">
+            {cgFinanceData.length > 0 ? (
+              <>
+                <CustomerGroupGroupedBar data={cgFinanceData} />
+                <div style={{ marginTop: 8, padding: "8px 12px", background: "var(--bg)", borderRadius: 8, fontSize: 11.5, display: "flex", flexWrap: "wrap", gap: "6px 16px", color: "var(--ink-600)" }}>
+                  <b style={{ color: "var(--ink-800)" }}>Chú thích Nhóm KH:</b>
+                  <span><b>Nhóm 1:</b> Chính phủ / DNNN</span>
+                  <span><b>Nhóm 2:</b> Doanh nghiệp trong nước</span>
+                  <span><b>Nhóm 3:</b> DN, tổ chức nước ngoài</span>
+                  <span><b>Nhóm 4:</b> Startup / Khách lẻ</span>
+                </div>
+              </>
+            ) : <p style={{ color: "var(--ink-400)", textAlign: "center", padding: 40 }}>Không có dữ liệu</p>}
+          </div>
         </div>
         <div className="card">
-          <div className="card__head"><h3><Icon name="Bell" size={18} />Cảnh báo & Thông báo</h3></div>
-          <div className="card__pad" style={{ paddingTop: 6 }}>
-            {alerts.map((al) => (
-              <div key={al.id} className="task-row">
-                <StatIco tone={al.severity === "high" ? "r" : al.severity === "medium" ? "a" : "b"} name={al.icon} />
-                <div className="task-main">
-                  <div className="task-title">{al.title}</div>
-                  <div className="task-meta">{al.desc}</div>
+          <div className="card__head" style={{ borderBottom: "1px solid var(--line)", paddingBottom: 8 }}>
+            <div style={{ display: "flex", gap: 12 }}>
+              <button className={`tab-btn ${alertsTab === "alerts" ? "active" : ""}`} onClick={() => setAlertsTab("alerts")} style={{ border: "none", background: "transparent", fontSize: 14, fontWeight: alertsTab === "alerts" ? 800 : 600, color: alertsTab === "alerts" ? "var(--violet-600)" : "var(--ink-500)", cursor: "pointer", paddingBottom: 4, borderBottom: alertsTab === "alerts" ? "2px solid var(--violet-600)" : "none" }}>
+                <Icon name="Bell" size={16} style={{ marginRight: 4 }} />Cảnh báo & Thông báo
+              </button>
+              <button className={`tab-btn ${alertsTab === "tasks" ? "active" : ""}`} onClick={() => setAlertsTab("tasks")} style={{ border: "none", background: "transparent", fontSize: 14, fontWeight: alertsTab === "tasks" ? 800 : 600, color: alertsTab === "tasks" ? "var(--violet-600)" : "var(--ink-500)", cursor: "pointer", paddingBottom: 4, borderBottom: alertsTab === "tasks" ? "2px solid var(--violet-600)" : "none" }}>
+                <Icon name="CalendarCheck" size={16} style={{ marginRight: 4 }} />Công việc hôm nay
+              </button>
+            </div>
+          </div>
+          <div className="card__pad" style={{ paddingTop: 10 }}>
+            {alertsTab === "alerts" ? (
+              alerts.map((al) => (
+                <div key={al.id} className="task-row">
+                  <StatIco tone={al.severity === "high" ? "r" : al.severity === "medium" ? "a" : "b"} name={al.icon} />
+                  <div className="task-main">
+                    <div className="task-title">{al.title}</div>
+                    <div className="task-meta">{al.desc}</div>
+                  </div>
+                  <Tag tone={ALERT_SEVERITY[al.severity].tone}>{ALERT_SEVERITY[al.severity].label}</Tag>
                 </div>
-                <Tag tone={ALERT_SEVERITY[al.severity].tone}>{ALERT_SEVERITY[al.severity].label}</Tag>
+              ))
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {tasksList.map((t) => (
+                  <div key={t.id} className="task-row" style={{ opacity: t.checked ? 0.6 : 1, transition: "all .2s" }}>
+                    <input type="checkbox" checked={t.checked} onChange={() => toggleTask(t.id)} style={{ width: 18, height: 18, cursor: "pointer", accentColor: "var(--violet-600)" }} />
+                    <div className="task-main" style={{ marginLeft: 8 }}>
+                      <div className="task-title" style={{ textDecoration: t.checked ? "line-through" : "none", fontWeight: 700, fontSize: 13, color: "var(--ink-900)" }}>{t.title}</div>
+                      <div className="task-meta">{t.desc}</div>
+                    </div>
+                    <span style={{ fontSize: 11, padding: "2px 6px", background: "var(--bg)", borderRadius: 6, color: "var(--ink-500)" }}>{t.date}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
@@ -191,9 +257,9 @@ export default function FinanceDashboard() {
             <thead>
               <tr>
                 <th>Dự án</th>
-                <th>Line dịch vụ</th>
-                <th>Nhóm KH</th>
-                <th>Tổng DT</th>
+                <th>Tổng DT theo HĐ đã ký</th>
+                <th>Đã xuất hoá đơn (tiền)</th>
+                <th>Chưa xuất hoá đơn (tiền)</th>
                 <th>Đã thu</th>
                 <th>Còn nợ</th>
                 <th>Trạng thái</th>
@@ -203,14 +269,16 @@ export default function FinanceDashboard() {
             <tbody>
               {topDebtProjects.map((p) => {
                 const collected = p.revenuePlan.filter(r => r.collectStatus === "Đã thu hồi").reduce((a, r) => a + r.amountActual, 0);
+                const invoiced = p.revenuePlan.filter(r => r.invoiceActual !== "").reduce((a, r) => a + r.amountActual, 0);
+                const uninvoiced = p.totalRevenue - invoiced;
                 return (
                   <tr key={p.id} onClick={() => setSelectedProject(p)}>
                     <td><b style={{ color: "var(--ink-900)" }}>{p.name}</b><br /><small style={{ color: "var(--ink-400)" }}>{p.code}</small></td>
-                    <td><span className="tag tag--violet">{p.serviceLine.split(" ")[0]}</span></td>
-                    <td>{p.customerGroup}</td>
                     <td><b>{vnd(p.totalRevenue)}</b></td>
+                    <td style={{ color: "var(--violet-600)", fontWeight: 700 }}>{vnd(invoiced)}</td>
+                    <td style={{ color: "var(--ink-500)" }}>{vnd(uninvoiced)}</td>
                     <td style={{ color: "var(--green-500)", fontWeight: 700 }}>{vnd(collected)}</td>
-                    <td style={{ color: "var(--red-500)", fontWeight: 700 }}>{vnd(p.totalDebt)}</td>
+                    <td style={{ color: "var(--red-500)", fontWeight: 700 }}>{vnd(p.totalRevenue - collected)}</td>
                     <td>
                       <Tag tone={p.status === "Đang chạy" ? "blue" : p.status === "Đã nghiệm thu" ? "amber" : "green"}>{p.status}</Tag>
                     </td>

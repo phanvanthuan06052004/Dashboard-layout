@@ -408,4 +408,55 @@ export function revenueByCustomerGroup(ps) {
   return Object.entries(map).map(([label, value]) => ({ label, value }));
 }
 
+/* -------- PROFIT & GROSS MARGIN BY SERVICE LINE (for profit donut chart) -------- */
+export function profitByServiceLine(ps) {
+  const map = {};
+  (ps || projects).forEach(p => {
+    const collected = p.revenuePlan.filter(r => r.collectStatus === "Đã thu hồi").reduce((a, r) => a + r.amountActual, 0);
+    const actualProfit = collected - p.totalActualCost;
+    const expectedProfit = p.totalRevenue - p.totalBudgeted;
+    
+    if (!map[p.serviceLine]) {
+      map[p.serviceLine] = { revenue: 0, cost: 0, actualProfit: 0, expectedProfit: 0 };
+    }
+    map[p.serviceLine].revenue += p.totalRevenue;
+    map[p.serviceLine].cost += p.totalActualCost;
+    map[p.serviceLine].actualProfit += actualProfit;
+    map[p.serviceLine].expectedProfit += expectedProfit;
+  });
+  return Object.entries(map).map(([label, val]) => ({
+    label,
+    value: Math.max(0, val.actualProfit), // Avoid negative numbers in donut chart series
+    actualProfit: val.actualProfit,
+    expectedProfit: val.expectedProfit,
+    grossMargin: val.revenue > 0 ? ((val.revenue - val.cost) / val.revenue * 100).toFixed(1) : "0.0"
+  }));
+}
+
+/* -------- DETAILED FINANCE BREAKDOWN BY CUSTOMER GROUP (for grouped bar chart) -------- */
+export function financeByCustomerGroup(ps) {
+  const map = {};
+  CUSTOMER_GROUPS.forEach(g => {
+    map[g] = { revenue: 0, cost: 0, profit: 0 };
+  });
+  (ps || projects).forEach(p => {
+    const g = p.customerGroup;
+    if (map[g] === undefined) {
+      map[g] = { revenue: 0, cost: 0, profit: 0 };
+    }
+    const collected = p.revenuePlan.filter(r => r.collectStatus === "Đã thu hồi").reduce((a, r) => a + r.amountActual, 0);
+    map[g].revenue += p.totalRevenue;
+    map[g].cost += p.totalActualCost;
+    map[g].profit += (collected - p.totalActualCost); // Actual profit = collected - actual cost
+  });
+  return Object.entries(map).map(([label, val]) => ({
+    label,
+    revenue: val.revenue,
+    cost: val.cost,
+    profit: val.profit,
+    grossMargin: val.revenue > 0 ? ((val.revenue - val.cost) / val.revenue * 100).toFixed(1) : "0.0"
+  }));
+}
+
 export { vnd };
+

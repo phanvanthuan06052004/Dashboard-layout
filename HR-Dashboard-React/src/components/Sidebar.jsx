@@ -66,6 +66,7 @@ const ACCOUNTANT_GROUPS = [
       { to: "/accounting", icon: "LayoutDashboard", label: "Dashboard tổng hợp", end: true },
       { to: "/accounting/master-pel", icon: "Table", label: "Master PEL" },
       { to: "/accounting/projects", icon: "Briefcase", label: "Quản lý Dự án" },
+      { to: "/accounting/contracts", icon: "FileSignature", label: "Theo dõi Hợp đồng" },
       { to: "/accounting/payment-requests", icon: "CreditCard", label: "Đề nghị thanh toán" },
       { to: "/accounting/advances", icon: "Wallet", label: "Tạm ứng" },
     ],
@@ -76,6 +77,13 @@ const ACCOUNTANT_GROUPS = [
       { to: "/accounting/invoices", icon: "FileText", label: "Hóa đơn" },
       { to: "/accounting/ar", icon: "ArrowDownLeft", label: "Công nợ phải thu (AR)" },
       { to: "/accounting/payments", icon: "ArrowLeftRight", label: "Thu & Chi" },
+    ],
+  },
+  {
+    label: "Hồ sơ & Tài liệu",
+    items: [
+      { to: "/accounting/tax-archive", icon: "FolderArchive", label: "Hồ sơ thuế & BCTC" },
+      { to: "/accounting/documents", icon: "FolderOpen", label: "Kho tài liệu kế toán" },
     ],
   },
   {

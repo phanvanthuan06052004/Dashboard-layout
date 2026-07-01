@@ -33,6 +33,9 @@ import FinanceDashboard from "./pages/accounting/FinanceDashboard";
 import FinanceModule from "./pages/accounting/FinanceModule";
 import MasterPEL from "./pages/accounting/MasterPEL";
 import ProjectManagement from "./pages/accounting/ProjectManagement";
+import ContractTracking from "./pages/accounting/ContractTracking";
+import TaxArchive from "./pages/accounting/TaxArchive";
+import AccountingDocs from "./pages/accounting/AccountingDocs";
 
 const FINANCE_MODULES = ["invoices", "payments", "expenses", "journal", "ar", "ap", "bank", "fcontracts", "paymentRequests", "advances", "hrStaff", "hrCtv"];
 const FINANCE_ROUTE_MAP = {
@@ -174,6 +177,9 @@ export default function App() {
             <Route path="accounting" element={<AccountantGuard><FinanceDashboard /></AccountantGuard>} />
             <Route path="accounting/master-pel" element={<AccountantGuard><MasterPEL /></AccountantGuard>} />
             <Route path="accounting/projects" element={<AccountantGuard><ProjectManagement /></AccountantGuard>} />
+            <Route path="accounting/contracts" element={<AccountantGuard><ContractTracking /></AccountantGuard>} />
+            <Route path="accounting/tax-archive" element={<AccountantGuard><TaxArchive /></AccountantGuard>} />
+            <Route path="accounting/documents" element={<AccountantGuard><AccountingDocs /></AccountantGuard>} />
             {FINANCE_MODULES.map((key) => (
               <Route key={key} path={`accounting/${FINANCE_ROUTE_MAP[key] || key}`} element={<AccountantGuard><FinanceModule key={key} catalogKey={key} /></AccountantGuard>} />
             ))}
