@@ -17,7 +17,7 @@ export const CE_SELF = "Phạm Thảo Vy";
 
 /* ---------------- Page access (sidebar) ---------------- */
 // head + cấp điều hành (ceo/coo/cgo) thấy mọi trang; member bị giới hạn.
-const MARCOM_MEMBER_PAGES = ["overview", "campaigns", "leads", "content", "assets"];
+const MARCOM_MEMBER_PAGES = ["overview", "leads", "campaigns", "content", "email", "assets"];
 // CE rebuild theo file yêu cầu: member (CE_SELF) thấy các trang vận hành của mình,
 // ẩn các dashboard quản trị/phân tích team (nguồn lực, sức khoẻ, hiệu suất, báo cáo, settings).
 const CE_MEMBER_PAGES = ["overview", "opportunities", "projects", "deliverables", "accounts", "engagement", "stakeholders", "startups", "matchmaking", "knowledge", "events"];
@@ -78,20 +78,26 @@ export const MARCOM_CAMPAIGN_FIELDS = [
   { key: "channel", label: "Kênh", icon: "Radio", roles: ALL },
   { key: "status", label: "Trạng thái", icon: "Activity", roles: ALL, type: "status" },
   { key: "period", label: "Thời gian chạy", icon: "Calendar", roles: ALL },
+  { key: "objective", label: "Mục tiêu", icon: "Target", roles: ALL, full: true },
   { key: "owner", label: "Phụ trách", icon: "UserCog", roles: ALL },
+  { key: "reach", label: "Reach", icon: "Eye", roles: ALL },
+  { key: "interactions", label: "Tương tác", icon: "Heart", roles: ALL },
   { key: "leads", label: "Lead thu được", icon: "UserPlus", roles: ALL },
   { key: "cpl", label: "Chi phí / Lead", icon: "Coins", roles: ["ceo", "coo", "cgo", "head"] },
   { key: "budget", label: "Ngân sách", icon: "Wallet", roles: ["ceo", "coo", "cgo", "head"] },
-  { key: "spend", label: "Đã chi", icon: "CreditCard", roles: ["ceo", "coo", "cgo", "head"] },
+  { key: "spent", label: "Đã chi", icon: "CreditCard", roles: ["ceo", "coo", "cgo", "head"] },
   { key: "roi", label: "ROI", icon: "TrendingUp", roles: ["ceo", "coo", "cgo", "head"] },
   { key: "revenueInfluenced", label: "Doanh thu ảnh hưởng", icon: "BadgeDollarSign", roles: REVENUE_ALLOW, sensitive: true },
 ];
 
 export const MARCOM_LEAD_FIELDS = [
   { key: "source", label: "Nguồn", icon: "Globe", roles: ALL },
-  { key: "stage", label: "Giai đoạn", icon: "GitBranch", roles: ALL },
-  { key: "score", label: "Điểm (score)", icon: "Gauge", roles: ALL },
+  { key: "stage", label: "Giai đoạn", icon: "GitBranch", roles: ALL, type: "status" },
+  { key: "score", label: "Lead score", icon: "Gauge", roles: ALL },
+  { key: "seniority", label: "Chức danh", icon: "BadgeCheck", roles: ALL },
+  { key: "industry", label: "Ngành", icon: "Factory", roles: ALL },
   { key: "company", label: "Công ty", icon: "Building2", roles: ALL },
+  { key: "campaign", label: "Chiến dịch", icon: "Megaphone", roles: ALL },
   { key: "owner", label: "Phụ trách", icon: "UserCog", roles: ALL },
   { key: "email", label: "Email", icon: "Mail", roles: ALL },
   { key: "phone", label: "Điện thoại", icon: "Phone", roles: ALL },
@@ -100,7 +106,7 @@ export const MARCOM_LEAD_FIELDS = [
 ];
 
 export const MARCOM_CONTENT_FIELDS = [
-  { key: "type", label: "Loại nội dung", icon: "FileType", roles: ALL },
+  { key: "kind", label: "Loại nội dung", icon: "FileType", roles: ALL },
   { key: "channel", label: "Kênh đăng", icon: "Radio", roles: ALL },
   { key: "status", label: "Trạng thái", icon: "Activity", roles: ALL, type: "status" },
   { key: "owner", label: "Phụ trách", icon: "UserCog", roles: ALL },

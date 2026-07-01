@@ -11,6 +11,8 @@ const STATUS = {
   running: ["green", "Đang chạy"], ended: ["slate", "Đã kết thúc"], scheduled: ["blue", "Đã lên lịch"],
   published: ["green", "Đã đăng"], paused: ["amber", "Tạm dừng"],
   new: ["slate", "Lead mới"], mql: ["amber", "MQL"], sql: ["blue", "SQL"], opp: ["violet", "Opportunity"],
+  // Messenger segmentation (Audience Intelligence)
+  converted: ["green", "Đã chuyển đổi"], hot: ["red", "Hot"], warm: ["amber", "Warm"], cold: ["slate", "Cold"],
   // ---- Client Excellence (CRM cũ — giữ tương thích) ----
   active: ["green", "Active"], trial: ["blue", "Trial"], churned: ["red", "Đã rời"], prospect: ["amber", "Tiềm năng"],
   healthy: ["green", "Healthy"], atRisk: ["amber", "At-risk"], critical: ["red", "Critical"],
